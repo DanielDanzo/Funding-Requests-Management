@@ -41,16 +41,20 @@ var applicant = false;
 function registerUser(){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
+    console.log('Hello1');
     .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // The signed-in user info.
         const user = result.user;
         if(admin){
+              console.log('Hello admin');
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManager){
+              console.log('Hello FundManager');
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
+              console.log('Hello Applicant');
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }
         
@@ -72,11 +76,17 @@ btn_submit_signup.addEventListener('click', ()=>{
 
     const role = userRole.value;
     if( role === "Admin"){
+          console.log('Admin');
           admin = true;
+          console.log(admin);
     }else if(role === "Fund-Manager"){
+          console.log('fundmanager');
           fundManager = true;
+          console.log(fundManager);
     }else{
+          console.log('applicant')
           applicant = true;
+          console.log(applicant)
     }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
