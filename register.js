@@ -42,7 +42,7 @@ function registerUser(){
     //sign-in using small window prompt
     console.log('Hello1');
     signInWithPopup(auth, provider)
-    .then((result) => {
+      .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // The signed-in user info.
