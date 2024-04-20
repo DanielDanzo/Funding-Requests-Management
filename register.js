@@ -61,6 +61,7 @@ function registerUser(){
         
     }).catch((error) => {
         // Handle Errors here.
+        console.log(error);
         const errorCode = error.code;
         const errorMessage = error.message;
     });
