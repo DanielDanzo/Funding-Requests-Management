@@ -47,11 +47,11 @@ function registerUser(){
         // The signed-in user info.
         const user = result.user;
         if(admin){
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/admin.html';
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManager){
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/fundmanager.html';
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/applicant.html';
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }
         
     }).catch((error) => {
