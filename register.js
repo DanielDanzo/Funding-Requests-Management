@@ -34,7 +34,9 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const user = auth.currentUser;
-
+var admin = false;
+var fundManager = false;
+var applicant = false;
 
 function registerUser(){
     //sign-in using small window prompt
@@ -44,7 +46,14 @@ function registerUser(){
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // The signed-in user info.
         const user = result.user;
-        window.location.href ='https://danieldanzo.github.io/Google-Verification-test/home.html';
+        if(admin){
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/admin.html';
+        }else if(fundManager){
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/fundmanager.html';
+        }else{
+              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Mangement/applicant.html';
+        }
+        
     }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -61,6 +70,14 @@ btn_submit_signup.addEventListener('click', ()=>{
     const userReason = document.getElementById('Reason');
     const userRole = document.getElementById('Type');
 
+    const role = userRole.value;
+    if( role == 'Admin'){
+          admin = true;
+    }else if(role == 'Fund-Manger'){
+          fundManger = true;
+    }else{
+          applicant = true;
+    }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
         registerUser();
