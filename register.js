@@ -71,10 +71,10 @@ btn_submit_signup.addEventListener('click', ()=>{
     const userRole = document.getElementById('Type');
 
     const role = userRole.value;
-    if( role == 'Admin'){
+    if( role === 'Admin'){
           admin = true;
-    }else if(role == 'Fund-Manger'){
-          fundManger = true;
+    }else if(role === 'Fund-Manager'){
+          fundManager = true;
     }else{
           applicant = true;
     }
