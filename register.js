@@ -67,6 +67,27 @@ function registerUser(){
     });
 }
 
+function sendMail(EMail){
+                (function(){
+                    emailjs.init("u7aPmoilsd1g-HeLQ");
+                })();
+
+                var params = {
+                    sendername:"LoyalFunding",
+                    to: EMail,
+                    subject: "Registration",
+                    replyto: "noreply@gmail.com",
+                    message:"You are now registered",
+                };
+                var serviceID = "service_4jnlv73";
+                var templateID = "template_e2xx532"; 
+
+                emailjs.send(serviceID,templateID,params)
+                .then( res => {
+                    alert("Mail sent");
+              })
+              .catch();
+            }
 const btn_submit_signup = document.getElementById('btn-submit-signup');
 
 btn_submit_signup.addEventListener('click', ()=>{
@@ -92,6 +113,7 @@ btn_submit_signup.addEventListener('click', ()=>{
     }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
+        sendMail(userEmail.value);
         registerUser();
     }
     //alert('Hello');
