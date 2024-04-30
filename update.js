@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.getElementById("funds");
     let updateFunds = document.getElementById("updateFund");
 
-    fetch(`funds.json`, { // Assuming funds.json is in the same directory as your HTML file
+    fetch(`http://localhost:8080/funds`, {
         method: 'GET'
     })
     .then(response => response.json())
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedValue = dropdown.value;
         bursaryInfo(selectedValue, dataList);
 
-        fetch(`applicants.json`, { // Assuming applicants.json is in the same directory as your HTML file
+        fetch(`http://localhost:8080/applicants/${url(selectedValue)}`, {
             method: 'GET'
         })
         .then(response => response.json())
