@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Opportunity</title>
+    <script src="db.js"  defer type="module"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            background: #007bff;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        section {
+            background: #ffffff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #343a40;
+            color: #ffffff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: #007bff;
+        }
+
+        footer a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    
+    <header>
+        <h1>Funding Opportunity</h1>
+    </header>
+    
+    <section>
+        <div class="user-info" id="user-info">
+            <!-- User's information will be displayed here -->
+        </div>
+        <button id="next-btn">Next Applicant</button>
+    </section>
+    <button type="button" id="showFundingOpportunityApplications">show applications for FO</button>
+    <div style="display: flex; justify-content: space-around; width: 100%;">
+        <div> 
+            <button type="button" id="Acceptbtn">Accept</button>
+        </div>
+        <div>
+            <button type="button" id="Rejectbtn">Reject</button>
+        </div>
+    </div>
+    <div class="user-info" id="user-info">
+        <!-- User's information will be displayed here -->
+    </div>
+    
+    <section id="App-info">
+        
+    </section>
+    
+    
+    
+</body>
+</html>
