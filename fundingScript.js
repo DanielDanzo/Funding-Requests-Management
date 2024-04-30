@@ -27,9 +27,6 @@ submit.addEventListener('click', event => {
     const deadline = document.getElementById("app-deadline").value;
     const summary = document.getElementById("more-info").value;
     addFunds({ name, type, estimatedFund, applicantFund, suitable, deadline, summary });
-    let p = document.createElement("p");
-    p.innerText = `Name: ${name}; Type: ${type}; Estimated Fund: ${estimatedFund}; Suitable: ${suitable}; Deadline: ${deadline}; Summary: ${summary}`;
-    document.body.append(p);
 });
 
 
