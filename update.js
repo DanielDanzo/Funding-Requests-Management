@@ -33,7 +33,7 @@ function bursaryInfo(selectedValue, data) {
 }
 
 function accept(index) {
-        document.getElementById("summary").innerHTML = `Applicant <strong>${applicantDataList[index].applicantName}</strong> accepted!`;
+        document.getElementById("summary").innerHTML = `Last accepted applicant: <br> <strong>${applicantDataList[index].applicantName}</strong>`;
         information.estimatedFund -= information.applicantFund;
         budget = information.estimatedFund;
         document.getElementById("available").innerHTML = `Available funds: R${budget}`;
@@ -50,6 +50,7 @@ function changeButton(className, type) {
     if(information.estimatedFund > information.applicantFund){
         rejectButtons.forEach(button => {
             const paragraph = document.createElement('p');
+            paragraph.style.color = "#138808"
             paragraph.innerText = "Option selected";
             button.parentNode.replaceChild(paragraph, button);
         });
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 applicantDataList = data;
                 updateFunds.innerHTML = `<ul id="applicants">`
                 for (let i = 0; i < data.length; i++) {
-                    updateFunds.innerHTML += `<li>Applicant: ${data[i].applicantName} <br> <input class="reject-${i}" onClick='changeButton("${i}", "reject");' type='button' value='Reject'> <input type='button' class="accept-${i}" onClick='changeButton("${i}", "accept");' value='Accept'><li>`;
+                    updateFunds.innerHTML += `<li>Applicant: ${data[i].applicantName} <br> <input id="rejectBtn" class="reject-${i}" onClick='changeButton("${i}", "reject");' type='button' value='Reject'> <input id="acceptBtn" type='button' class="accept-${i}" onClick='changeButton("${i}", "accept");' value='Accept'><li>`;
                 }
                 updateFunds.innerHTML += `</ul>`
             } else {
