@@ -27,7 +27,7 @@
     "summary": "Attention STEM enthusiasts! Apply for Scholarship Opportunity 3 to fuel your passion for science, technology, engineering, and mathematics. Secure your future today!"
   },
   {
-    "name": "Bursary Opportunity 1",
+    "name": "New Bursars",
     "type": "Bursary",
     "estimatedFund": 200000,
     "applicantFund": 25000,
@@ -81,7 +81,7 @@
     "summary": "Embark on your startup journey with confidence! Business Opportunity 3 offers funding and mentorship to support startups in their early stages. Apply now and turn your vision into reality!"
   },
   {
-    "name": "Event Opportunity 1",
+    "name": "Bubbles",
     "type": "Event",
     "estimatedFund": 10000,
     "applicantFund": 2000,
@@ -99,7 +99,7 @@
     "summary": "Make a positive impact in your community! Event Opportunity 2 offers financial support to non-profit organizations hosting events focused on social welfare and community development. Apply now and make a difference!"
   },
   {
-    "name": "Event Opportunity 3",
+    "name": "International Events",
     "type": "Event",
     "estimatedFund": 15000,
     "applicantFund": 3000,
