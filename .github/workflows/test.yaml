@@ -8,6 +8,8 @@ jobs:
         uses: actions/checkout@v4.1.4
       - name: Install dependencies
         run: npm install
+      - name: Installing Jest
+        run: npm install jest --save-dev
       - name: Run tests and collect coverage
         run: npm run test
       - name: Upload coverage to Codecov (script)
