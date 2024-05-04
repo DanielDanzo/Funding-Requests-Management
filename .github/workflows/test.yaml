@@ -15,7 +15,7 @@ jobs:
       - name: Upload coverage to Codecov (script)
         uses: ./
         with:
-          files: ./coverage/script/coverage-final.json
+          files: ./coverage/coverage-final.json
           flags: script,${{ matrix.os }}
           name: codecov-script
           verbose: true
