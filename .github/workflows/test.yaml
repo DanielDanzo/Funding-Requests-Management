@@ -11,7 +11,7 @@ jobs:
       - name: Installing Jest
         run: npm install jest --save-dev
       - name: Run tests and collect coverage
-        run: npm run test
+        run: npm test
       - name: Upload coverage to Codecov (script)
         uses: ./
         with:
