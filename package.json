@@ -1,5 +1,22 @@
 {
   "dependencies": {
     "init": "^0.1.2"
+  },
+  "name": "funding-requests-management",
+  "description": "School Project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "babel-jest": "^29.7.0",
+    "codecov": "^3.8.3",
+    "jest": "^29.7.0"
   }
 }
