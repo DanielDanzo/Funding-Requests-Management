@@ -1,0 +1,12 @@
+name: Codecov Action
+description: Uploads coverage reports to Codecov
+inputs:
+  codecovToken:
+    description: 'Codecov token for authentication'
+    required: true
+  coverageFile:
+    description: 'Path to the coverage file'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
