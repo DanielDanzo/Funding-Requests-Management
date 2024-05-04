@@ -10,10 +10,12 @@ jobs:
         run: npm install
       - name: Installing Jest
         run: npm install jest --save-dev
-      - name: Run tests and collect coverage
+      - name: Install pytest
         run: pip install pytest
-          pip install pytest-cov
-          pytest --cov=./ --cov-report=xml
+      - name: Install pytest coverage
+        run: pip install pytest-cov
+      - name: Save coverage file
+        run: pytest --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov (script)
         uses: ./
         with:
