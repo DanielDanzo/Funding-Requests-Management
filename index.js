@@ -104,6 +104,7 @@ btn_platformAdmin_login.addEventListener('click',()=>{
 //Function to check if user is registered
 async function verifyUser(email){
     try {
+        console.log('Verifying.....');
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         if(querySnapshot.empty){
@@ -118,6 +119,7 @@ async function verifyUser(email){
 //Function to check if user is registered
 async function verifyRole(email, role){
     try {
+        console.log('Verifying.....');
         const q = query(collection(db, 'users'), where('Email', '==', email), where('Role','==',role));
         const querySnapshot = await getDocs(q);
         if(querySnapshot.empty){
