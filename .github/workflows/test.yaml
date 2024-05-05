@@ -13,7 +13,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Adding Jest dependency
-        run: chmod +rx ../node_modules/.bin/est.exe
+        run: chmod +rx ../node_modules/.bin/jest.exe
 
       - name: Run tests and collect coverage
         run: python test_math.py 
