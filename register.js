@@ -5,6 +5,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 //import { initializeApp } from "./node_modules/firebase/app/firebase-app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import { getFirestore, collection, addDoc, getDocs, doc, query  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 //import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "./node_modules/firebase/app/firebase-auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,7 +26,30 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
+
+/*  FUNCTION: Adds user to the database
+*   PARAMETERS: email- User email that we need to has
+*               role- specifies the role of the user
+*               isSignIn- specifies whether or not user is SignedIn
+*               token- this is the token received from google signIn
+*   TODO: Hash email address for security issues
+*/
+async function addUser(email, role, isSignIn, userToken){
+    try {
+        const docRef = await addDoc(collection(db, "users"), {
+          Email: email,
+          Role: role,
+          isSignIn: isSignIn,
+          Token: userToken
+        });
+        allInfo.textContent = "Sucessfully Added";
+      } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
 
 
 //SIGN-IN WITH GOOGLE
@@ -40,22 +64,20 @@ var applicant = false;
 
 function registerUser(){
     //sign-in using small window prompt
-    console.log('Hello1');
     signInWithPopup(auth, provider)
-    .then((result) => {
-        console.log('yessir');
+    .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // The signed-in user info.
         const user = result.user;
         if(admin){
-              console.log('Hello admin');
+            await addUser(user.email, "Admin", true, user.userToken)
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManager){
-              console.log('Hello FundManager');
+            await addUser(user.email, "Fund Manager", true, user.userToken)
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
-              console.log('Hello Applicant');
+            await addUser(user.email, "Applicant", true, user.userToken)
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }
         
