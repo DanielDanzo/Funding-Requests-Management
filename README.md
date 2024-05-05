@@ -1,4 +1,5 @@
-[![codecov](https://codecov.io/gh/DanielDanzo/Funding-Requests-Management/graph/badge.svg?token=L1D58FB7VY)](https://codecov.io/gh/DanielDanzo/Funding-Requests-Management)
+![Static Badge](https://img.shields.io/badge/codeCoverage-76%25-grrn)
+
 # Funding-Requests-Management
 
 School Project
