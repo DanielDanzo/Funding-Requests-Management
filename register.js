@@ -69,7 +69,9 @@ function registerUser(){
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // The signed-in user info.
+        console.log(result);
         const user = result.user;
+        console.log(user);
         if(admin){
             await addUser(user.email, "Admin", true, user.userToken)
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
