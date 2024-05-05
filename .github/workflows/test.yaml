@@ -13,7 +13,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Adding Jest dependency
-        run: icacls jest.ps1 /grant Everyone:RX
+        run: chmod +rx ../node_modules/.bin/est.exe
+
       - name: Run tests and collect coverage
         run: python test_math.py 
       - name: Upload coverage to Codecov
