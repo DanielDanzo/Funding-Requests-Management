@@ -15,7 +15,7 @@ jobs:
       - name: Adding Jest dependency
         run: npm install --save-dev jest
       - name: Run tests and collect coverage
-        run: python test_math.py
+        run: python test_math.py 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
