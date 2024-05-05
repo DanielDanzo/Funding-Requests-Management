@@ -1,145 +1,116 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f8f9fa;
+    color: #333;
     line-height: 1.6;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
+
 
 header {
-    background: #007bff;
+    background-color: #007bff;
     color: #ffffff;
-    padding: 20px 0;
-    text-align: center;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-#funds, #Type {
-    width: 200px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    appearance: none; 
-    -webkit-appearance: none; 
-    -moz-appearance: none;
-  }
-  
-  #funds option {
-    background-color: #f9f9f9;
-    padding: 8px;
-    font-size: 16px;
-  }
-  
-  #funds option:hover {
-    background-color: #e0e0e0;
-  }
-  
-  #funds:focus {
-    outline: none;
-    border-color: #66afe9;
-    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
-  }
-  
-  aside, #funds, #updateFund, #summary{
-    margin: 30px;
-  }
-
-  aside{
-    font-size: large;
-    font-weight: bold;
-  }
-
-  #rejectBtn{
-    border-color: none;
-    margin: 4px;
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
-  }
-
-  #acceptBtn{
-    border-color: none;
-    margin: 4px;
-    background-color: #138808;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
-    
-  }
-
-  #summary strong{
-    color: blue;
-  }
-
-  #btn-submit{
-    border-color: none;
-    margin: 10px;
-    background-color: #138808;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
-    
-  }
-
-  #btn-submit:hover {
-    background-color: #2980b9;
-  }
-
-  li{
-    padding: 30px;
-    margin: 5px;
-  }
-
-  footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #343a40;
-    color: #ffffff;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-form {
-    margin: 0 auto; 
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="password"],
-  form textarea {
     width: 100%;
+    max-width: 600px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+
+main {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+/* Form styling */
+form {
+    width: 100%;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+    color: #007bff;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 3px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: calc(100% - 26px);
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: none;
+    height: 150px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: auto;
+    align-self: center;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+footer {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    text-align: center;
+    background-color: #343a40;
+    color: white;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 20px; 
+    font-size: 16px; 
+}
+
+a:hover {
+    text-decoration: underline;
+}
