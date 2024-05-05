@@ -15,7 +15,7 @@ jobs:
       - name: Adding Jest dependency
         run: npm install --save-dev jest
       - name: Run tests and collect coverage
-        run: npm run test
+        run: npx jest
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
