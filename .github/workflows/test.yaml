@@ -13,7 +13,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Adding Jest dependency
-        run: npm install --save-dev jest
+        run: icacls jest.ps1 /grant Everyone:RX
       - name: Run tests and collect coverage
         run: python test_math.py 
       - name: Upload coverage to Codecov
