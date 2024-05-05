@@ -1,31 +1,20 @@
-name: Codecov Workflow
-on:
-  push:
-    branches:
-      - newBranch
-  pull_request:
-    branches:
-      - main
-
+name: Workflow for Codecov
+on: [push, pull_request]
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Grant permission acces to all users
-        run: chmod +x node_modules/.bin/jest
-      - name: Run tests and generate coverage
-        run: |
-          pip install pytest
-          pip install pytest-cov
-          pytest --cov=./ --cov-report=xml
+      - name: Set up Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests and collect coverage
+        run: npm run test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-        
-
-
-
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
