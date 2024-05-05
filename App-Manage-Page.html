@@ -4,64 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funding Opportunity</title>
-    <script src="db.js"  defer type="module"></script>
+    <script src="db.js" defer type="module"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        
+body {
+    margin: 0;
+    padding: 0; 
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; 
+    overflow-x: hidden; 
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            line-height: 1.6;
-            padding: 20px;
-        }
+header {
+    width: 100%;
+    background: #007bff;
+    color: #ffffff;
+    padding: 20px 0;
+    margin-top: 0; 
+    text-align: center;
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0; 
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    right: 0;
+}
 
-        header {
-            background: #007bff;
-            color: #ffffff;
-            padding: 20px 0;
-            text-align: center;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
 
-        h1 {
-            color: white;
-        }
+main {
+    width: 100%;
+    max-width: 800px; 
+    margin: 60px 0 20px; 
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: #fff;
+    border-radius: 8px;
+    position: relative;
+    z-index: 1; 
+}
 
         section {
             background: #ffffff;
-            margin: 20px 0;
             padding: 20px;
+            margin-top: 20px;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;  /* Adjusts section width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .user-info {
+            width: 100%;
             border-bottom: 1px solid #ccc;
             padding-bottom: 10px;
             margin-bottom: 20px;
+            text-align: left;
         }
 
         button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
+            width: auto;
+            padding: 10px 20px;
             background-color: #007bff;
             color: white;
-            cursor: pointer;
+            border: none;
             border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
             transition: background-color 0.3s;
-            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 10px;
         }
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
         }
 
         footer {
@@ -69,9 +97,10 @@
             padding: 10px;
             background-color: #343a40;
             color: #ffffff;
-            position: relative;
-            bottom: 0;
             width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
         }
 
         footer a {
@@ -79,12 +108,11 @@
         }
 
         footer a:hover {
-            text-decoration: none;
+            text-decoration: underline;
         }
     </style>
 </head>
-<body style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    
+<body>
     <header>
         <h1>Funding Opportunity</h1>
     </header>
@@ -95,24 +123,17 @@
         </div>
         <button id="next-btn">Next Applicant</button>
     </section>
-    <button type="button" id="showFundingOpportunityApplications">show applications for FO</button>
-    <div style="display: flex; justify-content: space-around; width: 100%;">
-        <div> 
+
+    <section>
+        <button type="button" id="showFundingOpportunityApplications">Show Applications for FO</button>
+        <div class="button-container">
             <button type="button" id="Acceptbtn">Accept</button>
-        </div>
-        <div>
             <button type="button" id="Rejectbtn">Reject</button>
         </div>
-    </div>
-    <div class="user-info" id="user-info">
-        <!-- User's information will be displayed here -->
-    </div>
-    
-    <section id="App-info">
-        
     </section>
     
-    
-    
+    <footer>
+        &copy; 2024 Sign Up For LoyalFunding
+    </footer>
 </body>
 </html>
