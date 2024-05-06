@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedValue = dropdown.value;
         bursaryInfo(selectedValue, dataList);
 
-        fetch(`http://localhost:8080/applicants/${url(selectedValue)}`, {
+        fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/applicants/${url(selectedValue)}`, {
             method: 'GET'
         })
         .then(response => response.json())
