@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - LoyalFunding</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        h2 {
+            color: #007bff;
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Help</h1>
+    </header>
+    <main>
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <ul>
+                <li>
+                    <h3>How do I create an account?</h3>
+                    <p>To create an account, simply click on the "Sign Up" button located at the bottom left corner of the homepage, under Register. Follow the instructions to complete the registration process.</p>
+                </li>
+                <li>
+                    <h3>How can I apply for funding?</h3>
+                    <p>To apply for funding, first, make sure you have created an account and logged in. Then, navigate to the "Funding Opportunities" section and browse through the available opportunities. Click on the opportunity you're interested in to view more details and submit your application.</p>
+                </li>
+                <li>
+                    <h3>How long does it take to review my application?</h3>
+                    <p>The time it takes to review your application depends on the specific funding opportunity and the volume of applications received. We strive to review applications promptly and provide updates to applicants as soon as possible.</p>
+                </li>
+                <li>
+                    <h3>Can I edit my application after submitting it?</h3>
+                    <p>Once you've submitted your application, you may not be able to edit it. However, if you need to make changes or updates, please contact our support team at support@loyalfunding.com for assistance.</p>
+                </li>
+                <li>
+                    <h3>How can I contact customer support?</h3>
+                    <p>If you have any questions, concerns, or need assistance, you can reach out to our customer support team via email at support@loyalfunding.com. We're here to help!</p>
+                </li>
+            </ul>
+        </section>
+        <section id="additional-help">
+            <h2>Additional Help</h2>
+            <p>If you need further assistance or have specific inquiries, you can explore the following resources:</p>
+            <ul>
+                <li><strong>Knowledge Base:</strong> Visit Wiki Knowledge Base for articles, tutorials, and guides on using similar platforms and navigating the funding process.</li>
+                <li><strong>Community Forums:</strong> Join different online community forums to connect with other users, ask questions, and share experiences.</li>
+                <li><strong>Video Tutorials:</strong> Watch video tutorials for step-by-step instructions on common tasks and features on Youtube.</li>
+            </ul>
+        </section>
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>If you still need assistance or have unresolved issues, please don't hesitate to contact us directly. Our support team is available to assist you:</p>
+            <ul>
+                <li>Email: support@loyalfunding.com</li>
+                <li>Phone: +27 670180433</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 LoyalFunding. All rights reserved.</p>
+    </footer>
+</body>
+</html>
