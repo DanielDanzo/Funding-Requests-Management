@@ -1,7 +1,7 @@
 const submit = document.getElementById("btn-submit");
 
 function addFunds(addition) {
-    fetch('http://localhost:8080/funds', {
+    fetch('https://funding-requests-management-dfae31570a7e.herokuapp.com/funds', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
