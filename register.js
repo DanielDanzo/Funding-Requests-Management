@@ -79,7 +79,7 @@ function registerUser(){
         // The signed-in user info.
         console.log(result);
         const user = result.user;
-        console.log(user.accessToken);
+        console.log(user);
         if(admin){
             await addUser(user.email, "Admin", true, user.accessToken);
             //window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
