@@ -59,7 +59,7 @@ async function addUser(email, role, isSignIn, userToken){
     console.log('Token: ',userToken);
     try {
 
-        if(isRegistered(email)){
+        if(await isRegistered(email)){
             console.log('User already registered');
         }
         const userRef = collection(db, 'users');
