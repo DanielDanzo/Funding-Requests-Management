@@ -3,6 +3,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, linkWithCredential, EmailAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
 //Below we we initialise any variable we might need for our website
@@ -24,6 +25,8 @@ const btn_fundManganer_login = document.getElementById('btn-fundManager-login');
 const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login');
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 //create google instance
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
@@ -97,19 +100,69 @@ btn_platformAdmin_login.addEventListener('click',()=>{
     //registerWithEmail();
 });
 
+
+//Function to check if user is registered
+async function verifyUser(email){
+    try {
+        console.log('Verifying.....');
+        const q = query(collection(db, 'users'), where('Email', '==', email));
+        const querySnapshot = await getDocs(q);
+        if(querySnapshot.empty){
+            return false;
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+//Function to check if user is registered
+async function verifyRole(email, role){
+    try {
+        console.log('Verifying.....');
+        const q = query(collection(db, 'users'), where('Email', '==', email), where('Role','==',role));
+        const querySnapshot = await getDocs(q);
+        if(querySnapshot.empty){
+            return false;
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+
 //FUNCTION: Registers user using their google email
 function signInUser(){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
+        const email = result.email;
+        const verified = await verifyUser(email);
         // The signed-in user info.
         const user = result.user;
+        if(!verified){
+            console.log('Please register');
+            return;
+        }
         //Then take the user to their desired home page
         if(admin){
+            if(!verifyRole(email, 'Admin')){
+                console.log('Please sign-in with rregistered role')
+                return;
+            }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManger){
+            if(!verifyRole(email, 'fundManager')){
+                console.log('Please sign-in with rregistered role')
+                return;
+            }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
+            if(!verifyRole(email, 'Applicant')){
+                console.log('Please sign-in with rregistered role')
+                return;
+            }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }
         
