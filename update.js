@@ -1,19 +1,3 @@
-// async function handleStatus(applicantName, status) {
-//     try {
-//         const response = await fetch(`http://localhost:8080/updateApplicant/${url(applicantName)}`, {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ status })
-//         });
-
-//         const data = await response.json();
-//         console.log(data.message);
-//     } catch (error) {
-//         console.error(error.message);
-//     }
-// }
 let budget;
 let information;
 let dataList;
@@ -75,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.getElementById("funds");
     let updateFunds = document.getElementById("updateFund");
 
-    fetch(`http://localhost:8080/funds`, {
+    fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/funds`, {
         method: 'GET'
     })
     .then(response => response.json())
@@ -93,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedValue = dropdown.value;
         bursaryInfo(selectedValue, dataList);
 
-        fetch(`http://localhost:8080/applicants/${url(selectedValue)}`, {
+        fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/applicants/${url(selectedValue)}`, {
             method: 'GET'
         })
         .then(response => response.json())
