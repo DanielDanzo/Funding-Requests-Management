@@ -30,6 +30,21 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
+/*  FUNCTION: checks whether or not a user is in the database
+*   PARAMETERS: email- each user has a unique email which will help us identify users
+*   This function should return true or false based on whether or not a user is registered or not
+*/
+async function isRegistered(email){
+    const userRef = query(collection(db, 'users'), where('Email', '==', email));
+
+    const querySnapshot = getDocs(userRef);
+    if(querySnapshot.empty){
+        return false;
+    }
+
+    return true;
+}
+
 /*  FUNCTION: Adds user to the database
 *   PARAMETERS: email- User email that we need to has
 *               role- specifies the role of the user
@@ -43,6 +58,10 @@ async function addUser(email, role, isSignIn, userToken){
     console.log('Status: ',isSignIn);
     console.log('Token: ',userToken);
     try {
+
+        if(isRegistered(email)){
+            console.log('User already registered');
+        }
         const userRef = collection(db, 'users');
 
         const docRef = await addDoc(userRef, {
@@ -51,7 +70,7 @@ async function addUser(email, role, isSignIn, userToken){
           isSignIn: isSignIn,
           Token: userToken
         });
-        allInfo.textContent = "Sucessfully Added";
+        console.log("Sucessfully Added");
       } catch (e) {
         console.error("Error adding document: ", e);
     }
