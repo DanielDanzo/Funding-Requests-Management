@@ -43,7 +43,9 @@ async function addUser(email, role, isSignIn, userToken){
     console.log('Status: ',isSignIn);
     console.log('Token: ',userToken);
     try {
-        const docRef = await addDoc(collection(db, "users"), {
+        const userRef = collection(db, 'users');
+
+        const docRef = await addDoc(userRef, {
           Email: email,
           Role: role,
           isSignIn: isSignIn,
@@ -54,6 +56,8 @@ async function addUser(email, role, isSignIn, userToken){
         console.error("Error adding document: ", e);
     }
 }
+
+
 
 
 //SIGN-IN WITH GOOGLE
