@@ -38,6 +38,10 @@ const db = getFirestore(app);
 *   TODO: Hash email address for security issues
 */
 async function addUser(email, role, isSignIn, userToken){
+    console.log('Email: ',email);
+    console.log('Role ; ',role);
+    console.log('Status: ',isSignIn);
+    console.log('Token: ',userToken);
     try {
         const docRef = await addDoc(collection(db, "users"), {
           Email: email,
@@ -74,7 +78,7 @@ function registerUser(){
         console.log(user);
         if(admin){
             await addUser(user.email, "Admin", true, user.userToken)
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
+            //window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManager){
             await addUser(user.email, "Fund Manager", true, user.userToken)
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
