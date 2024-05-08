@@ -81,13 +81,13 @@ function registerUser(){
         const user = result.user;
         console.log(user);
         if(admin){
-            await addUser(user.email, "Admin", true, user.accessToken)        )
+            await addUser(user.email, "Admin", true, user.accessToken);
             //window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManager){
-            await addUser(user.email, "Fund Manager", true, user.userToken)
+            await addUser(user.email, "Fund Manager", true, user.userToken);
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
-            await addUser(user.email, "Applicant", true, user.userToken)
+            await addUser(user.email, "Applicant", true, user.userToken);
               window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }
         
