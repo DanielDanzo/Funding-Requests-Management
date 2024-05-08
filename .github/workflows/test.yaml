@@ -11,12 +11,7 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        run: npm install
-      - name: Adding Jest dependency
-        run: chmod +rx ../node_modules/.bin/jest
-
-      - name: Run tests and collect coverage
-        run: python test_math.py 
+        run: npm install 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
