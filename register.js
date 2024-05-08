@@ -113,6 +113,7 @@ function registerUser(){
     }).catch((error) => {
         // Handle Errors here.
         console.log(error);
+        console.log('Error code: ', error.code);
         const errorCode = error.code;
         const errorMessage = error.message;
     });
