@@ -147,20 +147,20 @@ function signInUser(){
         }
         //Then take the user to their desired home page
         if(admin){
-            if(!verifyRole(email, 'Admin')){
-                console.log('Please sign-in with rregistered role')
+            if( !(await verifyRole(email, 'Admin')) ){
+                console.log('Please sign-in with registered role')
                 return;
             }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
         }else if(fundManger){
-            if(!verifyRole(email, 'fundManager')){
-                console.log('Please sign-in with rregistered role')
+            if( !(await verifyRole(email, 'fundManager')) ){
+                console.log('Please sign-in with registered role')
                 return;
             }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
         }else{
-            if(!verifyRole(email, 'Applicant')){
-                console.log('Please sign-in with rregistered role')
+            if( !(await verifyRole(email, 'Applicant')) ){
+                console.log('Please sign-in with registered role')
                 return;
             }
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';

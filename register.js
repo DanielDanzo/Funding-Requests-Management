@@ -61,6 +61,7 @@ async function addUser(email, role, isSignIn, userToken){
 
         if(await isRegistered(email)){
             console.log('User already registered');
+            return false;
         }
         const userRef = collection(db, 'users');
 
@@ -71,6 +72,7 @@ async function addUser(email, role, isSignIn, userToken){
           Token: userToken
         });
         console.log("Sucessfully Added");
+        return true;
       } catch (e) {
         console.error("Error adding document: ", e);
     }
@@ -99,15 +101,14 @@ function registerUser(){
         console.log(result);
         const user = result.user;
         console.log(user);
-        if(admin){
-            await addUser(user.email, "Admin", true, user.accessToken);
-            //window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
-        }else if(fundManager){
-            await addUser(user.email, "Fund Manager", true, user.userToken);
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
+        if(admin && (await addUser(user.email, "Admin", true, user.accessToken)) ){
+            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
+        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, user.userToken)) ){
+            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
+        }else if(applicant && (await addUser(user.email, "Applicant", true, user.userToken)) ){
+            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }else{
-            await addUser(user.email, "Applicant", true, user.userToken);
-              window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
+            console.log("Invalid login details");
         }
         
     }).catch((error) => {
@@ -140,6 +141,8 @@ function sendMail(EMail){
               })
               .catch();
             }
+
+            
 const btn_submit_signup = document.getElementById('btn-submit-signup');
 
 btn_submit_signup.addEventListener('click', ()=>{
