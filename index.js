@@ -105,6 +105,7 @@ btn_platformAdmin_login.addEventListener('click',()=>{
 async function verifyUser(email){
     try {
         console.log('Verifying.....');
+        console.log(email);
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         if(querySnapshot.empty){
