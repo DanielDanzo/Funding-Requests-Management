@@ -54,7 +54,7 @@ async function isRegistered(email){
 */
 async function addUser(email, role, isSignIn, userToken){
     console.log('Email: ',email);
-    console.log('Role ; ',role);
+    console.log('Role : ',role);
     console.log('Status: ',isSignIn);
     console.log('Token: ',userToken);
     try {
