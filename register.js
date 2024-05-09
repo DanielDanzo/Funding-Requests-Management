@@ -100,12 +100,13 @@ function registerUser(){
         // The signed-in user info.
         console.log(result);
         const user = result.user;
+        const userToken = await user.accessToken;
         console.log(user);
-        if(admin && (await addUser(user.email, "Admin", true, user.accessToken)) ){
+        if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
-        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, user.userToken)) ){
+        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
-        }else if(applicant && (await addUser(user.email, "Applicant", true, user.userToken)) ){
+        }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
             window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
         }else{
             console.log("Invalid login details");
@@ -142,7 +143,7 @@ function sendMail(EMail){
               .catch();
             }
 
-            
+
 const btn_submit_signup = document.getElementById('btn-submit-signup');
 
 btn_submit_signup.addEventListener('click', ()=>{
