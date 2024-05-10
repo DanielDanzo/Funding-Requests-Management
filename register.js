@@ -39,6 +39,8 @@ async function isRegistered(email){
 
     const querySnapshot = getDocs(userRef);
     if(querySnapshot.empty){
+        console.log('Here');
+        console.log(querySnapshot);
         return false;
     }
 
