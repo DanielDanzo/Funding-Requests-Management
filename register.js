@@ -63,7 +63,7 @@ async function addUser(email, role, isSignIn, userToken){
     try {
 
         const registeredUser = await isRegistered(email);
-        console.log(registerUser);
+        console.log(registeredUser);
         if(registerUser){
             console.log('User already registered');
             return false;
