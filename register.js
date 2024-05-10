@@ -38,9 +38,12 @@ async function isRegistered(email){
     const userRef = query(collection(db, 'users'), where('Email', '==', email));
 
     const querySnapshot = getDocs(userRef);
+    console.log(querySnapshot);
+    console.log('Is snapShot doc empty: ',querySnapshot.doc.empty);
+    console.log(querySnapshot.doc);
     if(querySnapshot.empty){
         console.log('Here');
-        console.log(querySnapshot);
+        
         console.log(querySnapshot.empty);
         return false;
     }
