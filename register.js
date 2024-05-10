@@ -41,6 +41,7 @@ async function isRegistered(email){
     if(querySnapshot.empty){
         console.log('Here');
         console.log(querySnapshot);
+        console.log(querySnapshot.empty);
         return false;
     }
 
