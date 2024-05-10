@@ -5,7 +5,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 //import { initializeApp } from "./node_modules/firebase/app/firebase-app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
-import { getFirestore, collection, addDoc, getDocs, doc, query  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, query, where  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 //import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "./node_modules/firebase/app/firebase-auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
