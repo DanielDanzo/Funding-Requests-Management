@@ -41,7 +41,7 @@ async function isRegistered(email){
     console.log(querySnapshot);
     console.log('Is snapShot empty: ',querySnapshot.value === undefined);
     console.log(querySnapshot.doc);
-    if(querySnapshot.empty){
+    if(querySnapshot.value === undefined){
         console.log('Here');
         
         console.log(querySnapshot.empty);
