@@ -138,10 +138,10 @@ function signInUser(){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
-        const email = await result.email;
+        const user = result.user;
+        const email = await user.email;
         const verified = await verifyUser(email);
         // The signed-in user info.
-        const user = result.user;
         if(!verified){
             console.log('Please register');
             return;
