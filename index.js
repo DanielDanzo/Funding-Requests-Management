@@ -110,6 +110,7 @@ async function verifyUser(email){
         const querySnapshot = await getDocs(q);
         console.log(querySnapshot);
         console.log('Docs: ',querySnapshot.docs);
+        console.log('Empty: ', querySnapshot.empty);
         console.log('Snapshot: ', querySnapshot.docs.empty );
         if(querySnapshot.docs.empty){
             return false;
