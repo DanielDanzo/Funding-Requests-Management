@@ -139,7 +139,9 @@ function signInUser(){
     signInWithPopup(auth, provider)
     .then(async (result) => {
         const user = result.user;
-        const email = await user.email;
+        console.log('User: ',user);
+        const email = user.email;
+        console.log('Email: ',email);
         const verified = await verifyUser(email);
         // The signed-in user info.
         if(!verified){
