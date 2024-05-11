@@ -112,7 +112,7 @@ async function verifyUser(email){
         console.log('Docs: ',querySnapshot.docs);
         console.log('Empty: ', querySnapshot.empty);
         console.log('Snapshot: ', querySnapshot.docs.empty );
-        if(querySnapshot.docs.empty){
+        if(querySnapshot.empty){
             return false;
         }
         return true;
@@ -127,7 +127,7 @@ async function verifyRole(email, role){
         console.log('Verifying role.....');
         const q = query(collection(db, 'users'), where('Email', '==', email), where('Role', '==',role));
         const querySnapshot = await getDocs(q);
-        if(querySnapshot.value === undefined){
+        if(querySnapshot.empty){
             return false;
         }
         return true;
