@@ -109,7 +109,7 @@ async function verifyUser(email){
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         console.log(querySnapshot);
-        consolde.log('Docs: ',querySnapshot.docs);
+        console.log('Docs: ',querySnapshot.docs);
         console.log('Snapshot: ', querySnapshot.docs.empty );
         if(querySnapshot.docs.empty){
             return false;
