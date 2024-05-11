@@ -39,7 +39,7 @@ async function isRegistered(email){
 
     const querySnapshot = getDocs(userRef);
     console.log(querySnapshot);
-    console.log('Is snapShot doc empty: ',querySnapshot.doc.empty);
+    console.log('Is snapShot empty: ',querySnapshot.empty);
     console.log(querySnapshot.doc);
     if(querySnapshot.empty){
         console.log('Here');
