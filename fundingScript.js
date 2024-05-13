@@ -117,7 +117,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
 
       console.log('Email: ', email);
       console.log('Why email not logging');
-      await getFundingOpportunityID(FOName);
+      await getFundingOpportunityID(name);
       await addUserRole(name, email);
       console.log("Sucessfully Added");
     } catch (e) {
