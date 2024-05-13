@@ -76,7 +76,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         console.log('Funding Opportunity with the same name exists');
         return;
       }
-      await addUserRole(name, email);
+      
   
       const docRef = await addDoc(collection(db, "Funding Opportunity"), {
         Name: name,
@@ -87,6 +87,8 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         SuitableCandidates: suitable,
         ClosingDate: deadline
       });
+
+      await addUserRole(name, email);
       console.log("Sucessfully Added");
     } catch (e) {
       console.error("Error adding document: ", e);
