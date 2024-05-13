@@ -17,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 const email =  window.localStorage.getItem('email');
+var fundID;
 
 
 /* FUNCTION: Checks whether or not there is another funding opportunity with the exact same name
@@ -34,6 +35,26 @@ async function verifyFundingName(name){
 }
 
 
+/*  FUNCTION: Serves to provide the ID of a Specific Funding Opportunity
+*   PARAMS: name- this is the name of the funding Opportunity
+*   The resulting of this function is that it returns the id of the Funding Opportunity based on a name search
+*/
+async function getFundingOpportunityID(name){
+  try {
+    const q1 = query(collection(db, 'Funding Opportunity'), where("Name", "==", name));
+    const querySnapshot = await getDocs(q1);
+    //console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      fundID = doc.id;
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+getFundingOpportunityID(FOName);
+
+
 /*  FUNCTION: Creates and/or adds a subcollection for roles 
 *   In this case it creates a subcollection that stores all user roles
 *   PARAMS: userID- is the userID that comes from the database and is used to get the user document
@@ -45,10 +66,13 @@ async function addUserRole(FOName, email){
       // Reference to the user document
       console.log('Funding Opportunity Name: ', FOName);
       console.log('Email: ', email);
-      const q = query(collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
+      //const q = query( collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
+      const q = doc(db, 'Funding Opportunity', fundID );
+
 
       // Reference to the subcollection
-      console.log('Tryinh FORef');
+      console.log('Trying FORef');
+      //const applicationsRef = collection(userRef, 'Roles');
       const roleRef = collection(q, 'Roles');
 
       console.log('Here');
