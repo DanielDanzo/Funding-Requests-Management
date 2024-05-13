@@ -91,6 +91,7 @@ async function fundingDropDown(dropdown){
     dropdown.innerHTML = `<option value="Select">Select</option>`;
     console.log(querySnapshot);
     querySnapshot.forEach((doc) => {
+        console.log(doc)
         dropdown.innerHTML += `<option value="${doc.Name}">${doc.Name}</option>`
     });
 }
