@@ -52,7 +52,7 @@ async function getFundingOpportunityID(name){
     console.error(error);
   }
 }
-getFundingOpportunityID(FOName);
+
 
 
 /*  FUNCTION: Creates and/or adds a subcollection for roles 
@@ -116,7 +116,8 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
       });
 
       console.log('Email: ', email);
-      console.log('Why email npt logging');
+      console.log('Why email not logging');
+      await getFundingOpportunityID(FOName);
       await addUserRole(name, email);
       console.log("Sucessfully Added");
     } catch (e) {
