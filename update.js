@@ -87,7 +87,7 @@ const url = (input) => {
 
 
 async function fundingDropDown(dropdown){
-    const querySnapshot = await getDocs(collection(db, "Funding Opportunities"));
+    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"));
     dropdown.innerHTML = `<option value="Select">Select</option>`;
     console.log(querySnapshot);
     querySnapshot.forEach((doc) => {
