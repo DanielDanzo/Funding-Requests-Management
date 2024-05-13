@@ -43,6 +43,7 @@ async function verifyFundingName(name){
 async function addUserRole(FOName, email){
   try {
       // Reference to the user document
+      console.log('Funding Opportunity Name: ', FOName);
       const q = query((db, 'Funding Opportunity'), where('Name', '==', FOName));
       const FORef = doc(q);
 
