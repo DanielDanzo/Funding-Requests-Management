@@ -86,7 +86,7 @@ const url = (input) => {
 }
 
 
-async function fundingDropDown(){
+async function fundingDropDown(dropdown){
     const querySnapshot = await getDocs(collection(db, "Funding Opportunities"));
     dropdown.innerHTML = `<option value="Select">Select</option>`;
     querySnapshot.forEach((doc) => {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let updateFunds = document.getElementById("updateFund");
 
 
-    await fundingDropDown();
+    await fundingDropDown(dropdown);
 
     /*
     fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/funds`, {
