@@ -88,6 +88,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         ClosingDate: deadline
       });
 
+      console.log('Email: ', email);
       await addUserRole(name, email);
       console.log("Sucessfully Added");
     } catch (e) {
