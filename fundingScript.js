@@ -16,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+const email =  window.localStorage.getItem('email');
 
 
 /* FUNCTION: Checks whether or not there is another funding opportunity with the exact same name
@@ -30,6 +31,32 @@ async function verifyFundingName(name){
     }
     //console.log('Please use a different Funding name');
     return false;
+}
+
+
+/*  FUNCTION: Creates and/or adds a subcollection for roles 
+*   In this case it creates a subcollection that stores all user roles
+*   PARAMS: userID- is the userID that comes from the database and is used to get the user document
+*           After getting user document we create a collection in that user document
+*   TODO: be able to update status
+*/
+async function addUserRole(FOName, email){
+  try {
+      // Reference to the user document
+      const q = query((db, 'Funding Opportunity'), where('Name', '==', FOName));
+      const FORef = doc(q);
+
+      // Reference to the subcollection
+      const roleRef = collection(FORef, 'Roles');
+
+      const docRef = await addDoc(applicationsRef, {
+        userEmail: email,
+        Role: "fundManager",
+      });
+      console.log("Added Role Sucessfully");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+  }
 }
 
 
@@ -49,6 +76,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         console.log('Funding Opportunity with the same name exists');
         return;
       }
+      await addUserRole(name, email);
   
       const docRef = await addDoc(collection(db, "Funding Opportunity"), {
         Name: name,

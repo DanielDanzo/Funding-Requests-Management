@@ -146,6 +146,7 @@ function signInUser(){
         const user = result.user;
         console.log('User: ',user);
         const email = user.email;
+        window.localStorage.setItem('email', email);
         console.log('Email: ',email);
 
         const verified = await verifyUser(email);
@@ -183,6 +184,8 @@ function signInUser(){
 }
 
 
+
+/*
 function registerWithEmail(){
     console.log('Hello');
     //get user email
@@ -273,4 +276,4 @@ function registerWithEmail(){
         // Some error occurred.
         });
 }
-
+*/
