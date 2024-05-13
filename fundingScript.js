@@ -51,6 +51,7 @@ async function addUserRole(FOName, email){
       // Reference to the subcollection
       const roleRef = collection(FORef, 'Roles');
 
+      console.log('Here');
       const docRef = await addDoc(roleRef, {
         userEmail: email,
         Role: "fundManager",
