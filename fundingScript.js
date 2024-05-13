@@ -46,11 +46,10 @@ async function addUserRole(FOName, email){
       console.log('Funding Opportunity Name: ', FOName);
       console.log('Email: ', email);
       const q = query(collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
-      const FORef = await doc(q);
 
       // Reference to the subcollection
       console.log('Tryinh FORef');
-      const roleRef = collection(FORef, 'Roles');
+      const roleRef = collection(q, 'Roles');
 
       console.log('Here');
       const docRef = await addDoc(roleRef, {

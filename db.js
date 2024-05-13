@@ -167,7 +167,7 @@ async function getUserApplications(userID){
 *   Check whether or not a user has applied to a specific Funding Opportunity
 */
 async function allowUserApplication(userID, FOName){
-  const userRef = query(collection(db, 'Funding Opportunity',userID, 'Applications'), where('Name', '==',FOName));
+  const userRef = query(collection(db, 'users',userID, 'Applications'), where('Name', '==',FOName));
   const namesQuerySnapshot = await getDocs(userRef);
   if(namesQuerySnapshot.empty){
     return true;
