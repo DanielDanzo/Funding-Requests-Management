@@ -143,6 +143,9 @@ async function showAllFundingApplications(name, updateFunds){
     });
   }
 
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
     const dropdown = document.getElementById("funds");
     let updateFunds = document.getElementById("updateFund");
