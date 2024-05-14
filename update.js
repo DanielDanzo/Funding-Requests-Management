@@ -18,11 +18,17 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-let budget;
+let budget; //EstimatedFunds should be subtracted with Application Fund
 let information;
 let dataList;
 let applicantDataList;
 let selectedValue;
+
+const dropdown = document.getElementById("funds");
+let updateFunds = document.getElementById("updateFund");
+let applicant;
+let applications = [];
+let name;
 
 
 /*  FUNCTION: Retrieves and displays all information about a bursary
@@ -30,17 +36,21 @@ let selectedValue;
 *
 */
 async function fundingInfo(name){
-    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), where('Name','==',name));
+    const q =  query(collection(db, "Funding Opportunity"), where('Name','==',name));
+    const querySnapshot = await getDocs(q);
     //const data = querySnapshot.docs.data;
     //console.log(querySnapshot);
+    var info;
     //console.log(data);
     querySnapshot.forEach((doc) => {
         //console.log(doc);
-        information = doc.data();
+        info = doc.data();
+        return;
     });
 
-    document.getElementById("name").innerHTML = `Name: ${information.Name}`;
-    document.getElementById("available").innerHTML = `Available funds: R${information.EstimatedFunds}`;
+    //console.log(info.Name);
+    document.getElementById("name").innerHTML = `Name: ${info.Name}`;
+    document.getElementById("available").innerHTML = `Available funds: R${info.EstimatedFunds}`;
 }
 
 
@@ -56,6 +66,29 @@ function errorMessage(){
     alert("Unfortunately, you have gone beyond your budget!");
 }
 
+
+
+
+updateFunds.addEventListener('click', (event) => {
+    if (event.target.classList.contains('reject-btn')) {
+        const index = event.target.dataset.index;
+        console.log('Button reject Clicked! at: ',index);
+        console.log(applications[index]);
+    }
+
+    else if (event.target.classList.contains('accept-btn')) {
+        const index = event.target.dataset.index;
+        console.log('Button accept Clicked! at :', index);
+        console.log(applications[index]);
+        onAcceptApplication(name, applications[index].Email);
+    }
+});
+
+
+
+
+
+/*
 function changeButton(className, type) {
     const rejectButtons = document.querySelectorAll(`.reject-${className}`);
     const acceptButtons = document.querySelectorAll(`.accept-${className}`);
@@ -78,11 +111,7 @@ function changeButton(className, type) {
     }else{
         errorMessage();
     }
-}
-
-const url = (input) => {
-    return input.split(" ").join("%20");
-}
+}*/
 
 
 
@@ -95,9 +124,13 @@ async function fundingDropDown(dropdown){
     dropdown.innerHTML = `<option value="Select">Select</option>`;
     //console.log(querySnapshot);
     const allFunds = [];
+
+    //results from database
     querySnapshot.forEach((doc)=>{
         allFunds.push(doc.data().Name);
     });
+
+    //sorts the funding opportunity array
     allFunds.sort((str1, str2)=>{
         let firstLetterA = str1.charAt(0).toUpperCase();
         let firstLetterB = str2.charAt(0).toUpperCase();
@@ -110,57 +143,182 @@ async function fundingDropDown(dropdown){
             return 0;
         }
     });
+
+    //display or add the Funding Opportunities to the dropdown menu
     allFunds.forEach((doc) => {
         dropdown.innerHTML += `<option value="${doc}">${doc}</option>`
     });
 }
 
+window.onload = await fundingDropDown(document.getElementById("funds"));
 
 
+
+
+/* FUNCTION: Displays all applications
+*
+*
+*/
+function displayAllApplications(){
+    //Sort the list first before displaying
+    applications.sort((str1, str2)=>{
+        if (str1.Status ==='Pending' && str2.Status==='Approved') {
+            return -1;
+        } else if (str1.Status==='Approved' && str2.Status==='Pending') {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+
+    updateFunds.innerHTML = '';
+    applications.forEach((doc, index) => {
+        const app = document.createElement('div');
+        app.classList.add('Applicant');
+        if(doc.Status === 'Approved'){
+            app.innerHTML = `
+            <li>Applicant: ${doc.Email} 
+            <br> <p style="color: #138808">Application Approved<p> <li>
+            `;
+        }else{
+            app.innerHTML = `
+            <li>Applicant: ${doc.Email} 
+            <br> <input id="rejectBtn" class="reject-btn"  data-index="${index}" type='button' value='Reject'>
+            <input id="acceptBtn" type='button' class="accept-btn"  data-index="${index}" value='Accept'><li>
+        `;
+        }
+        
+        updateFunds.appendChild(app);
+        
+    });
+}
 
 
 /*  FUNCTION: This is a function that displays all the Applications Associated with a Funding Opportunity
 *   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
 *   The function updated FundingApplications array which will contain all the funding Opportunities
 */
-async function showAllFundingApplications(name, updateFunds){
+async function getAllFundingApplications(name, updateFunds){
     const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
     const namesQuerySnapshot = await getDocs(userRef);
-  
-    const doc = namesQuerySnapshot.docs[0];
-  
+
+    const result = namesQuerySnapshot.docs[0];
+
     // Reference to the subcollection
-    const applicationsRef = collection( doc.ref,'Applications');
+    const applicationsRef = collection( result.ref,'Applications');
     const q = query(applicationsRef, orderBy("submitDate", "asc"));
     const querySnapshot = await getDocs(q);
+
+
+    applications = [];
     if(querySnapshot.empty){
         updateFunds.innerHTML = `No applicants have been found for ${selectedValue}`;
         return;
     }
 
+    //sort according to pending and approved after adding
+    
     querySnapshot.forEach((doc) => {
-        updateFunds.innerHTML += `<li>Applicant: ${doc.data().Email} <br> <input id="rejectBtn" class="reject-${doc.id}" onClick='changeButton("${doc.id}", "reject");' type='button' value='Reject'> <input id="acceptBtn" type='button' class="accept-${doc.id}" onClick='changeButton("${doc.id}", "accept");' value='Accept'><li>`;
+        applications.push(doc.data());
     });
+    
+    displayAllApplications();
+}
+
+
+
+dropdown.addEventListener('change', async () => {
+    selectedValue = dropdown.value;
+    name = selectedValue;
+    //Show information about funding opportunity
+    //console.log(selectedValue);
+    await fundingInfo(selectedValue);
+    //Show all funding applications
+    await getAllFundingApplications(selectedValue, updateFunds);
+
+})
+
+
+
+
+/*  FUNCTION: This function is responsible for handling the acceptance of applications to Funding Opportunities
+*   PARAMS: FOName- this is the name of the Funding Opportunity
+*           userID- is the ID of the user
+*           fundID- this is the ID of the Funding Opportunity
+*   Is a void function that updates the application from Funding Opportunity and  the application on the user side to accepted
+*/
+async function onAcceptApplication(name, email){
+    /*
+    try {
+      await getUserApplicationID(FOName, userID);
+      //console.log(userApplicationID);
+      const q = doc(db, "users", userID, 'Applications', userApplicationID);
+      await updateDoc(q, {
+        status: 'Accepted', 
+      })
+      .then(()=>{
+        allInfo.textContent = "Accepted Sucessfully";
+      })
+      .catch((error)=>{
+        console.error("Error updating document: ", error)
+      });
+      
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }*/
+  
+    try {
+      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
+      const namesQuerySnapshot = await getDocs(userRef);
+
+      const result = namesQuerySnapshot.docs[0];
+      console.log('Here');
+      console.log(result.ref);
+
+      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
+      const appsRef =await getDocs(appsQuery);
+      console.log('there');
+      console.log(appsRef)
+  
+      await updateDoc(appsRef.docs[0].ref, {
+        Status: 'Approved', 
+      })
+      .then(async ()=>{
+        console.log("Accepted Sucessfully on Funding Database");
+        await getAllFundingApplications(name, updateFunds)
+      })
+      .catch((error)=>{
+        console.error("Error updating document: ", error)
+      });
+      
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
   }
 
 
 
 
+/*
 document.addEventListener('DOMContentLoaded', async () => {
     const dropdown = document.getElementById("funds");
     let updateFunds = document.getElementById("updateFund");
 
 
     //Show all options for all Funding Opportunities aranged aplhabetically
-    await fundingDropDown(dropdown);
+    //await fundingDropDown(dropdown);
 
-
+    console.log('Here');
     dropdown.addEventListener('change', async () => {
         selectedValue = dropdown.value;
         //Show information about funding opportunity
+        console.log(selectedValue);
         await fundingInfo(selectedValue);
         //Show all funding applications
         await showAllFundingApplications(selectedValue, updateFunds);
 
     })
-})
+})*/
+
+
