@@ -25,26 +25,25 @@ let applicantDataList;
 let selectedValue;
 
 
-async function fundingInfo(){
-    const querySnapshot = await getDocs(collection(db, "users"));
-    users = [];
+/*  FUNCTION: Retrieves and displays all information about a bursary
+*
+*
+*/
+async function fundingInfo(name){
+    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), where('Name','==',name));
+    //const data = querySnapshot.docs.data;
+    //console.log(querySnapshot);
+    //console.log(data);
     querySnapshot.forEach((doc) => {
-      users.push(doc.data());
+        //console.log(doc);
+        information = doc.data();
     });
-    allInfo.textContent = "Operation Sucessful";
+
+    document.getElementById("name").innerHTML = `Name: ${information.Name}`;
+    document.getElementById("available").innerHTML = `Available funds: R${information.EstimatedFunds}`;
 }
 
-function bursaryInfo(selectedValue, data) {
-    for (let i = 0; i < data.length; i++) {
-        if (data[i].name == selectedValue) {
-            information = data[i];
-            break;
-        }
-    }
-    budget = information.estimatedFund;
-    document.getElementById("name").innerHTML = `Name: ${information.name}`;
-    document.getElementById("available").innerHTML = `Available funds: R${budget}`;
-}
+
 
 function accept(index) {
         document.getElementById("summary").innerHTML = `Last accepted applicant: <br> <strong>${applicantDataList[index].applicantName}</strong>`;
@@ -86,60 +85,79 @@ const url = (input) => {
 }
 
 
+
+/*  FUNCTION: Gets all the funding opportunities in the database and adds them to the dropdown menu
+*
+*
+*/
 async function fundingDropDown(dropdown){
-    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"));
+    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), orderBy("Name"));
     dropdown.innerHTML = `<option value="Select">Select</option>`;
-    console.log(querySnapshot);
-    querySnapshot.forEach((doc) => {
-        console.log(doc)
-        dropdown.innerHTML += `<option value="${doc.Name}">${doc.Name}</option>`
+    //console.log(querySnapshot);
+    const allFunds = [];
+    querySnapshot.forEach((doc)=>{
+        allFunds.push(doc.data().Name);
+    });
+    allFunds.sort((str1, str2)=>{
+        let firstLetterA = str1.charAt(0).toUpperCase();
+        let firstLetterB = str2.charAt(0).toUpperCase();
+
+        if (firstLetterA < firstLetterB) {
+            return -1;
+        } else if (firstLetterA > firstLetterB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    allFunds.forEach((doc) => {
+        dropdown.innerHTML += `<option value="${doc}">${doc}</option>`
     });
 }
+
+
+
+
+
+/*  FUNCTION: This is a function that displays all the Applications Associated with a Funding Opportunity
+*   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
+*   The function updated FundingApplications array which will contain all the funding Opportunities
+*/
+async function showAllFundingApplications(name, updateFunds){
+    const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
+    const namesQuerySnapshot = await getDocs(userRef);
+  
+    const doc = namesQuerySnapshot.docs[0];
+  
+    // Reference to the subcollection
+    const applicationsRef = collection( doc.ref,'Applications');
+    const q = query(applicationsRef, orderBy("submitDate", "asc"));
+    const querySnapshot = await getDocs(q);
+    if(querySnapshot.empty){
+        updateFunds.innerHTML = `No applicants have been found for ${selectedValue}`;
+        return;
+    }
+
+    querySnapshot.forEach((doc) => {
+        updateFunds.innerHTML += `<li>Applicant: ${doc.data().Email} <br> <input id="rejectBtn" class="reject-${doc.id}" onClick='changeButton("${doc.id}", "reject");' type='button' value='Reject'> <input id="acceptBtn" type='button' class="accept-${doc.id}" onClick='changeButton("${doc.id}", "accept");' value='Accept'><li>`;
+    });
+  }
 
 document.addEventListener('DOMContentLoaded', async () => {
     const dropdown = document.getElementById("funds");
     let updateFunds = document.getElementById("updateFund");
 
 
+    //Show all options for all Funding Opportunities aranged aplhabetically
     await fundingDropDown(dropdown);
 
-    /*
-    fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/funds`, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        dataList = data;
-        dropdown.innerHTML = `<option value="Select">Select</option>`;
-        data.forEach(element => {
-            dropdown.innerHTML += `<option value="${element.name}">${element.name}</option>`
-        });
-    }).catch(error => {
-        console.error(error);
-    })*/
 
-    dropdown.addEventListener('change', () => {
+    dropdown.addEventListener('change', async () => {
         selectedValue = dropdown.value;
-        bursaryInfo(selectedValue, dataList);
-
-        fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/applicants/${url(selectedValue)}`, {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                applicantDataList = data;
-                updateFunds.innerHTML = `<ul id="applicants">`
-                for (let i = 0; i < data.length; i++) {
-                    updateFunds.innerHTML += `<li>Applicant: ${data[i].applicantName} <br> <input id="rejectBtn" class="reject-${i}" onClick='changeButton("${i}", "reject");' type='button' value='Reject'> <input id="acceptBtn" type='button' class="accept-${i}" onClick='changeButton("${i}", "accept");' value='Accept'><li>`;
-                }
-                updateFunds.innerHTML += `</ul>`
-            } else {
-                updateFunds.innerHTML = `No applicants have been found for ${selectedValue}`
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-        })
+        //Show information about funding opportunity
+        await fundingInfo(selectedValue);
+        //Show all funding applications
+        await showAllFundingApplications(selectedValue, updateFunds);
 
     })
 })

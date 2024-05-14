@@ -383,7 +383,7 @@ async function addFundingApplication(userID, fundID){
 
     const docRef = await addDoc(applicationsRef, {
       userID: userID,
-      status: "Pending",
+      Status: "Pending",
       submitDate: currentDate
     });
     allInfo.textContent = "Added Application Sucessfully";
