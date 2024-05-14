@@ -49,8 +49,8 @@ async function fundingInfo(name){
     });
 
     //console.log(info.Name);
-    document.getElementById("name").innerHTML = `Name: ${info.Name}`;
-    document.getElementById("available").innerHTML = `Available funds: R${info.EstimatedFunds}`;
+    document.getElementById("name").innerHTML = `<strong>Name:  ${info.Name}`;
+    document.getElementById("available").innerHTML = `<strong>Available funds:  R${info.EstimatedFunds}`;
 }
 
 
@@ -74,6 +74,7 @@ updateFunds.addEventListener('click', (event) => {
         const index = event.target.dataset.index;
         console.log('Button reject Clicked! at: ',index);
         console.log(applications[index]);
+        onRejectApplication(name, applications[index].Email)
     }
 
     else if (event.target.classList.contains('accept-btn')) {
@@ -239,6 +240,59 @@ dropdown.addEventListener('change', async () => {
 
 })
 
+
+
+/*  FUNCTION: This function removes an application to the Funding Opportunity on the Funding Management side
+*   PARAMS: fundID-this is the ID of the Funding Opportunity
+*           userID-this is the userID of user Application to be removed 
+*   This is a void function that removes the application permanently
+*/
+async function removeFundingApplication(ref){
+    deleteDoc(ref)
+    .then(() => {
+      console.log('Document successfully deleted!');
+    })
+    .catch((error) => {
+      console.error('Error removing document: ', error);
+    });
+  }
+  
+  
+  /*  FUNCTION: This function is responsible for handling the rejection of applications to Funding Opportunities
+  *   PARAMS: FOName- this is the name of the Funding Opportunity
+  *           userID- is the ID of the user
+  *           fundID- this is the ID of the Funding Opportunity
+  *   Is a void function that deletes the application from Funding Opportunity and updates the application on the user side to rejected
+  */
+  async function onRejectApplication(FOName, email){
+    try {
+      //console.log(userApplicationID);
+      const q = query( collection(db, "Funding Opportunity"), where('Name', '==', FOName));
+      const namesQuerySnapshot = await getDocs(q);
+
+      const result = namesQuerySnapshot.docs[0];
+
+      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
+      const appsRef =await getDocs(appsQuery);
+
+      await updateDoc(appsRef.docs[0].ref, {
+        status: 'Rejected', 
+      })
+      .then(async ()=>{
+        console.log('Rejected succefully!');
+        await removeFundingApplication(appsRef.docs[0].ref);
+        await getAllFundingApplications(name, updateFunds);
+      })
+      .catch((error)=>{
+        console.error("Error updating document: ", error)
+      });
+      
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  
+    
+  }
 
 
 
