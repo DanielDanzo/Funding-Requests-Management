@@ -303,16 +303,22 @@ async function removeFundingApplication(ref){
 *   Is a void function that updates the application from Funding Opportunity and  the application on the user side to accepted
 */
 async function onAcceptApplication(name, email){
-    /*
     try {
-      await getUserApplicationID(FOName, userID);
-      //console.log(userApplicationID);
-      const q = doc(db, "users", userID, 'Applications', userApplicationID);
-      await updateDoc(q, {
-        status: 'Accepted', 
+      const userRef = query(collection(db, 'users'), where('Email', '==', email));
+      const namesQuerySnapshot = await getDocs(userRef);
+
+      console.log(namesQuerySnapshot);
+      const result = namesQuerySnapshot.docs[0];
+
+      const appsQuery = query(collection(result.ref, 'Applications'), where('FundingOpportunity', '==', name));
+      const appsRef = await getDocs(appsQuery);
+      console.log(name);
+      console.log(appsRef);
+      await updateDoc(appsRef.docs[0].ref, {
+        Status: 'Approved', 
       })
       .then(()=>{
-        allInfo.textContent = "Accepted Sucessfully";
+        console.log("Accepted Sucessfully");
       })
       .catch((error)=>{
         console.error("Error updating document: ", error)
@@ -320,7 +326,7 @@ async function onAcceptApplication(name, email){
       
     } catch (e) {
       console.error("Error updating document: ", e);
-    }*/
+    }
   
     try {
       const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
