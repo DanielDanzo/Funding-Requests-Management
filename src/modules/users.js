@@ -1,4 +1,4 @@
-import { db } from './init.js';
+const db = require('./init.js');
 
 
 //Function to check if user is registered
