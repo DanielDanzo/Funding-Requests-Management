@@ -24,6 +24,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+//create google instance
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 */
 var btn_register = document.getElementById('register-link');
 const btn_applicant_login = document.getElementById('btn-applicant-login');
@@ -31,9 +34,7 @@ const btn_fundManganer_login = document.getElementById('btn-fundManager-login');
 const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login');
 
 
-//create google instance
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+
 var admin = false;
 var fundManger = false;
 var applicant = false;
