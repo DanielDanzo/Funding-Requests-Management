@@ -1,26 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
-import { getFirestore, collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc, or, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getOrderedFungingOpportunity } from "../modules/funding.js";
+import { addFundingApplication, getAllFundingApplications } from "../modules/fundingApplication.js";
+import { getUserApplications, addUserApplication, allowUserApplication } from "../modules/userApplications.js";
 
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDpsbqDksFVO0JpBqZT4gUGa-qW5PDIyVU",
-    authDomain: "funding-requests-management.firebaseapp.com",
-    databaseURL: "https://funding-requests-management-default-rtdb.firebaseio.com",
-    projectId: "funding-requests-management",
-    storageBucket: "funding-requests-management.appspot.com",
-    messagingSenderId: "663669566432",
-    appId: "1:663669566432:web:d34a19ea3989a6c3ce5985",
-    measurementId: "G-YW4KG1DXWX"
-  };
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
 
 
 const OPList = document.getElementById('opportunities-list');
 const email = window.localStorage.getItem('email');
-//const email = 'sempapadaniel123@gmail.com';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
@@ -30,40 +15,16 @@ var applications;
 
 
 
-
-window.onload = await getAllFundingApplications();
+window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
 
-/*  FUNCTION: This is a function that displays all the Applications Associated with a Funding Opportunity
+/*  FUNCTION: This is a function that gets and displays all the Applications Associated with a Funding Opportunity
 *   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
 *   The function updated FundingApplications array which will contain all the funding Opportunities
 */
-async function getAllFundingApplications(){
-    //console.log('Entered');
-    const userRef = query(collection(db, 'Funding Opportunity'), orderBy("ClosingDate", "desc"));
-    const namesQuerySnapshot = await getDocs(userRef);
-
-
-    /*
-    const result = namesQuerySnapshot.docs[0];
-
-    // Reference to the subcollection
-    const applicationsRef = collection( result.ref,'Applications');
-    const q = query(applicationsRef, orderBy("ClosingDate", "desc"));
-    const querySnapshot = await getDocs(q);*/
-
-
-    applications = [];
-    if(namesQuerySnapshot.empty){
-        return;
-    }
-
-    //sort according to pending and approved after adding
-    namesQuerySnapshot.forEach((doc) => {
-        applications.push(doc.data());
-    });
-    
+async function loadFundingApplications(){
+    applications = await getAllFundingApplications();
     displayAllApplications(OPList,applications,'fundingList');
 }
 
@@ -122,15 +83,10 @@ function displayAllApplications(fullList, array, type){
 *
 */
 async function fundingDropDown(dropdown){
-    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), orderBy("Name"));
     dropdown.innerHTML = `<option value="Select">Select</option>`;
     //console.log(querySnapshot);
-    const allFunds = [];
-
-    //results from database
-    querySnapshot.forEach((doc)=>{
-        allFunds.push(doc.data().Name);
-    });
+    const allFunds = await getOrderedFungingOpportunity();
+    //console.log(allFunds);
 
     //sorts the funding opportunity array
     allFunds.sort((str1, str2)=>{
@@ -158,106 +114,9 @@ async function fundingDropDown(dropdown){
 *
 */
 async function loadApplications(email){
-    try {
-        const userRef = query(collection(db, 'users'), where('Email', '==', email));
-        const appSnapshot = await getDocs(userRef);
-  
-        // Reference to the subcollection
-        console.log(appSnapshot);
-        const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), orderBy('Status', 'asc'));
-        const querySnapshot = await getDocs(applicationsRef);
-
-        applicationList = [];
-        querySnapshot.forEach((doc)=>{
-            applicationList.push(doc.data());
-        });
-        displayAllApplications(statusList, applicationList,'applicationList');
-
-    } catch (error) {
-        console.error('Error fetching Document: ', error);
-    }
+    applicationList = await getUserApplications(email);
+    displayAllApplications(statusList, applicationList,'applicationList');
 }
-
-
-
-/*  FUNCTION: Creates and/or adds a subcollection
-*   In this case it creates a subcollection that stores all user Applications
-*   PARAMS: userID- is the userID that comes from the database and is used to get the user document
-*           After getting user document we create a collection in that user document
-*   TODO: be able to update status
-*/
-async function addUserApplication(email, closingDate, FOName){
-    try {
-        // Reference to the user document
-        const userRef = query(collection(db, 'users', userID), where('Email', '==', email));
-        const appSnapshot = await getDocs(userRef);
-  
-        // Reference to the subcollection
-        const applicationsRef = collection(appSnapshot.docs[0].ref, 'Applications');
-        const currentDate = new Date().toLocaleDateString();
-  
-        const docRef = await addDoc(applicationsRef, {
-          FundingOpportunity: FOName,
-          Status: "Pending",
-          submitDate: currentDate,
-          closingDate: closingDate
-        });
-        console.log("Added user Application Sucessfully");
-      } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-
-
-
-/*  FUNCTION: This is a function that adds a funding Opportunity Application to the Funding Opportunity
-*   PARAMS: userID- this is the ID of the user
-*           closingDate- this is the closing date of the funding opportunity
-*/
-async function addFundingApplication(FOName, email){
-    try {
-  
-      // Reference to the user document
-      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==',FOName));
-      const appsRef = await getDocs(userRef);
-  
-      // Reference to the subcollection
-      const applicationsRef = collection(appsRef.docs[0].ref, 'Applications');
-      const currentDate = new Date().toLocaleDateString();
-  
-      const docRef = await addDoc(applicationsRef, {
-        Email: email,
-        Status: "Pending",
-        submitDate: currentDate
-      });
-      console.log("Added Funding Application Sucessfully");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-  }
-}
-
-
-/*  FUNCTION: returns an array full of all the applications made by user in the database
-*   PARAMS: userID- used to navigate to user documents
-*   Check whether or not a user has applied to a specific Funding Opportunity
-*/
-async function allowUserApplication(email, FOName){
-    const userRef = query(collection(db, 'users'), where('Email', '==',email));
-    const namesQuerySnapshot = await getDocs(userRef);
-
-    const result = namesQuerySnapshot.docs[0];
-
-    // Reference to the subcollection
-    const applicationsRef = collection( result.ref,'Applications');
-    const q = query(applicationsRef, where('Name', '==',FOName), where('Status', '==', 'Pending'));
-    const querySnapshot = await getDocs(q);
-
-    if(querySnapshot.empty){
-      return true;
-    }
-    return false;
-}
-
 
 
 /* FUNCTION: This is a function dedicated to allow users to be able to apply for Funding Opportunity
@@ -277,14 +136,14 @@ async function applyForFundingOpportunity(FOName){
             return element.ClosingDate;
         }
     });
-    console.log(closingDate);
-    addUserApplication(email, closingDate, FOName);
-    addFundingApplication(FOName);
+    //console.log(closingDate);
+    await addUserApplication(email, closingDate, FOName);
+    await addFundingApplication(FOName);
 }
 
 
 
-submitBtn.addEventListener('click', ()=>{
+submitBtn.addEventListener('click', async()=>{
     const FOName = dropdown.value;
-    applyForFundingOpportunity(FOName);
+    await applyForFundingOpportunity(FOName);
 });

@@ -44,36 +44,53 @@ function setEmail(email){
 
 //FUNCTION: Registers user using their google email
 async function signInUser(admin, fundManager, applicant){
-    const user = popUp()
-    const email = user.email;
-    setEmail(email);
+    //sign-in using small window prompt
+    signInWithPopup(auth, provider)
+    .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        //console.log(credential);
+        // The signed-in user info.
+        //return result.user;
+        const user = result.user;
+        const email = user.email;
+        setEmail(email);
 
-    const verified = await verifyUser(email);
-    // The signed-in user info.
-    if(!verified){
-        console.log('Please register');
-        return;
-    }
-    //Then take the user to their desired home page
-    if(admin){
-        if( !(await verifyRole(email, 'Admin')) ){
-            console.log('Please sign-in with registered role')
+        const verified = await verifyUser(email);
+        // The signed-in user info.
+        if(!verified){
+            console.log('Please register');
             return;
         }
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
-    }else if(fundManager){
-        if( !(await verifyRole(email, 'fundManager')) ){
-            console.log('Please sign-in with registered role')
-            return;
+        //Then take the user to their desired home page
+        if(admin){
+            if( !(await verifyRole(email, 'Admin')) ){
+                console.log('Please sign-in with registered role')
+                return;
+            }
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
+        }else if(fundManager){
+            if( !(await verifyRole(email, 'fundManager')) ){
+                console.log('Please sign-in with registered role')
+                return;
+            }
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
+        }else{
+            if( !(await verifyRole(email, 'Applicant')) ){
+                console.log('Please sign-in with registered role')
+                return;
+            }
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
-    }else{
-        if( !(await verifyRole(email, 'Applicant')) ){
-            console.log('Please sign-in with registered role')
-            return;
-        }
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
-    }
+            
+        }).catch((error) => {
+            // Handle Errors here.
+            console.log(error);
+            console.log('Error code: ', error.code);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+    
 }
 
 

@@ -1,133 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
-import { getFirestore, collection, addDoc, getDocs, doc, query, where  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { createFundingOportunity, verifyFundingName } from "../modules/funding.js";
 
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDpsbqDksFVO0JpBqZT4gUGa-qW5PDIyVU",
-    authDomain: "funding-requests-management.firebaseapp.com",
-    databaseURL: "https://funding-requests-management-default-rtdb.firebaseio.com",
-    projectId: "funding-requests-management",
-    storageBucket: "funding-requests-management.appspot.com",
-    messagingSenderId: "663669566432",
-    appId: "1:663669566432:web:d34a19ea3989a6c3ce5985",
-    measurementId: "G-YW4KG1DXWX"
-  };
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
 const email =  window.localStorage.getItem('email');
-var fundID;
-
-
-/* FUNCTION: Checks whether or not there is another funding opportunity with the exact same name
-* PARAMS: name- this is the name of funding opportunity to verify or chack if it already exists
-*  Should return true if there is no funding opportunity with the same name
-*/
-async function verifyFundingName(name){
-    const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
-    const namesQuerySnapshot = await getDocs(userRef);
-    if(namesQuerySnapshot.empty){
-      return true;
-    }
-    //console.log('Please use a different Funding name');
-    return false;
-}
-
-
-/*  FUNCTION: Serves to provide the ID of a Specific Funding Opportunity
-*   PARAMS: name- this is the name of the funding Opportunity
-*   The resulting of this function is that it returns the id of the Funding Opportunity based on a name search
-*/
-async function getFundingOpportunityID(name){
-  try {
-    const q1 = query(collection(db, 'Funding Opportunity'), where("Name", "==", name));
-    const querySnapshot = await getDocs(q1);
-    //console.log(querySnapshot);
-    querySnapshot.forEach((doc) => {
-      fundID = doc.id;
-    });
-
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-
-/*  FUNCTION: Creates and/or adds a subcollection for roles 
-*   In this case it creates a subcollection that stores all user roles
-*   PARAMS: userID- is the userID that comes from the database and is used to get the user document
-*           After getting user document we create a collection in that user document
-*   TODO: be able to update status
-*/
-async function addUserRole(FOName, email){
-  try {
-      // Reference to the user document
-      console.log('Funding Opportunity Name: ', FOName);
-      console.log('Email: ', email);
-      //const q = query( collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
-      const q = doc(db, 'Funding Opportunity', fundID );
-
-
-      // Reference to the subcollection
-      console.log('Trying FORef');
-      //const applicationsRef = collection(userRef, 'Roles');
-      const roleRef = collection(q, 'Roles');
-
-      console.log('Here');
-      const docRef = await addDoc(roleRef, {
-        userEmail: email,
-        Role: "fundManager",
-      });
-      console.log("Added Role Sucessfully");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-  }
-}
-
-
-/*  FUNCTION: This function creates a funding opprtunity
-*   PARAMS: FOName- this is the name of the funding opportunity
-*           type- specifies the type of funding(eg.Educational)
-*           budget- explains the amount of money the Fund Manager is willing to spend on the Funding Opportunity
-*           description- self-explanatory, is the Funding Opportunity description
-*           closing- this is the closing date of the funding Opportunity
-*   The function adds to fundingOpportunities list which stores a list of all funding Opportunities
-*/
-async function createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary){
-    try {
-      const verified = await verifyFundingName(name);
-      //If !verified then the name of the funding opportunity to be created already exists
-      if(!verified){
-        console.log('Funding Opportunity with the same name exists');
-        return;
-      }
-      
-  
-      const docRef = await addDoc(collection(db, "Funding Opportunity"), {
-        Name: name,
-        Type: type,
-        EstimatedFunds: estimatedFund,
-        ApplicantFund: applicantFund,
-        Description: summary,
-        SuitableCandidates: suitable,
-        ClosingDate: deadline
-      });
-
-      console.log('Email: ', email);
-      console.log('Why email not logging');
-      await getFundingOpportunityID(name);
-      await addUserRole(name, email);
-      console.log("Sucessfully Added");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
-
-
-
-
 const submit = document.getElementById("btn-submit");
 
 function addFunds(addition) {
@@ -157,7 +31,7 @@ submit.addEventListener('click', event => {
     const deadline = document.getElementById("app-deadline").value;
     const summary = document.getElementById("more-info").value;
     addFunds({ name, type, estimatedFund, applicantFund, suitable, deadline, summary });
-    createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary);
+    createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary, email);
 });
 
 
