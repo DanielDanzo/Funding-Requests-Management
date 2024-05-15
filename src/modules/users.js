@@ -51,6 +51,7 @@ async function signInUser(admin, fundManager, applicant){
     if(!verified){
         console.log('Please register');
         return;
+    }
     //Then take the user to their desired home page
     if(admin){
         if( !(await verifyRole(email, 'Admin')) ){
@@ -150,12 +151,4 @@ async function registerUser(){
 
 
 
-export {
-    verifyRole,
-    verifyUser,
-    setEmail,
-    signInUser,
-    isRegistered,
-    addUser,
-    registerUser
-};
+export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser };
