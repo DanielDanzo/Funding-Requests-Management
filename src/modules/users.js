@@ -10,6 +10,7 @@ async function verifyRole(email, role){
         console.log('Verifying role.....');
         const q = query(collection(db, 'users'), where('Email', '==', email), where('Role', '==',role));
         const querySnapshot = await getDocs(q);
+        console.log(email, role);
         console.log(querySnapshot);
         if(querySnapshot.empty){
             return false;
