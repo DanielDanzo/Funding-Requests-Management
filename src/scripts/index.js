@@ -20,19 +20,20 @@ const firebaseConfig = {
   appId: "1:663669566432:web:d34a19ea3989a6c3ce5985",
   measurementId: "G-YW4KG1DXWX"
 };
-var btn_register = document.getElementById('register-link');
-const btn_applicant_login = document.getElementById('btn-applicant-login');
-const btn_fundManganer_login = document.getElementById('btn-fundManager-login');
-const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login');
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+*/
+var btn_register = document.getElementById('register-link');
+const btn_applicant_login = document.getElementById('btn-applicant-login');
+const btn_fundManganer_login = document.getElementById('btn-fundManager-login');
+const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login');
+
 
 //create google instance
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-*/
 var admin = false;
 var fundManger = false;
 var applicant = false;
