@@ -1,4 +1,4 @@
-import db from './init.js';
+import {db} from './init.js';
 
 
 //Function to check if user is registered
