@@ -77,16 +77,22 @@ btn_submit_signup.addEventListener('click', ()=>{
 
     const role = userRole.value;
     if( role === "Admin"){
-          admin = true;
+        admin = true;
+        fundManager = false;
+        applicant = false;
     }else if(role === "Fund-Manager"){
-          fundManager = true;
+        admin = false;
+        fundManager = true;
+        applicant = false;
     }else{
-          applicant = true;
+        admin = false;
+        fundManager = false;
+        applicant = true;
     }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
         sendMail(userEmail.value);
-        registerUser();
+        registerUser(admin, fundManager, applicant);
     }
 })
 

@@ -1,5 +1,7 @@
-import { db } from './init.js';
+import { db, auth, provider } from './init.js';
 import { popUp } from './signIn.js';
+import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import {  GoogleAuthProvider  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
@@ -133,18 +135,37 @@ async function addUser(email, role, isSignIn, userToken){
 }
 
 
-async function registerUser(){
-    const user = await popUp();
-    const userToken = await user.accessToken;
-    if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
-    }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
-    }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
-        window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
-    }else{
-        console.log("Invalid login details");
-    }
+async function registerUser(admin, fundManager, applicant){
+    //sign-in using small window prompt
+    signInWithPopup(auth, provider)
+    .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        //console.log(credential);
+        // The signed-in user info.
+        console.log('here');
+        const user = result.user;
+        console.log('Now Here');
+        console.log(user);
+        const userToken = await user.accessToken;
+        if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
+        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
+        }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
+        }else{
+            console.log("Invalid login details");
+        }
+        
+    }).catch((error) => {
+        // Handle Errors here.
+        console.log(error);
+        console.log('Error code: ', error.code);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
+    
         
 }
 
