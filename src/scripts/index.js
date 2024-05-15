@@ -9,6 +9,7 @@ import { getFirestore, collection, getDocs, query, where } from "https://www.gst
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+/*
 const firebaseConfig = {
   apiKey: "AIzaSyDpsbqDksFVO0JpBqZT4gUGa-qW5PDIyVU",
   authDomain: "funding-requests-management.firebaseapp.com",
@@ -26,6 +27,7 @@ const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+*/
 //create google instance
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
