@@ -84,6 +84,8 @@ function displayAllApplications(fullList, array, type){
             listDate.textContent = doc.Status;
             if(doc.Status == 'Approved'){
                 listDate.style.color = '#138808';
+            }else if(doc.Status == 'Rejected'){
+                listDate.style.color = '#FF0000';
             }
             
             
@@ -162,7 +164,7 @@ async function loadApplications(email){
   
         // Reference to the subcollection
         console.log(appSnapshot);
-        const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), orderBy('Status', 'desc'));
+        const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), orderBy('Status', 'asc'));
         const querySnapshot = await getDocs(applicationsRef);
 
         applicationList = [];

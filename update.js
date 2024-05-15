@@ -266,22 +266,23 @@ async function removeFundingApplication(ref){
   */
   async function onRejectApplication(FOName, email){
     try {
-      //console.log(userApplicationID);
-      const q = query( collection(db, "Funding Opportunity"), where('Name', '==', FOName));
-      const namesQuerySnapshot = await getDocs(q);
+      const userRef = query(collection(db, 'users'), where('Email', '==', email));
+      const namesQuerySnapshot = await getDocs(userRef);
 
+      console.log(namesQuerySnapshot);
       const result = namesQuerySnapshot.docs[0];
 
-      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
-      const appsRef =await getDocs(appsQuery);
+      const ID = result.ref.path.split('/')[1];
+      const appsQuery = query(collection(db,'users', ID, 'Applications'), where('FundingOpportunity', '==',FOName));
+      const appsRef = await getDocs(appsQuery);
 
       await updateDoc(appsRef.docs[0].ref, {
-        status: 'Rejected', 
+        Status: 'Rejected', 
       })
       .then(async ()=>{
         console.log('Rejected succefully!');
-        await removeFundingApplication(appsRef.docs[0].ref);
-        await getAllFundingApplications(name, updateFunds);
+        
+        await getAllFundingApplications(FOName, updateFunds);
       })
       .catch((error)=>{
         console.error("Error updating document: ", error)
@@ -290,9 +291,24 @@ async function removeFundingApplication(ref){
     } catch (e) {
       console.error("Error updating document: ", e);
     }
-  
+
+    try {
+      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
+      const namesQuerySnapshot = await getDocs(userRef);
+
+      const result = namesQuerySnapshot.docs[0];
+      console.log('Here');
+      console.log(result.ref);
+
+      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
+      const appsRef =await getDocs(appsQuery);
+      await removeFundingApplication(appsRef.docs[0].ref);
+    } catch (error) {
+      console.error('Error Removing: ',error);
+    }
     
-  }
+  await getAllFundingApplications(FOName, updateFunds);    
+}
 
 
 
@@ -339,14 +355,14 @@ async function onAcceptApplication(name, email){
       const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
       const appsRef =await getDocs(appsQuery);
       console.log('there');
-      console.log(appsRef)
+      console.log(appsRef);
   
       await updateDoc(appsRef.docs[0].ref, {
         Status: 'Approved', 
       })
       .then(async ()=>{
         console.log("Accepted Sucessfully on Funding Database");
-        await getAllFundingApplications(name, updateFunds)
+        await getAllFundingApplications(name, updateFunds);
       })
       .catch((error)=>{
         console.error("Error updating document: ", error)
