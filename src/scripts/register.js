@@ -1,12 +1,7 @@
 // Import the functions you need from the SDKs you need
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
-import { isRegistered, addUser, registerUser } from "../modules/users";
+import { registerUser } from "../modules/users";
 import { auth } from "../modules/init";
-//import { initializeApp } from "./node_modules/firebase/app/firebase-app";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
-import { getFirestore, collection, addDoc, getDocs, doc, query, where  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-//import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "./node_modules/firebase/app/firebase-auth";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
