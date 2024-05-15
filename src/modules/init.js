@@ -17,4 +17,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { db };
+//create google instance
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+export { db, auth, provider };

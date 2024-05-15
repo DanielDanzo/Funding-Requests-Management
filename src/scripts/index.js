@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { verifyRole, verifyUser } from "../modules/users.js";
+import { db, auth, provider} from "../modules/init.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, linkWithCredential, EmailAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
@@ -27,10 +28,11 @@ const btn_platformAdmin_login = document.getElementById('btn-platformAdmin-login
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
-*/
+
 //create google instance
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+*/
 var admin = false;
 var fundManger = false;
 var applicant = false;
