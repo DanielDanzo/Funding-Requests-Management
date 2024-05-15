@@ -181,5 +181,6 @@ export {
     setEmail,
     signInUser,
     isRegistered,
-    addUser
+    addUser,
+    registerUser
 };
