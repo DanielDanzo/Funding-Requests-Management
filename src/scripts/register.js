@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { registerUser } from "../modules/users";
-import { auth } from "../modules/init";
+import { registerUser } from "../modules/users.js";
+import { auth } from "../modules/init.js";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
