@@ -134,8 +134,7 @@ async function addUser(email, role, isSignIn, userToken){
 
 
 async function registerUser(){
-    result = await popUp();
-    const user = result.user;
+    const user = await popUp();
     const userToken = await user.accessToken;
     if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
         window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
