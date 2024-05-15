@@ -1,4 +1,4 @@
-const db = require('./init.js');
+import db from './init.js';
 
 
 //Function to check if user is registered
@@ -42,7 +42,7 @@ async function verifyUser(email){
 
 
 
-module.export = {
+export {
     verifyRole,
     verifyUser
 };
