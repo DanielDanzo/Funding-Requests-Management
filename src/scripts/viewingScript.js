@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dropdown.addEventListener('change', function() {
         let selectedValue = dropdown.value;
         
-        fetch(`https://funding-requests-management-dfae31570a7e.herokuapp.com/funds`, {
+        fetch(`https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/funds`, {
             method: 'GET'
         })
         .then(response => response.json())

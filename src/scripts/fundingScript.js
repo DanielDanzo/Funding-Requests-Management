@@ -131,7 +131,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
 const submit = document.getElementById("btn-submit");
 
 function addFunds(addition) {
-    fetch('https://funding-requests-management-dfae31570a7e.herokuapp.com/funds', {
+    fetch('https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/funds', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

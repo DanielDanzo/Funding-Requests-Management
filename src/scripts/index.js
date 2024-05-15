@@ -77,7 +77,7 @@ getRedirectResult(auth)
 
 btn_register.addEventListener('click',()=>{
     //After pressing the register button, user is sent to register page
-    window.location.href = 'https://danieldanzo.github.io/Funding-Requests-Management/register.html';
+    window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/register.html';
 });
 
 btn_applicant_login.addEventListener('click',()=>{
@@ -161,19 +161,19 @@ function signInUser(){
                 console.log('Please sign-in with registered role')
                 return;
             }
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
         }else if(fundManger){
             if( !(await verifyRole(email, 'fundManager')) ){
                 console.log('Please sign-in with registered role')
                 return;
             }
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else{
             if( !(await verifyRole(email, 'Applicant')) ){
                 console.log('Please sign-in with registered role')
                 return;
             }
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }
         
     }).catch((error) => {

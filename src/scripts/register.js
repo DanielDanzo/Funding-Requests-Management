@@ -112,11 +112,11 @@ function registerUser(){
         const userToken = await result.user.accessToken;
         console.log(user);
         if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/admin.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
         }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/fundmanager.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
-            window.location.href ='https://danieldanzo.github.io/Funding-Requests-Management/applicant.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }else{
             console.log("Invalid login details");
         }
