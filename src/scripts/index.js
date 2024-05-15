@@ -28,17 +28,23 @@ btn_register.addEventListener('click',()=>{
 btn_applicant_login.addEventListener('click',()=>{
     //After user clicks login. user will be signed in
     applicant = true;
+    fundManager = false;
+    admin = false;
     signIn(admin, fundManager, applicant);
 });
 
 btn_fundManganer_login.addEventListener('click',()=>{
     //After user clicks login. user will be signed in
+    applicant = false;
     fundManager = true;
+    admin = false;
     signIn(admin, fundManager, applicant);
 });
 
 btn_platformAdmin_login.addEventListener('click',()=>{
     //After user clicks login. user will be signed in
+    applicant = false;
+    fundManager = false;
     admin = true;
     signIn(admin, fundManager, applicant);
     //console.log('Here we are');
