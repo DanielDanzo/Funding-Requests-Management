@@ -1,0 +1,121 @@
+[
+  {
+    "name": "Salty Sugar",
+    "type": "Scholarship",
+    "estimatedFund": 5000000,
+    "applicantFund": 50000,
+    "suitable": "Students",
+    "deadline": "2024-05-01",
+    "summary": "Scholarship Opportunity 1 provides financial assistance to outstanding students pursuing higher education. Apply now to unlock your potential!"
+  },
+  {
+    "name": "Coca Cola",
+    "type": "Scholarship",
+    "estimatedFund": 8000000,
+    "applicantFund": 60000,
+    "suitable": "Graduate students",
+    "deadline": "2024-07-15",
+    "summary": "Join our community of scholars! Scholarship Opportunity 2 offers generous funding for graduate students. Don't miss this chance to advance your academic career."
+  },
+  {
+    "name": "STEM buddies",
+    "type": "Scholarship",
+    "estimatedFund": 3000000,
+    "applicantFund": 40000,
+    "suitable": "STEM students",
+    "deadline": "2024-09-30",
+    "summary": "Attention STEM enthusiasts! Apply for Scholarship Opportunity 3 to fuel your passion for science, technology, engineering, and mathematics. Secure your future today!"
+  },
+  {
+    "name": "New Bursars",
+    "type": "Bursary",
+    "estimatedFund": 200000,
+    "applicantFund": 25000,
+    "suitable": "Underprivileged students",
+    "deadline": "2024-06-30",
+    "summary": "Bursary Opportunity 1 aims to support underprivileged students in achieving their educational goals. Don't let financial constraints hold you back. Apply now!"
+  },
+  {
+    "name": "Bursary Boys",
+    "type": "Bursary",
+    "estimatedFund": 150000,
+    "applicantFund": 20000,
+    "suitable": "High school seniors",
+    "deadline": "2024-08-15",
+    "summary": "Calling all high school seniors! Bursary Opportunity 2 offers financial aid to help you pursue higher education. Take the first step towards your dreams!"
+  },
+  {
+    "name": "Dragon City",
+    "type": "Bursary",
+    "estimatedFund": 300000,
+    "applicantFund": 30000,
+    "suitable": "Single parents",
+    "deadline": "2024-10-15",
+    "summary": "Are you a single parent striving for a brighter future? Bursary Opportunity 3 provides financial assistance to single parents pursuing educational opportunities. Apply now!"
+  },
+  {
+    "name": "Deloitte (Pty)Ltd",
+    "type": "Business",
+    "estimatedFund": 500000,
+    "applicantFund": 80000,
+    "suitable": "Entrepreneurs",
+    "deadline": "2024-07-31",
+    "summary": "Attention entrepreneurs! Business Opportunity 1 offers funding and support to kickstart your entrepreneurial journey. Turn your innovative ideas into reality with us!"
+  },
+  {
+    "name": "Golele Enterprises",
+    "type": "Business",
+    "estimatedFund": 700000,
+    "applicantFund": 90000,
+    "suitable": "Small business owners",
+    "deadline": "2024-09-15",
+    "summary": "Calling all small business owners! Business Opportunity 2 provides financial backing and resources to help your business thrive. Seize this opportunity for growth!"
+  },
+  {
+    "name": "Business Opportunity 3",
+    "type": "Business",
+    "estimatedFund": 400000,
+    "applicantFund": 70000,
+    "suitable": "Startups",
+    "deadline": "2024-11-30",
+    "summary": "Embark on your startup journey with confidence! Business Opportunity 3 offers funding and mentorship to support startups in their early stages. Apply now and turn your vision into reality!"
+  },
+  {
+    "name": "Bubbles",
+    "type": "Event",
+    "estimatedFund": 10000,
+    "applicantFund": 2000,
+    "suitable": "Community organizations",
+    "deadline": "2024-08-15",
+    "summary": "Community organizations, unite! Event Opportunity 1 provides funding for organizing events that foster community engagement and social cohesion. Let's create memorable experiences together!"
+  },
+  {
+    "name": "Friends Events",
+    "type": "Event",
+    "estimatedFund": 20000,
+    "applicantFund": 5000,
+    "suitable": "Non-profit organizations",
+    "deadline": "2024-09-30",
+    "summary": "Make a positive impact in your community! Event Opportunity 2 offers financial support to non-profit organizations hosting events focused on social welfare and community development. Apply now and make a difference!"
+  },
+  {
+    "name": "International Events",
+    "type": "Event",
+    "estimatedFund": 15000,
+    "applicantFund": 3000,
+    "suitable": "Cultural organizations",
+    "deadline": "2024-10-31",
+    "summary": "Celebrate diversity and culture! Event Opportunity 3 provides funding for cultural organizations to host events that promote cultural exchange and appreciation. Let's embrace diversity together!"
+  },
+  {
+    "name": "Lotto Bursary",
+    "type": "Bursary",
+    "estimatedFund": 1000000,
+    "applicantFund": 50000,
+    "suitable": 50000,
+    "deadline": "High scholers; Kimberley",
+    "summary": "This is bursary dedicated to students in the Kalahari region and 5 kilometre radius of Kimberley, aged 12 to 17 years with interest in Mathematics and Chemistry."
+  }
+]
+
+  

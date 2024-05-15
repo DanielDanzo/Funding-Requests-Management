@@ -19,8 +19,8 @@ const db = getFirestore(app);
 
 
 const OPList = document.getElementById('opportunities-list');
-//const email = window.localStorage.getItem('email');
-const email = 'sempapadaniel123@gmail.com';
+const email = window.localStorage.getItem('email');
+//const email = 'sempapadaniel123@gmail.com';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Dashboard</title>
+    <script src="./scripts/applicant.js" defer type="module"></script>
+    <link rel= "stylesheet" href="./styles/style2.css">
+</head>
+<body>
+    
+    <header>
+        <h1>Welcome to the Applicant Dashboard</h1>
+    </header>
+
+    
+    <section id="funding-opportunities">
+        <h2>Available Funding Opportunities</h2>
+        <div id="opportunities-list">
+            
+        </div>
+    </section>
+
+    
+    <section id="submit-application">
+        <h2>Submit a New Application</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            <label for="fundingId">Select Funding Opportunity:</label>
+            <select name="fundingId" id="fundingId">
+                
+            </select>
+            <br>
+            <label for="applicationDetails">Application Details:</label>
+            <textarea id="applicationDetails" name="applicationDetails" required></textarea>
+            <br>
+            <label for="supportingDocuments">Supporting Documents:</label>
+            <input type="file" id="supportingDocuments" name="supportingDocuments" multiple required>
+            <br>
+            <button type="submit" id="submit-btn">Submit Application</button>
+        </form>
+    </section>
+
+    
+    <section id="application-status">
+        <h2>Your Application Status</h2>
+        <div id="status-list">
+            
+        </div>
+    </section>
+
+    
+    <footer>
+        <p>Contact us at <a href="mailto:support@fundingplatform.com">support@fundingplatform.com</a>.</p>
+    </footer>
+</body>
+</html>

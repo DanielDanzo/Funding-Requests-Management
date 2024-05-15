@@ -1,0 +1,152 @@
+[
+    {
+        "applicantName": "John Doe",
+        "bursaryName": "Salty Sugar",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Alice Smith",
+        "bursaryName": "Salty Sugar",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Michael Johnson",
+        "bursaryName": "Salty Sugar",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Emily Brown",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "William Taylor",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Sophia Martinez",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Liam Anderson",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Emma Wilson",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Noah Garcia",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Olivia Lopez",
+        "bursaryName": "Friends Events",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Mason Perez",
+        "bursaryName": "Friends Events",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Ava Gonzalez",
+        "bursaryName": "Deloitte (Pty)Ltd",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Ethan Rodriguez",
+        "bursaryName": "Deloitte (Pty)Ltd",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Isabella Hernandez",
+        "bursaryName": "Deloitte (Pty)Ltd",
+        "status": "pending"
+    },
+    {
+        "applicantName": "James Nguyen",
+        "bursaryName": "Deloitte (Pty)Ltd",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Aiden Lee",
+        "bursaryName": "Dragon City",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Sophie Kim",
+        "bursaryName": "Dragon City",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Lucas Patel",
+        "bursaryName": "Golele Enterprises",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Mia Campbell",
+        "bursaryName": "Golele Enterprises",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Alexander Mitchell",
+        "bursaryName": "Golele Enterprises",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Harper Roberts",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Benjamin Carter",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Chloe Gray",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Elijah Turner",
+        "bursaryName": "Deloitte (Pty)Ltd",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Amelia Phillips",
+        "bursaryName": "Friends Events",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Zoey Hall",
+        "bursaryName": "Coca Cola",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Logan Morales",
+        "bursaryName": "Friends Events",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Riley Washington",
+        "bursaryName": "Bubbles",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Evelyn Lewis",
+        "bursaryName": "Bubbles",
+        "status": "pending"
+    },
+    {
+        "applicantName": "Jackson Clark",
+        "bursaryName": "Bubbles",
+        "status": "pending"
+    }
+]
