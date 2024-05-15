@@ -1,9 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { signInUser } from "../modules/users.js";
-import { db, auth, provider} from "../modules/init.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
-import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, linkWithCredential, EmailAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
-import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { auth } from "../modules/init.js";
 
 
 //Below we we initialise any variable we might need for our website
@@ -47,8 +44,6 @@ btn_platformAdmin_login.addEventListener('click',()=>{
     fundManager = false;
     admin = true;
     signIn(admin, fundManager, applicant);
-    //console.log('Here we are');
-    //registerWithEmail();
 });
 
 
