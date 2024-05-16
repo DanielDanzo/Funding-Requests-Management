@@ -126,8 +126,62 @@ async function getOrderedFungingOpportunity(){
 }
 
 
+/*  FUNCTION: Retrieves and displays all information about a bursary
+*
+*
+*/
+async function getfundingByName(name){
+  const q =  query(collection(db, "Funding Opportunity"), where('Name','==',name));
+  const querySnapshot = await getDocs(q);
+  //const data = querySnapshot.docs.data;
+  //console.log(querySnapshot);
+  var info;
+  //console.log(data);
+  querySnapshot.forEach((doc) => {
+      //console.log(doc);
+      info = doc.data();
+      return;
+  });
+
+  return info;
+}
+
+
+/*  FUNCTION: This is a function that displays all the Applications Associated with a Funding Opportunity
+*   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
+*   The function updated FundingApplications array which will contain all the funding Opportunities
+*/
+async function getAllFundingApplications(name){
+  const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
+  const namesQuerySnapshot = await getDocs(userRef);
+
+  const result = namesQuerySnapshot.docs[0];
+
+  // Reference to the subcollection
+  const applicationsRef = collection( result.ref,'Applications');
+  const q = query(applicationsRef, orderBy("submitDate", "asc"));
+  const querySnapshot = await getDocs(q);
+
+
+  const applications = [];
+  if(querySnapshot.empty){
+    return applications;
+  }
+
+  //sort according to pending and approved after adding
+  
+  querySnapshot.forEach((doc) => {
+      applications.push(doc.data());
+  });
+  
+  return applications;
+}
+
+
 export {
     createFundingOportunity,
     verifyFundingName,
-    getOrderedFungingOpportunity
+    getOrderedFungingOpportunity,
+    getfundingByName,
+    getAllFundingApplications
 }

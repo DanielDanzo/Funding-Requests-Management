@@ -1,4 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
+import { getfundingByName, getOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
+import { onUserRejectApplication, onUserAcceptApplication } from "../modules/userApplications.js";
+import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
 import { getFirestore, collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc, or, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
@@ -30,27 +33,20 @@ let applicant;
 let applications = [];
 let name;
 
+//When page is loaded do this
+window.onload = await fundingDropDown(document.getElementById("funds"));
+
 
 /*  FUNCTION: Retrieves and displays all information about a bursary
 *
 *
 */
 async function fundingInfo(name){
-    const q =  query(collection(db, "Funding Opportunity"), where('Name','==',name));
-    const querySnapshot = await getDocs(q);
-    //const data = querySnapshot.docs.data;
-    //console.log(querySnapshot);
-    var info;
-    //console.log(data);
-    querySnapshot.forEach((doc) => {
-        //console.log(doc);
-        info = doc.data();
-        return;
-    });
+  var info = await getfundingByName(name);
 
-    //console.log(info.Name);
-    document.getElementById("name").innerHTML = `<strong>Name:  ${info.Name}`;
-    document.getElementById("available").innerHTML = `<strong>Available funds:  R${info.EstimatedFunds}`;
+  //console.log(info.Name);
+  document.getElementById("name").innerHTML = `<strong>Name:  ${info.Name}`;
+  document.getElementById("available").innerHTML = `<strong>Available funds:  R${info.EstimatedFunds}`;
 }
 
 
@@ -70,49 +66,21 @@ function errorMessage(){
 
 
 updateFunds.addEventListener('click', (event) => {
-    if (event.target.classList.contains('reject-btn')) {
-        const index = event.target.dataset.index;
-        console.log('Button reject Clicked! at: ',index);
-        console.log(applications[index]);
-        onRejectApplication(name, applications[index].Email)
-    }
+  if (event.target.classList.contains('reject-btn')) {
+      const index = event.target.dataset.index;
+      //console.log('Button reject Clicked! at: ',index);
+      //console.log(applications[index]);
+      onRejectApplication(name, applications[index].Email)
+  }
 
-    else if (event.target.classList.contains('accept-btn')) {
-        const index = event.target.dataset.index;
-        console.log('Button accept Clicked! at :', index);
-        console.log(applications[index]);
-        onAcceptApplication(name, applications[index].Email);
-    }
+  else if (event.target.classList.contains('accept-btn')) {
+      const index = event.target.dataset.index;
+      //console.log('Button accept Clicked! at :', index);
+      //console.log(applications[index]);
+      onAcceptApplication(name, applications[index].Email);
+  }
 });
 
-
-
-
-
-/*
-function changeButton(className, type) {
-    const rejectButtons = document.querySelectorAll(`.reject-${className}`);
-    const acceptButtons = document.querySelectorAll(`.accept-${className}`);
-    
-    if(information.estimatedFund > information.applicantFund){
-        rejectButtons.forEach(button => {
-            const paragraph = document.createElement('p');
-            paragraph.style.color = "#138808"
-            paragraph.innerText = "Option selected";
-            button.parentNode.replaceChild(paragraph, button);
-        });
-
-        acceptButtons.forEach(button => {
-            button.parentNode.removeChild(button);
-        });
-
-        if(type == "accept"){
-            accept(className);
-        }
-    }else{
-        errorMessage();
-    }
-}*/
 
 
 
@@ -121,15 +89,8 @@ function changeButton(className, type) {
 *
 */
 async function fundingDropDown(dropdown){
-    const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), orderBy("Name"));
     dropdown.innerHTML = `<option value="Select">Select</option>`;
-    //console.log(querySnapshot);
-    const allFunds = [];
-
-    //results from database
-    querySnapshot.forEach((doc)=>{
-        allFunds.push(doc.data().Name);
-    });
+    const allFunds = await getOrderedFungingOpportunity();
 
     //sorts the funding opportunity array
     allFunds.sort((str1, str2)=>{
@@ -151,7 +112,7 @@ async function fundingDropDown(dropdown){
     });
 }
 
-window.onload = await fundingDropDown(document.getElementById("funds"));
+
 
 
 
@@ -200,31 +161,13 @@ function displayAllApplications(){
 *   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
 *   The function updated FundingApplications array which will contain all the funding Opportunities
 */
-async function getAllFundingApplications(name, updateFunds){
-    const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
-    const namesQuerySnapshot = await getDocs(userRef);
-
-    const result = namesQuerySnapshot.docs[0];
-
-    // Reference to the subcollection
-    const applicationsRef = collection( result.ref,'Applications');
-    const q = query(applicationsRef, orderBy("submitDate", "asc"));
-    const querySnapshot = await getDocs(q);
-
-
-    applications = [];
-    if(querySnapshot.empty){
-        updateFunds.innerHTML = `No applicants have been found for ${selectedValue}`;
-        return;
-    }
-
-    //sort according to pending and approved after adding
-    
-    querySnapshot.forEach((doc) => {
-        applications.push(doc.data());
-    });
-    
-    displayAllApplications();
+async function displayFundingApplications(name, updateFunds){
+  applications = await getAllFundingApplications(name);
+  if(applications.length === 0){
+    updateFunds.innerHTML = `No applicants have been found for ${selectedValue}`;
+    return;
+  }
+  displayAllApplications();
 }
 
 
@@ -236,78 +179,20 @@ dropdown.addEventListener('change', async () => {
     //console.log(selectedValue);
     await fundingInfo(selectedValue);
     //Show all funding applications
-    await getAllFundingApplications(selectedValue, updateFunds);
-
-})
-
-
-
-/*  FUNCTION: This function removes an application to the Funding Opportunity on the Funding Management side
-*   PARAMS: fundID-this is the ID of the Funding Opportunity
-*           userID-this is the userID of user Application to be removed 
-*   This is a void function that removes the application permanently
+    await displayFundingApplications(selectedValue, updateFunds);
+});
+  
+  
+/*  FUNCTION: This function is responsible for handling the rejection of applications to Funding Opportunities
+*   PARAMS: FOName- this is the name of the Funding Opportunity
+*           userID- is the ID of the user
+*           fundID- this is the ID of the Funding Opportunity
+*   Is a void function that deletes the application from Funding Opportunity and updates the application on the user side to rejected
 */
-async function removeFundingApplication(ref){
-    deleteDoc(ref)
-    .then(() => {
-      console.log('Document successfully deleted!');
-    })
-    .catch((error) => {
-      console.error('Error removing document: ', error);
-    });
-  }
-  
-  
-  /*  FUNCTION: This function is responsible for handling the rejection of applications to Funding Opportunities
-  *   PARAMS: FOName- this is the name of the Funding Opportunity
-  *           userID- is the ID of the user
-  *           fundID- this is the ID of the Funding Opportunity
-  *   Is a void function that deletes the application from Funding Opportunity and updates the application on the user side to rejected
-  */
-  async function onRejectApplication(FOName, email){
-    try {
-      const userRef = query(collection(db, 'users'), where('Email', '==', email));
-      const namesQuerySnapshot = await getDocs(userRef);
-
-      console.log(namesQuerySnapshot);
-      const result = namesQuerySnapshot.docs[0];
-
-      const ID = result.ref.path.split('/')[1];
-      const appsQuery = query(collection(db,'users', ID, 'Applications'), where('FundingOpportunity', '==',FOName));
-      const appsRef = await getDocs(appsQuery);
-
-      await updateDoc(appsRef.docs[0].ref, {
-        Status: 'Rejected', 
-      })
-      .then(async ()=>{
-        console.log('Rejected succefully!');
-        
-        await getAllFundingApplications(FOName, updateFunds);
-      })
-      .catch((error)=>{
-        console.error("Error updating document: ", error)
-      });
-      
-    } catch (e) {
-      console.error("Error updating document: ", e);
-    }
-
-    try {
-      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
-      const namesQuerySnapshot = await getDocs(userRef);
-
-      const result = namesQuerySnapshot.docs[0];
-      console.log('Here');
-      console.log(result.ref);
-
-      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
-      const appsRef =await getDocs(appsQuery);
-      await removeFundingApplication(appsRef.docs[0].ref);
-    } catch (error) {
-      console.error('Error Removing: ',error);
-    }
-    
-  await getAllFundingApplications(FOName, updateFunds);    
+async function onRejectApplication(FOName, email){
+  await onUserRejectApplication(FOName, email);
+  await onFundignRejectApplication(FOName)
+  await getAllFundingApplications(FOName, updateFunds);
 }
 
 
@@ -319,59 +204,10 @@ async function removeFundingApplication(ref){
 *   Is a void function that updates the application from Funding Opportunity and  the application on the user side to accepted
 */
 async function onAcceptApplication(name, email){
-    try {
-      const userRef = query(collection(db, 'users'), where('Email', '==', email));
-      const namesQuerySnapshot = await getDocs(userRef);
-
-      console.log(namesQuerySnapshot);
-      const result = namesQuerySnapshot.docs[0];
-
-      const appsQuery = query(collection(result.ref, 'Applications'), where('FundingOpportunity', '==', name));
-      const appsRef = await getDocs(appsQuery);
-      console.log(name);
-      console.log(appsRef);
-      await updateDoc(appsRef.docs[0].ref, {
-        Status: 'Approved', 
-      })
-      .then(()=>{
-        console.log("Accepted Sucessfully");
-      })
-      .catch((error)=>{
-        console.error("Error updating document: ", error)
-      });
-      
-    } catch (e) {
-      console.error("Error updating document: ", e);
-    }
-  
-    try {
-      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
-      const namesQuerySnapshot = await getDocs(userRef);
-
-      const result = namesQuerySnapshot.docs[0];
-      console.log('Here');
-      console.log(result.ref);
-
-      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
-      const appsRef =await getDocs(appsQuery);
-      console.log('there');
-      console.log(appsRef);
-  
-      await updateDoc(appsRef.docs[0].ref, {
-        Status: 'Approved', 
-      })
-      .then(async ()=>{
-        console.log("Accepted Sucessfully on Funding Database");
-        await getAllFundingApplications(name, updateFunds);
-      })
-      .catch((error)=>{
-        console.error("Error updating document: ", error)
-      });
-      
-    } catch (e) {
-      console.error("Error updating document: ", e);
-    }
-  }
+  await onUserAcceptApplication(name, email);
+  await onFundingAcceptApplication(name, email);
+  await getAllFundingApplications(FOName, updateFunds); 
+}
 
 
 
