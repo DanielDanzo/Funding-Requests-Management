@@ -181,11 +181,28 @@ async function registerUser(admin, fundManager, applicant){
         console.log('Error code: ', error.code);
         const errorCode = error.code;
         const errorMessage = error.message;
-    });
-    
-        
+    });       
+}
+
+/*  FUNCTION: To get a specific user
+*
+*
+*/
+async function getUser(email){
+    try {
+        const q = query(collection(db, 'users'), where('Email', '==', email));
+        const querySnapshot = await getDocs(q);
+        if(querySnapshot.empty){
+            return undefined;
+        }
+        querySnapshot.forEach(doc => {
+            return doc.data();
+        });
+    } catch (error) {
+       console.error('Error Retrieving Object: ',error); 
+    }
 }
 
 
 
-export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser };
+export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser, getUser };
