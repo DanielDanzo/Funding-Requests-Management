@@ -24,6 +24,5 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // Initialize Realtime Database and get a reference to the service
-const database = getDatabase(app);
 
-export { db, auth, provider, database, firebaseConfig };
+export { db, auth, provider, firebaseConfig };

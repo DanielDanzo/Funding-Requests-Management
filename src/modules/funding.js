@@ -98,7 +98,9 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         ApplicantFund: applicantFund,
         Description: summary,
         SuitableCandidates: suitable,
-        ClosingDate: deadline
+        TransactionSummary: {0: 0},
+        ClosingDate: deadline,
+        Status: 'Pending'
       });
 
       console.log('Email: ', email);
@@ -114,7 +116,7 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
 
 
 async function getOrderedFungingOpportunity(){
-  const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), orderBy("Name"));
+const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), where('Status', '==','Approved'),orderBy("Name"));
   const allFunds = [];
 
   //results from database
