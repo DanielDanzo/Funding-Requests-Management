@@ -16,7 +16,11 @@ btn_register.addEventListener('click',()=>{
 });
 
 btn_login.addEventListener('click',()=>{
-    signIn();
+    //After user clicks login. user will be signed in
+    //applicant = true;
+   // fundManager = false;
+    //admin = false;
+    //signIn(admin, fundManager, applicant);
 });
 
 
