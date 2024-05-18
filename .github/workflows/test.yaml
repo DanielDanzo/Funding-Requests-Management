@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install google cloud
+        uses: npm install --save @google-cloud/storage
       - name: Set up Node 18
         uses: actions/setup-node@v3
         with:

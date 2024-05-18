@@ -92,7 +92,7 @@ btn_submit_signup.addEventListener('click', ()=>{
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
         sendMail(userEmail.value);
-        registerUser(admin, fundManager, applicant);
+        registerUser(admin, fundManager, applicant, userEmail.value);
     }
 })
 

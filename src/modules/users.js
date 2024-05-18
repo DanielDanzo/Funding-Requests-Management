@@ -101,9 +101,9 @@ async function isRegistered(email){
     const userRef = query(collection(db, 'users'), where('Email', '==', email));
 
     const querySnapshot = getDocs(userRef);
-    console.log(querySnapshot);
-    console.log('Is snapShot empty: ',querySnapshot.value === undefined);
-    console.log(querySnapshot.doc);
+    //console.log(querySnapshot);
+    //console.log('Is snapShot empty: ',querySnapshot.value === undefined);
+    //console.log(querySnapshot.doc);
     if(querySnapshot.empty){
         console.log('Here');
         
@@ -123,14 +123,14 @@ async function isRegistered(email){
 *   TODO: Hash email address for security issues
 */
 async function addUser(email, role, isSignIn, userToken){
-    console.log('Email: ',email);
-    console.log('Role : ',role);
-    console.log('Status: ',isSignIn);
-    console.log('Token: ',userToken);
+    //console.log('Email: ',email);
+    //console.log('Role : ',role);
+    ////console.log('Status: ',isSignIn);
+    //console.log('Token: ',userToken);
     try {
 
         const registeredUser = await isRegistered(email);
-        console.log(registeredUser);
+        //console.log(registeredUser);
         if(registeredUser){
             console.log('User already registered');
             return false;
@@ -151,18 +151,22 @@ async function addUser(email, role, isSignIn, userToken){
 }
 
 
-async function registerUser(admin, fundManager, applicant){
+async function registerUser(admin, fundManager, applicant, email){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        if( result.user.email != email){
+            console.log('Please Provide a valid email');
+            return;
+        }
         //console.log(credential);
         // The signed-in user info.
-        console.log('here');
+        //console.log('here');
         const user = result.user;
-        console.log('Now Here');
-        console.log(user);
+        //console.log('Now Here');
+        //console.log(user);
         const userToken = await user.accessToken;
         if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
