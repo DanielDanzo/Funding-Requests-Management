@@ -125,7 +125,7 @@ async function signInUser(){
 async function isRegistered(email){
     const userRef = query(collection(db, 'users'), where('Email', '==', email));
 
-    const querySnapshot = getDocs(userRef);
+    const querySnapshot = await getDocs(userRef);
     console.log(querySnapshot);
     //console.log('Is snapShot empty: ',querySnapshot.value === undefined);
     //console.log(querySnapshot.doc);
