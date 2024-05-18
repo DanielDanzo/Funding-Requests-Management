@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - User Management</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #007bff;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            background: #333;
+            overflow: hidden;
+            color: white;
+            padding: 0;
+            text-align: center;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            padding: 10px;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #343a40;
+            color: #ffffff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        label, select, input[type="text"] {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input[type="text"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard - User Management</h1>
+    </header>
+
+    <main>
+        <section id="user-management">
+            <div class="search-box">
+                <label for="search-applicant">Search Applicants:</label>
+                <input list="applicants" id="search-applicant" name="search-applicant" placeholder="Type to search...">
+                <datalist id="applicants">
+                    <option value="Applicant 1">
+                    <option value="Applicant 2">
+                    <option value="Applicant 3">
+                    
+                </datalist>
+            </div>
+
+            <div class="search-box">
+                <label for="search-fund-manager">Search Fund Managers:</label>
+                <input list="fund-managers" id="search-fund-manager" name="search-fund-manager" placeholder="Type to search...">
+                <datalist id="fund-managers">
+                    <option value="Manager 1">
+                    <option value="Manager 2">
+                    <option value="Manager 3">
+                    
+                </datalist>
+            </div>
+
+            <button type="button" onclick="searchApplicant()">Search Applicant</button>
+            <button type="button" onclick="searchFundManager()">Search Fund Manager</button>
+        </section>
+
+        <section id="user-actions">
+            <button type="button" onclick="approveUser()">Approve User</button>
+            <button type="button" onclick="blockUser()">Block User</button>
+            <button type="button" onclick="changePermissions()">Change Permissions</button>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2024 Admin Dashboard
+    </footer>
+</body>
+</html>
