@@ -193,6 +193,7 @@ async function registerUser(admin, fundManager, applicant, email){
         //console.log('here');
         const user = result.user;
         console.log(user.email);
+        console.log(admin, fundManager, applicant);
         //console.log('Now Here');
         //console.log(user);
         const userToken = await user.accessToken;
