@@ -144,6 +144,7 @@ async function applyForFundingOpportunity(FOName){
 
 
 submitBtn.addEventListener('click', async()=>{
-    const FOName = dropdown.value;
-    await applyForFundingOpportunity(FOName);
+    console.log('Hello');
+    //const FOName = dropdown.value;
+    //await applyForFundingOpportunity(FOName);
 });

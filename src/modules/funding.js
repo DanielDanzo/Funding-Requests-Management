@@ -31,7 +31,9 @@ async function getFundingOpportunityID(name){
 */
 async function verifyFundingName(name){
     const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
-    const namesQuerySnapshot = await getDocs(userRef);
+    //const namesQuerySnapshot = await getDocs(userRef);
+    //console.log('Here');
+    console.log(namesQuerySnapshot);
     if(namesQuerySnapshot.empty){
       return true;
     }
@@ -94,13 +96,15 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
       const docRef = await addDoc(collection(db, "Funding Opportunity"), {
         Name: name,
         Type: type,
-        EstimatedFunds: estimatedFund,
-        ApplicantFund: applicantFund,
+        EstimatedFunds: Number(estimatedFund),
+        ApplicantFund: Number(applicantFund),
         Description: summary,
         SuitableCandidates: suitable,
         TransactionSummary: {0: 0},
         ClosingDate: deadline,
-        Status: 'Pending'
+        Manager: email,
+        Status: 'Pending',
+        AvailableFunds: estimatedFund
       });
 
       console.log('Email: ', email);

@@ -5,6 +5,26 @@ import { collection, getDocs, query, where } from "https://www.gstatic.com/fireb
 
 
 
+
+/*   FUNCTION: Used to help us find the userID  of a specific user which will be used through out our query searches
+*   PARAMS: email- will be used to find the row that contains the email, essentially locating the user
+*   TODO: Hash the email so it can correspond with the hashed email in our database
+*   This funtion returns the userID of a user
+*/  
+async function getUserID(email){
+    try {
+      const q = query(collection(db, 'users'), where('Email', '==', email));
+      const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs[0].id);
+      return querySnapshot.docs[0].id;
+  
+    } catch (error) {
+      console.error(error);
+    }
+    
+}
+
+
 //Function to check if user is registered
 async function verifyRole(email, role){
     try {
@@ -41,8 +61,21 @@ function setEmail(email){
     window.localStorage.setItem('email', email);
 }
 
+
+/*
+*
+*
+*/
+async function AssignRole( email){
+    const user =await getUser(email);
+    return user.Role;
+
+}
+
+
+
 //FUNCTION: Registers user using their google email
-async function signInUser(admin, fundManager, applicant){
+async function signInUser(){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
@@ -61,24 +94,16 @@ async function signInUser(admin, fundManager, applicant){
             console.log('Please register');
             return;
         }
+
+
+        const role = await AssignRole( email);
+
         //Then take the user to their desired home page
-        if(admin){
-            if( !(await verifyRole(email, 'Admin')) ){
-                console.log('Please sign-in with registered role')
-                return;
-            }
+        if(role === 'Admin'){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
-        }else if(fundManager){
-            if( !(await verifyRole(email, 'fundManager')) ){
-                console.log('Please sign-in with registered role')
-                return;
-            }
+        }else if(role === 'fundManager'){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else{
-            if( !(await verifyRole(email, 'Applicant')) ){
-                console.log('Please sign-in with registered role')
-                return;
-            }
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }
             
@@ -158,6 +183,8 @@ async function registerUser(admin, fundManager, applicant, email){
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if( result.user.email != email){
+            console.log(result.user.emai);
+            console.log(email);
             console.log('Please Provide a valid email');
             return;
         }
@@ -195,17 +222,20 @@ async function getUser(email){
     try {
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
+        console.log(email);
+        console.log(querySnapshot);
+        var resultUser = undefined;
         if(querySnapshot.empty){
-            return undefined;
+            return resultUser;
         }
         querySnapshot.forEach(doc => {
-            return doc.data();
+            resultUser = doc.data()
+            return ;
         });
+        return resultUser;
     } catch (error) {
        console.error('Error Retrieving Object: ',error); 
     }
 }
 
-
-
-export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser, getUser };
+export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser, getUser, getUserID };

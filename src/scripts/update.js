@@ -1,24 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 import { getfundingByName, getOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
 import { onUserRejectApplication, onUserAcceptApplication } from "../modules/userApplications.js";
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
-import { getFirestore, collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc, or, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDpsbqDksFVO0JpBqZT4gUGa-qW5PDIyVU",
-    authDomain: "funding-requests-management.firebaseapp.com",
-    databaseURL: "https://funding-requests-management-default-rtdb.firebaseio.com",
-    projectId: "funding-requests-management",
-    storageBucket: "funding-requests-management.appspot.com",
-    messagingSenderId: "663669566432",
-    appId: "1:663669566432:web:d34a19ea3989a6c3ce5985",
-    measurementId: "G-YW4KG1DXWX"
-  };
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
 
 
 let budget; //EstimatedFunds should be subtracted with Application Fund
@@ -43,6 +26,9 @@ window.onload = await fundingDropDown(document.getElementById("funds"));
 */
 async function fundingInfo(name){
   var info = await getfundingByName(name);
+  const Transactions = info.TransactionSummary;
+  Transactions['1'] = 50;
+  console.log(Transactions);
 
   //console.log(info.Name);
   document.getElementById("name").innerHTML = `<strong>Name:  ${info.Name}`;
@@ -206,7 +192,7 @@ async function onRejectApplication(FOName, email){
 async function onAcceptApplication(name, email){
   await onUserAcceptApplication(name, email);
   await onFundingAcceptApplication(name, email);
-  await getAllFundingApplications(FOName, updateFunds); 
+  await getAllFundingApplications(name, updateFunds); 
 }
 
 

@@ -1,5 +1,5 @@
 import {db, auth, provider} from './init.js';
-import { collection, addDoc, getDocs, doc, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
 
@@ -136,7 +136,8 @@ async function onUserAcceptApplication(name, email){
       const appsQuery = query(collection(result.ref, 'Applications'), where('FundingOpportunity', '==', name));
       const appsRef = await getDocs(appsQuery);
       console.log(name);
-      console.log(appsRef);
+      console.log(appsRef.docs[0].ref);
+      console.log('Here');
       await updateDoc(appsRef.docs[0].ref, {
         Status: 'Approved', 
       })
@@ -144,7 +145,7 @@ async function onUserAcceptApplication(name, email){
         console.log("Accepted Sucessfully");
       })
       .catch((error)=>{
-        console.error("Error updating document: ", error)
+        console.error("Error updating Approved: ", error)
       });
       
     } catch (e) {

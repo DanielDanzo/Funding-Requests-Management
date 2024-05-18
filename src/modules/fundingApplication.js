@@ -1,4 +1,5 @@
 import {  db, auth, provider } from './init.js';
+import {  getUserID } from './users.js';
 import {  collection, addDoc, getDocs,  query, where, orderBy, updateDoc, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
@@ -67,24 +68,51 @@ async function onFundingAcceptApplication(name, email){
       const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
       const namesQuerySnapshot = await getDocs(userRef);
 
-      const result = namesQuerySnapshot.docs[0];
-      console.log('Here');
-      console.log(result.ref);
-
-      const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
-      const appsRef =await getDocs(appsQuery);
-      console.log('there');
-      console.log(appsRef);
-  
-      await updateDoc(appsRef.docs[0].ref, {
-        Status: 'Approved', 
+      console.log(name, email);
+      const ID = await getUserID(email);
+      console.log(ID);
+      console.log(namesQuerySnapshot);
+      var allocateFunds;
+      var Transaction;
+      var estimatedFunds;
+      namesQuerySnapshot.forEach((doc)=>{
+        console.log(doc.data());
+        allocateFunds = doc.data().ApplicantFund;
+        Transaction = doc.data().TransactionSummary;
+        estimatedFunds = doc.data().EstimatedFunds;
+        return;
       })
-      .then(async ()=>{
-        console.log("Accepted Sucessfully on Funding Database");
+
+      Transaction[ID] = allocateFunds;
+      await updateDoc(namesQuerySnapshot.docs[0].ref, {
+        EstimatedFunds: estimatedFunds- allocateFunds,
+        TransactionSummary: Transaction, 
+      }).then(async ()=>{
+        console.log("Updated Transaction");
+        const result = namesQuerySnapshot.docs[0];
+        console.log('Here');
+        console.log(result.ref);
+
+        const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
+        const appsRef =await getDocs(appsQuery);
+        console.log('there');
+        console.log(appsRef);
+    
+        await updateDoc(appsRef.docs[0].ref, {
+          Status: 'Approved', 
+        })
+        .then(async ()=>{
+          console.log("Accepted Sucessfully on Funding Database");
+        })
+        .catch((error)=>{
+          console.error("Error updating document: ", error)
+        });
       })
       .catch((error)=>{
         console.error("Error updating document: ", error)
       });
+
+      
       
     } catch (e) {
       console.error("Error updating document: ", e);

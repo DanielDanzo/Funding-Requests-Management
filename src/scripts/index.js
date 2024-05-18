@@ -7,13 +7,8 @@ import { auth } from "../modules/init.js";
 var btn_register = document.getElementById('register-link');
 const btn_login = document.getElementById('btn-login');
 
-var admin = false;
-var fundManager = false;
-var applicant = false;
-
 //Can be used to get the information of current user
 const user = auth.currentUser;
-
 
 btn_register.addEventListener('click',()=>{
     //After pressing the register button, user is sent to register page
@@ -21,16 +16,12 @@ btn_register.addEventListener('click',()=>{
 });
 
 btn_login.addEventListener('click',()=>{
-    //After user clicks login. user will be signed in
-    //applicant = true;
-   // fundManager = false;
-    //admin = false;
-    //signIn(admin, fundManager, applicant);
+    signIn();
 });
 
 
 
 //FUNCTION: Registers user using their google email
-function signIn(admin, fundManager, applicant){
-    signInUser(admin, fundManager, applicant);
+function signIn(){
+    signInUser();
 }
