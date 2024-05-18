@@ -20,7 +20,7 @@ btn_login.addEventListener('click',()=>{
     //applicant = true;
    // fundManager = false;
     //admin = false;
-    //signIn(admin, fundManager, applicant);
+    signIn();
 });
 
 
