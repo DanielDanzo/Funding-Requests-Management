@@ -52,7 +52,8 @@ async function addUserApplication(email, closingDate, FOName){
           FundingOpportunity: FOName,
           Status: "Pending",
           submitDate: currentDate,
-          closingDate: closingDate
+          closingDate: closingDate,
+          URL: {}
         });
         console.log("Added user Application Sucessfully");
       } catch (e) {
@@ -68,15 +69,17 @@ async function addUserApplication(email, closingDate, FOName){
 async function allowUserApplication(email, FOName){
     const userRef = query(collection(db, 'users'), where('Email', '==',email));
     const namesQuerySnapshot = await getDocs(userRef);
+    console.log(namesQuerySnapshot);
 
     const result = namesQuerySnapshot.docs[0];
 
     // Reference to the subcollection
     const applicationsRef = collection( result.ref,'Applications');
-    const q = query(applicationsRef, where('Name', '==',FOName), where('Status', '==', 'Pending'));
+    const q = query(applicationsRef, where('FundingOpportunity', '==',FOName));
     const querySnapshot = await getDocs(q);
 
-    if(querySnapshot.empty){
+    console.log(querySnapshot);
+    if(querySnapshot.empty || querySnapshot.docs[0].data().Status === 'Rejected'){
       return true;
     }
     return false;
@@ -155,10 +158,45 @@ async function onUserAcceptApplication(name, email){
 
 
 
+/*
+*
+*
+*/
+async function updateUserURL(email, FOName, index, downloadURL){
+  try {
+    const userRef = query(collection(db, 'users'), where('Email', '==', email));
+    const appSnapshot = await getDocs(userRef);
+
+    // Reference to the subcollection
+    console.log(appSnapshot);
+    var applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), where('FundingOpportunity', '==', FOName));
+    var appsRef = await getDocs(applicationsRef);
+
+
+    const URLs = appsRef.docs[0].data().URL;
+    URLs[index] = downloadURL;
+    await updateDoc(appsRef.docs[0].ref, {
+      URLs: URLs, 
+    })
+    .then(()=>{
+      console.log("Updated URLs Sucessfully");
+    })
+    .catch((error)=>{
+      console.error("Error updating Approved: ", error)
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
 export {
     getUserApplications,
     addUserApplication,
     allowUserApplication,
     onUserRejectApplication,
-    onUserAcceptApplication
+    onUserAcceptApplication,
+    updateUserURL
 }

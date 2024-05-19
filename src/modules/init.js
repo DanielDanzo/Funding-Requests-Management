@@ -1,6 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import {  getAuth, GoogleAuthProvider  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import {
+  getStorage,
+} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js';
 
 
 
@@ -23,6 +26,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+const storage = getStorage();
+
 // Initialize Realtime Database and get a reference to the service
 
-export { db, auth, provider, firebaseConfig };
+export { db, auth, provider, firebaseConfig , storage };

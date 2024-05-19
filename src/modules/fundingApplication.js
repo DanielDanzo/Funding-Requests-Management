@@ -23,7 +23,8 @@ async function addFundingApplication(FOName, email){
       const docRef = await addDoc(applicationsRef, {
         Email: email,
         Status: "Pending",
-        submitDate: currentDate
+        submitDate: currentDate,
+        URL: {}
       });
       console.log("Added Funding Application Sucessfully");
     } catch (e) {
@@ -161,9 +162,44 @@ async function removeFundingApplication(ref){
 }
 
 
+
+/*
+*
+*
+*/
+async function updateFundingURL(email, FOName, index, downloadURL){
+  try {
+    // Reference to the user document
+    const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==',FOName));
+    const appsRef = await getDocs(userRef);
+
+    // Reference to the subcollection
+    const applicationsRef = query(collection(appsRef.docs[0].ref, 'Applications'), where('Email', '==',email));
+    const finalRef = await getDocs(applicationsRef);
+
+    const url = finalRef.docs[0].data().URL;
+    url[index] = downloadURL;
+
+    await updateDoc(finalRef.docs[0].ref, {
+      URL: url, 
+    })
+    .then(async ()=>{
+      console.log("Updated URLs sucessfully in the funding Application");
+    })
+    .catch((error)=>{
+      console.error("Error updating document: ", error)
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 export {
     addFundingApplication,
     getAllFundingApplications,
     onFundingAcceptApplication,
-    onFundignRejectApplication
+    onFundignRejectApplication,
+    updateFundingURL
 }

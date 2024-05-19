@@ -1,14 +1,18 @@
 import { getOrderedFungingOpportunity } from "../modules/funding.js";
 import { addFundingApplication, getAllFundingApplications } from "../modules/fundingApplication.js";
 import { getUserApplications, addUserApplication, allowUserApplication } from "../modules/userApplications.js";
+import { uploadDoc } from "../modules/storage.js";
 
 
 
 const OPList = document.getElementById('opportunities-list');
-const email = window.localStorage.getItem('email');
+//const email = window.localStorage.getItem('email');
+const email ='sempapadaniel123@gmail.com';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
+const files = document.getElementById('supportingDocuments');
+var documents ;
 var closingDate;
 var applicationList;
 var applications;
@@ -137,14 +141,33 @@ async function applyForFundingOpportunity(FOName){
         }
     });
     //console.log(closingDate);
+    console.log(documents);
     await addUserApplication(email, closingDate, FOName);
-    await addFundingApplication(FOName);
+    await addFundingApplication(FOName, email);
+
+    documents.forEach(async (file, index)=>{
+        await uploadDoc(file, file.name, email, FOName, index);
+    });
+    
+
+    
 }
 
 
 
 submitBtn.addEventListener('click', async()=>{
     console.log('Hello');
-    //const FOName = dropdown.value;
-    //await applyForFundingOpportunity(FOName);
+    const FOName = dropdown.value;
+    console.log(files.value);
+    await applyForFundingOpportunity(FOName);
+});
+
+
+
+files.addEventListener('change', (event)=>{
+    documents= [];
+    for (let index = 0; index < event.target.files.length; index++) {
+        documents.push(event.target.files[index]);
+    }
+    //documents = event.target.files; 
 });

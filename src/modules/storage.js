@@ -1,77 +1,57 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator, signInAnonymously } from 'firebase/auth';
+//import { getAuth, connectAuthEmulator, signInAnonymously } from 'firebase/auth';
 import {
-  connectStorageEmulator,
-  getStorage,
   ref,
-  uploadBytes,
   getDownloadURL,
-} from 'firebase/storage';
-import { firebaseConfig } from './init';
+  uploadBytesResumable
+} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js';
+import { storage } from './init.js';
+import { updateFundingURL } from './fundingApplication.js';
+import { updateUserURL } from './userApplications.js';
 
-const fileInput = document.getElementById('file');
-const linkBox = document.getElementById('linkbox');
+var URL;
+var per = 0;
 
-initializeApp(firebaseConfig);
+/*
+*
+*
+*/
+async function uploadDoc(file, fileName, email, FOName, index){
+    const timeName = new Date().getTime() + fileName;
+    const storageRef = ref(storage, timeName);
 
-const auth = getAuth();
-const storage = getStorage();
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-// Locally, we use the firebase emulators.
-if (window.location.hostname === 'localhost') {
-  connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-  connectStorageEmulator(storage, '127.0.0.1', 9199);
+    uploadTask.on('state_changed', 
+    (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        per = progress;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+        case 'paused':
+            console.log('Upload is paused');
+            break;
+        case 'running':
+            console.log('Upload is running');
+            break;
+        default:
+            break;
+        }
+    }, 
+    (error) => {
+        console.error(error)
+    }, 
+     () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            console.log('File available at', downloadURL);
+            await updateFundingURL(email, FOName, index, downloadURL);
+            await updateUserURL(email, FOName, index, downloadURL);
+        });
+    }
+  );
 }
 
-const storageRef = ref(storage);
 
-function handleFileSelect(e) {
-  e.stopPropagation();
-  e.preventDefault();
 
-  const target = e.target;
-  const files = target?.files;
-  if (!target || !files) {
-    return;
-  }
-
-  const file = files[0];
-
-  // Push to child path.
-  uploadBytes(ref(storageRef, 'images/' + file.name), file)
-    .then(function (snapshot) {
-      console.log('Uploaded', snapshot.metadata.size, 'bytes.');
-      console.log('File metadata:', snapshot.metadata);
-      // Let's get a download URL for the file.
-      getDownloadURL(snapshot.ref).then(function (url) {
-        console.log('File available at', url);
-        linkBox.innerHTML = '<a href="' + url + '">Click For File</a>';
-      });
-    })
-    .catch(function (error) {
-      console.error('Upload failed:', error);
-    });
-}
-
-fileInput.addEventListener('change', handleFileSelect, false);
-fileInput.disabled = true;
-
-auth.onAuthStateChanged(function (user) {
-  if (user) {
-    console.log('Anonymous user signed-in.', user);
-    fileInput.disabled = false;
-  } else {
-    console.log(
-      'There was no anonymous session. Creating a new anonymous user.',
-    );
-    // Sign the user in anonymously since accessing Storage requires the user to be authorized.
-    signInAnonymously(auth).catch(function (error) {
-      if (error.code === 'auth/operation-not-allowed') {
-        window.alert(
-          'Anonymous Sign-in failed. Please make sure that you have enabled anonymous ' +
-            'sign-in on your Firebase project.',
-        );
-      }
-    });
-  }
-});
+export {uploadDoc}
