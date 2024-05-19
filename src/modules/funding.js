@@ -31,7 +31,7 @@ async function getFundingOpportunityID(name){
 */
 async function verifyFundingName(name){
     const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
-    //const namesQuerySnapshot = await getDocs(userRef);
+    const namesQuerySnapshot = await getDocs(userRef);
     //console.log('Here');
     console.log(namesQuerySnapshot);
     if(namesQuerySnapshot.empty){
