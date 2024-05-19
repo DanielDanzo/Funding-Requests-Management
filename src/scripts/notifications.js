@@ -1,4 +1,4 @@
-function modal(notification, btn){
+function modal(notification){
     
     const modal = document.createElement('div');
     modal.id = 'myModal';
@@ -13,9 +13,7 @@ function modal(notification, btn){
 
     const span = modal.getElementsByClassName('close')[0];
 
-    btn.onclick = function() {
-        modal.style.display = 'block';
-    }
+    modal.style.display = 'block';
 
     span.onclick = function() {
         modal.style.display = 'none';
