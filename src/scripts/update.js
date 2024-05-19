@@ -187,8 +187,8 @@ dropdown.addEventListener('change', async () => {
 */
 async function onRejectApplication(FOName, email){
   await onUserRejectApplication(FOName, email);
-  await onFundignRejectApplication(FOName)
-  await getAllFundingApplications(FOName, updateFunds);
+  await onFundignRejectApplication(FOName);
+  await displayFundingApplications(FOName, updateFunds);
 }
 
 
@@ -202,7 +202,7 @@ async function onRejectApplication(FOName, email){
 async function onAcceptApplication(name, email){
   await onUserAcceptApplication(name, email);
   await onFundingAcceptApplication(name, email);
-  await getAllFundingApplications(name, updateFunds); 
+  await displayFundingApplications(name, updateFunds); 
 }
 
 
