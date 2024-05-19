@@ -176,7 +176,7 @@ async function updateUserURL(email, FOName, index, downloadURL){
     const URLs = appsRef.docs[0].data().URL;
     URLs[index] = downloadURL;
     await updateDoc(appsRef.docs[0].ref, {
-      URLs: URLs, 
+      URL: URLs, 
     })
     .then(()=>{
       console.log("Updated URLs Sucessfully");
@@ -192,11 +192,37 @@ async function updateUserURL(email, FOName, index, downloadURL){
 
 
 
+
+/*
+*
+*
+*/
+async function getUserURLs(name, email){
+  try {
+    const userRef = query(collection(db, 'users'), where('Email', '==', email));
+    const appSnapshot = await getDocs(userRef);
+
+    // Reference to the subcollection
+    console.log(appSnapshot);
+    console.log(name);
+    console.log(email);
+    const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), where('FundingOpportunity', '==', name));
+    const querySnapshot = await getDocs(applicationsRef);
+    console.log(querySnapshot)
+
+    return querySnapshot.docs[0].data().URLs;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 export {
     getUserApplications,
     addUserApplication,
     allowUserApplication,
     onUserRejectApplication,
     onUserAcceptApplication,
-    updateUserURL
+    updateUserURL,
+    getUserURLs
 }

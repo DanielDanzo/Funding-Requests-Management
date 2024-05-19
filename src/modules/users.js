@@ -240,4 +240,29 @@ async function getUser(email){
     }
 }
 
-export {   verifyRole, verifyUser, setEmail, signInUser, isRegistered, addUser, registerUser, getUser, getUserID };
+
+
+
+
+
+
+/*
+*
+*
+*/
+async function getUserByRole(){
+    console.log('Hello');
+}
+
+export {   
+    verifyRole,
+     verifyUser, 
+     setEmail, 
+     signInUser, 
+     isRegistered, 
+     addUser, 
+     registerUser, 
+     getUser, 
+     getUserID,
+     getUserByRole 
+};

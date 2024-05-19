@@ -1,6 +1,7 @@
 import { getfundingByName, getOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
 import { onUserRejectApplication, onUserAcceptApplication } from "../modules/userApplications.js";
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
+import { getDocuments } from "../modules/storage.js";
 
 
 
@@ -26,9 +27,9 @@ window.onload = await fundingDropDown(document.getElementById("funds"));
 */
 async function fundingInfo(name){
   var info = await getfundingByName(name);
-  const Transactions = info.TransactionSummary;
-  Transactions['1'] = 50;
-  console.log(Transactions);
+  //const Transactions = info.TransactionSummary;
+  //Transactions['1'] = 50;
+  //console.log(Transactions);
 
   //console.log(info.Name);
   document.getElementById("name").innerHTML = `<strong>Name:  ${info.Name}`;
@@ -51,7 +52,7 @@ function errorMessage(){
 
 
 
-updateFunds.addEventListener('click', (event) => {
+updateFunds.addEventListener('click', async (event) => {
   if (event.target.classList.contains('reject-btn')) {
       const index = event.target.dataset.index;
       //console.log('Button reject Clicked! at: ',index);
@@ -64,6 +65,13 @@ updateFunds.addEventListener('click', (event) => {
       //console.log('Button accept Clicked! at :', index);
       //console.log(applications[index]);
       onAcceptApplication(name, applications[index].Email);
+  }
+
+
+  else if(event.target.classList.contains('retrieve-btn')){
+    const index = event.target.dataset.index;
+    console.log('Retrieve button clicked at :', index);
+    await getDocuments(name, applications[index].Email);
   }
 });
 
@@ -133,7 +141,9 @@ function displayAllApplications(){
             app.innerHTML = `
             <li>Applicant: ${doc.Email} 
             <br> <input id="rejectBtn" class="reject-btn"  data-index="${index}" type='button' value='Reject'>
-            <input id="acceptBtn" type='button' class="accept-btn"  data-index="${index}" value='Accept'><li>
+            <input id="acceptBtn" type='button' class="accept-btn"  data-index="${index}" value='Accept'>
+            <input id="retrieveBtn" type='button' class="retrieve-btn"  data-index="${index}" value='get Documents'><li>
+            
         `;
         }
         

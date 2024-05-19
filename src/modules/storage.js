@@ -6,7 +6,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js';
 import { storage } from './init.js';
 import { updateFundingURL } from './fundingApplication.js';
-import { updateUserURL } from './userApplications.js';
+import { getUserURLs } from './userApplications.js';
 
 var URL;
 var per = 0;
@@ -54,4 +54,23 @@ async function uploadDoc(file, fileName, email, FOName, index){
 
 
 
-export {uploadDoc}
+/*
+*
+*
+*/
+async function getDocuments(name,email){
+    const URLs = await getUserURLs(name, email);
+    console.log(URLs);
+    // This can be downloaded directly:
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+    };
+    xhr.open('GET', URLs[0]);
+    xhr.send();
+}
+
+
+
+export {uploadDoc, getDocuments}
