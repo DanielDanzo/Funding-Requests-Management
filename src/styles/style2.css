@@ -3,7 +3,73 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}/* Basic styling reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centralizes content */
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0; /* Reduced padding for a less bulky header */
+    border-radius: 8px;
+    margin-bottom: 20px; /* Adds space below the header */
+}
+
+section {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Control the width of sections */
+    max-width: 600px; /* Maximum width */
+    margin-bottom: 20px; /* Space between sections */
+}
+
+input[type="text"], select, textarea, button {
+    width: 100%; /* Full width */
+    padding: 12px;
+    margin-bottom: 10px; /* Space between form elements */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff; /* Same blue as the header */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #343a40;
+    color: #ffffff;
+    width: 100%;
+}
+
 
 body {
     font-family: 'Arial', sans-serif;

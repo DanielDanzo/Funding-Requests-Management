@@ -2,7 +2,7 @@ import { getOrderedFungingOpportunity } from "../modules/funding.js";
 import { addFundingApplication, getAllFundingApplications } from "../modules/fundingApplication.js";
 import { getUserApplications, addUserApplication, allowUserApplication } from "../modules/userApplications.js";
 import { uploadDoc } from "../modules/storage.js";
-
+import { modal } from "./notifications.js";
 
 
 const OPList = document.getElementById('opportunities-list');
@@ -16,8 +16,6 @@ var documents ;
 var closingDate;
 var applicationList;
 var applications;
-
-
 
 window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
@@ -160,6 +158,7 @@ submitBtn.addEventListener('click', async()=>{
     const FOName = dropdown.value;
     console.log(files.value);
     await applyForFundingOpportunity(FOName);
+    modal(`Your application for ${FOName} is successful and will be reviewed`);
 });
 
 
