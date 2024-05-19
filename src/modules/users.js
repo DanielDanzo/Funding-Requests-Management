@@ -100,7 +100,7 @@ async function signInUser(){
 
         //Then take the user to their desired home page
         if(role === 'Admin'){
-            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
         }else if(role === 'fundManager'){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else{
@@ -198,7 +198,7 @@ async function registerUser(admin, fundManager, applicant, email){
         //console.log(user);
         const userToken = await user.accessToken;
         if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
-            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
         }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){

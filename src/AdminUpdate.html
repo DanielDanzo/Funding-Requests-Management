@@ -134,11 +134,12 @@
                 </datalist>
             </div>
 
-            <button type="button" id="Applicant-Search" onclick="searchApplicant()">Search Applicant</button>
-            <button type="button" id="FundManager-Search" onclick="searchFundManager()">Search Fund Manager</button>
+            <button type="button" id="Applicant-Search">Search Applicant</button>
+            <button type="button" id="FundManager-Search" ></button>Search Fund Manager</button>
         </section>
 
         <section id="user-actions">
+            <div id="user-details" style="display: flex; flex-direction: column;"></div>
             <button type="button" onclick="approveUser()">Approve User</button>
             <button type="button" onclick="blockUser()">Block User</button>
             <button type="button" onclick="changePermissions()">Change Permissions</button>
