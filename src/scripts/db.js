@@ -33,7 +33,8 @@ const acceptBtn = document.getElementById('Accept');
 const rejectBtn = document.getElementById('Reject');
 const allInfo = document.getElementById('Client-info'); //This is the part where we display operation status
 const appInfo = document.getElementById('App-info'); //This is where we display info we want to display
-const email = "2508872@students.wits.ac.za";
+//const email = "2508872@students.wits.ac.za";
+const email = window.localStorage.getItem('email');
 var FOName = "ABSA Bursary";
 var userApplicationID;
 var userID;

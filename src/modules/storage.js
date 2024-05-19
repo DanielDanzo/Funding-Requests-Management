@@ -8,8 +8,6 @@ import { storage } from './init.js';
 import { updateFundingURL } from './fundingApplication.js';
 import { getUserURLs, updateUserURL } from './userApplications.js';
 
-var URL;
-var per = 0;
 
 /*
 *
@@ -26,7 +24,6 @@ async function uploadDoc(file, fileName, email, FOName, index){
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        per = progress;
         console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {
         case 'paused':
