@@ -210,7 +210,7 @@ async function getUserURLs(name, email){
     const querySnapshot = await getDocs(applicationsRef);
     console.log(querySnapshot)
 
-    return querySnapshot.docs[0].data().URLs;
+    return querySnapshot.docs[0].data().URL;
   } catch (error) {
     console.error(error);
   }
