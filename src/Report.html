@@ -8,7 +8,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, san2s-serif;
             background-color: #f8f9fa;
             color: #333;
         }
@@ -62,7 +62,46 @@
         .chart {
             margin-top: 20px;
         }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="./scripts/reporting.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -95,19 +134,22 @@
 
         <section id="applications-report">
             <h2>Applications Data</h2>
+            <p>Download your required report</p>
+            <select id="funds" name="funds"></select>
+            <br>
             <button onclick="exportData('applications')">Export as CSV</button>
-            <button onclick="exportData('applications', 'pdf')">Export as PDF</button>
+            <button id="generate">Export as PDF</button>
         </section>
 
         <section id="custom-report">
             <h2>Custom Report View</h2>
             <button onclick="exportData('custom')">Export as CSV</button>
-            <button onclick="exportData('custom', 'pdf')">Export as PDF</button>
+            <button id="customButton">Export as PDF</button>
         </section>
     </main>
 
     <footer>
-        &copy; 2024 Admin Dashboard
+        &copy; 2024 Fund Manager Dashboard
     </footer>
 </body>
 </html>
