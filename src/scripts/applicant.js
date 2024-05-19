@@ -158,7 +158,7 @@ submitBtn.addEventListener('click', async()=>{
     const FOName = dropdown.value;
     console.log(files.value);
     await applyForFundingOpportunity(FOName);
-    modal("Your application is successful and will be reviewed");
+    modal(`Your application for ${FOName} is successful and will be reviewed`);
 });
 
 
