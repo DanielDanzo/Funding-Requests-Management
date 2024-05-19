@@ -6,7 +6,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js';
 import { storage } from './init.js';
 import { updateFundingURL } from './fundingApplication.js';
-import { getUserURLs } from './userApplications.js';
+import { getUserURLs, updateUserURL } from './userApplications.js';
 
 var URL;
 var per = 0;
