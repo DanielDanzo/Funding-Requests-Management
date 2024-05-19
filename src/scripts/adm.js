@@ -89,6 +89,7 @@ async function changePermissions(){
 
 
 function displayUser(){
+    userdetails.innerHTML = ` `;
 
     const topPart = document.createElement('div');
     topPart.innerHTML = `
