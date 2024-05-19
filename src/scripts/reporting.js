@@ -5,10 +5,6 @@ import { onUserRejectApplication, onUserAcceptApplication } from "../modules/use
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
 import { modal } from "./notifications.js"
 
-console.log(modal);
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF() //jsPDF() allows us to download PDF with information we give it
-
 let selectedValue;
 let fundWithApplicants = -1;
 
@@ -86,7 +82,7 @@ async function generatePDFFromFunds(funds) {
     doc.setTextColor(0,0,0);
     doc.text(`Funding Opportunity Report`, 50, pageOffset + 20);
 
-    doc.setFontSize(14);
+    doc.setFontSize(13);
     doc.setFont("times", "normal");
 
     pageOffset = 60;
@@ -141,7 +137,7 @@ genButton.addEventListener("click", async () => {
         }
     });
 
-    //modal(`${name} Report has been downloaded.`, genButton);
+    modal(`${name} Report has been downloaded.`);
     downloadPDF(applications.length);
 });
 
@@ -149,7 +145,7 @@ genButton.addEventListener("click", async () => {
 customButton.addEventListener('click', async () => {
     const allFunds = await getFundingOpportunity();
     console.log(allFunds);
-    //modal("A funding opportunity has been downloaded.", customButton);
+    modal(`Funding report has been downloaded.`);
     generatePDFFromFunds(allFunds);
 })
 
@@ -201,15 +197,9 @@ async function getFundingOpportunity(){
 async function updateApplications(name){
   applications = await getAllFundingApplications(name);
   if(applications.length === 0){
-    fundWithApplicants = 0;
     applications = [];
     return;
-  }else{
-    fundWithApplicants = applications.length;
   }
-
-  console.log(applications);
-
 }
 
 
