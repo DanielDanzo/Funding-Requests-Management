@@ -147,20 +147,25 @@ async function applyForFundingOpportunity(FOName){
         await uploadDoc(file, file.name, email, FOName, index);
     });
     
-
-    
 }
-
-
 
 submitBtn.addEventListener('click', async()=>{
     console.log('Hello');
     const FOName = dropdown.value;
     console.log(files.value);
     await applyForFundingOpportunity(FOName);
-    modal(`Your application for ${FOName} is successful and will be reviewed`);
+    
 });
 
+submitBtn.addEventListener('click', ()=>{
+    const FOName = dropdown.value;
+    if(FOName != "Select"){
+        modal(`Your application for ${FOName} is successful and will be reviewed`);
+    }else{
+        modal("Please select a Funding Opportunity or FUCK OFF!");
+    }
+    
+}) 
 
 
 files.addEventListener('change', (event)=>{
