@@ -162,7 +162,7 @@ submitBtn.addEventListener('click', ()=>{
     if(FOName != "Select"){
         modal(`Your application for ${FOName} is successful and will be reviewed`);
     }else{
-        modal("Please select a Funding Opportunity or FUCK OFF!");
+        modal("Please select a funding opportunity");
     }
     
 }) 
