@@ -30,7 +30,7 @@ async function uploadDoc(file, fileName, email, FOName, index){
             console.log('Upload is paused');
             break;
         case 'running':
-            console.log('Upload is running');
+            //console.log('Upload is running');
             break;
         default:
             break;
@@ -57,7 +57,11 @@ async function uploadDoc(file, fileName, email, FOName, index){
 */
 async function getDocuments(name,email){
     const URLs = await getUserURLs(name, email);
-    console.log(URLs);
+    //console.log(URLs);
+
+
+    //TODO:Download file using url
+    //Note: URLs is a json object with URLs. (ie. {0:URL1, 1:URL2, 2:URL3, .......})
     // This can be downloaded directly:
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
@@ -66,6 +70,8 @@ async function getDocuments(name,email){
     };
     xhr.open('GET', URLs[0]);
     xhr.send();
+
+
 }
 
 

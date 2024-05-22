@@ -15,7 +15,7 @@ async function getUserID(email){
     try {
       const q = query(collection(db, 'users'), where('Email', '==', email));
       const querySnapshot = await getDocs(q);
-      console.log(querySnapshot.docs[0].id);
+      //console.log(querySnapshot.docs[0].id);
       return querySnapshot.docs[0].id;
   
     } catch (error) {
@@ -59,6 +59,11 @@ async function verifyUser(email){
 //Function to set the email
 function setEmail(email){
     window.localStorage.setItem('email', email);
+}
+
+//Function to set the email
+function getEmail(){
+    return window.localStorage.getItem('email');
 }
 
 
@@ -111,8 +116,6 @@ async function signInUser(){
             // Handle Errors here.
             console.log(error);
             console.log('Error code: ', error.code);
-            const errorCode = error.code;
-            const errorMessage = error.message;
         });
     
 }
@@ -126,11 +129,11 @@ async function isRegistered(email){
     const userRef = query(collection(db, 'users'), where('Email', '==', email));
 
     const querySnapshot = await getDocs(userRef);
-    console.log(querySnapshot);
+    //console.log(querySnapshot);
     //console.log('Is snapShot empty: ',querySnapshot.value === undefined);
     //console.log(querySnapshot.doc);
     if(querySnapshot.empty){
-        console.log('Here');
+        //console.log('Here');
         
         console.log(querySnapshot.empty);
         return false;
@@ -183,8 +186,8 @@ async function registerUser(admin, fundManager, applicant, email){
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if( result.user.email != email){
-            console.log(result.user.emai);
-            console.log(email);
+            //console.log(result.user.emai);
+            //console.log(email);
             console.log('Please Provide a valid email');
             return;
         }
@@ -192,8 +195,8 @@ async function registerUser(admin, fundManager, applicant, email){
         // The signed-in user info.
         //console.log('here');
         const user = result.user;
-        console.log(user.email);
-        console.log(admin, fundManager, applicant);
+       // console.log(user.email);
+        //console.log(admin, fundManager, applicant);
         //console.log('Now Here');
         //console.log(user);
         const userToken = await user.accessToken;
@@ -211,8 +214,6 @@ async function registerUser(admin, fundManager, applicant, email){
         // Handle Errors here.
         console.log(error);
         console.log('Error code: ', error.code);
-        const errorCode = error.code;
-        const errorMessage = error.message;
     });       
 }
 
@@ -224,8 +225,8 @@ async function getUser(email){
     try {
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
-        console.log(email);
-        console.log(querySnapshot);
+        //console.log(email);
+        //console.log(querySnapshot);
         var resultUser = undefined;
         if(querySnapshot.empty){
             return resultUser;
@@ -246,13 +247,6 @@ async function getUser(email){
 
 
 
-/*
-*
-*
-*/
-async function getUserByRole(){
-    console.log('Hello');
-}
 
 export {   
     verifyRole,
@@ -264,5 +258,6 @@ export {
      registerUser, 
      getUser, 
      getUserID,
-     getUserByRole 
+     getUserByRole ,
+     getEmail
 };

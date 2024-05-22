@@ -1,7 +1,8 @@
-import { getfundingByName, getOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
+import { getfundingByName, getRoleOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
 import { onUserRejectApplication, onUserAcceptApplication } from "../modules/userApplications.js";
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
 import { getDocuments } from "../modules/storage.js";
+import { getEmail } from "../modules/users.js";
 
 
 
@@ -57,6 +58,7 @@ updateFunds.addEventListener('click', async (event) => {
       const index = event.target.dataset.index;
       //console.log('Button reject Clicked! at: ',index);
       //console.log(applications[index]);
+      //TODO: Notification to fundmanager informing him: "Application Rejcted!";
       onRejectApplication(name, applications[index].Email)
   }
 
@@ -70,7 +72,7 @@ updateFunds.addEventListener('click', async (event) => {
 
   else if(event.target.classList.contains('retrieve-btn')){
     const index = event.target.dataset.index;
-    console.log('Retrieve button clicked at :', index);
+    //console.log('Retrieve button clicked at :', index);
     await getDocuments(name, applications[index].Email);
   }
 });
@@ -84,7 +86,7 @@ updateFunds.addEventListener('click', async (event) => {
 */
 async function fundingDropDown(dropdown){
     dropdown.innerHTML = `<option value="Select">Select</option>`;
-    const allFunds = await getOrderedFungingOpportunity();
+    const allFunds = await getRoleOrderedFungingOpportunity(getEmail);
 
     //sorts the funding opportunity array
     allFunds.sort((str1, str2)=>{
@@ -129,27 +131,55 @@ function displayAllApplications(){
 
 
     updateFunds.innerHTML = '';
+
+    const userInfo = document.createElement('table');
+    userInfo.className = 'user-table';
+
+    userInfo.innerHTML = `
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    `;
+    
     applications.forEach((doc, index) => {
-        const app = document.createElement('div');
-        app.classList.add('Applicant');
         if(doc.Status === 'Approved'){
+            const app = document.createElement('tbody');
             app.innerHTML = `
-            <li>Applicant: ${doc.Email} 
-            <br> <p style="color: #138808">Application Approved<p> <li>
+            <tr>
+                <td>${doc.Email}</td>
+                <td>${doc.submitDate}</td>
+                <td class='approved-status'>Approved</td>
+                <td class='btns'>
+                    <input id="retrieveBtn" type='button' class="retrieve-btn"  data-index="${index}" value='Documents'>
+                </td>
+            </tr>
             `;
+
+            userInfo.appendChild(app);
         }else{
+            const app = document.createElement('tbody');
             app.innerHTML = `
-            <li>Applicant: ${doc.Email} 
-            <br> <input id="rejectBtn" class="reject-btn"  data-index="${index}" type='button' value='Reject'>
-            <input id="acceptBtn" type='button' class="accept-btn"  data-index="${index}" value='Accept'>
-            <input id="retrieveBtn" type='button' class="retrieve-btn"  data-index="${index}" value='get Documents'><li>
-            
-        `;
-        }
-        
-        updateFunds.appendChild(app);
-        
+            <tr>
+                <td>${doc.Email}</td>
+                <td>${doc.submitDate}</td>
+                <td >Pending</td>
+                <td class='btns'>
+                    <input id="rejectBtn" class="reject-btn"  data-index="${index}" type='button' value='Reject'>
+                    <input id="acceptBtn" type='button' class="accept-btn"  data-index="${index}" value='Accept'>
+                    <input id="retrieveBtn" type='button' class="retrieve-btn"  data-index="${index}" value='Documents'>
+                </td>
+            </tr>
+            `;
+
+            userInfo.appendChild(app);
+        }  
     });
+    updateFunds.appendChild(userInfo);
 }
 
 
@@ -205,28 +235,5 @@ async function onAcceptApplication(name, email){
   await displayFundingApplications(name, updateFunds); 
 }
 
-
-
-
-/*
-document.addEventListener('DOMContentLoaded', async () => {
-    const dropdown = document.getElementById("funds");
-    let updateFunds = document.getElementById("updateFund");
-
-
-    //Show all options for all Funding Opportunities aranged aplhabetically
-    //await fundingDropDown(dropdown);
-
-    console.log('Here');
-    dropdown.addEventListener('change', async () => {
-        selectedValue = dropdown.value;
-        //Show information about funding opportunity
-        console.log(selectedValue);
-        await fundingInfo(selectedValue);
-        //Show all funding applications
-        await showAllFundingApplications(selectedValue, updateFunds);
-
-    })
-})*/
 
 

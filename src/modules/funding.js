@@ -33,7 +33,7 @@ async function verifyFundingName(name){
     const userRef = query(collection(db, 'Funding Opportunity'), where('Name','==',name));
     const namesQuerySnapshot = await getDocs(userRef);
     //console.log('Here');
-    console.log(namesQuerySnapshot);
+    //console.log(namesQuerySnapshot);
     if(namesQuerySnapshot.empty){
       return true;
     }
@@ -52,18 +52,18 @@ async function verifyFundingName(name){
 async function addUserRole(FOName, email){
     try {
         // Reference to the user document
-        console.log('Funding Opportunity Name: ', FOName);
-        console.log('Email: ', email);
+        //console.log('Funding Opportunity Name: ', FOName);
+        //console.log('Email: ', email);
         //const q = query( collection(db, 'Funding Opportunity'), where('Name', '==', FOName));
         const q = doc(db, 'Funding Opportunity', fundID );
   
   
         // Reference to the subcollection
-        console.log('Trying FORef');
+        //console.log('Trying FORef');
         //const applicationsRef = collection(userRef, 'Roles');
         const roleRef = collection(q, 'Roles');
   
-        console.log('Here');
+        //console.log('Here');
         const docRef = await addDoc(roleRef, {
           userEmail: email,
           Role: "fundManager",
@@ -106,8 +106,8 @@ async function createFundingOportunity(name, type, estimatedFund, applicantFund,
         AvailableFunds: estimatedFund
       });
 
-      console.log('Email: ', email);
-      console.log('Why email not logging');
+      //console.log('Email: ', email);
+      //console.log('Why email not logging');
       await getFundingOpportunityID(name);
       //await addUserRole(name, email);
       console.log("Sucessfully Added");
@@ -129,6 +129,21 @@ const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), where
 
   return allFunds;
 }
+
+
+async function getRoleOrderedFungingOpportunity(email){
+  const querySnapshot = await getDocs(collection(db, "Funding Opportunity"), where('Manager', '==',email),orderBy("Name"));
+    const allFunds = [];
+  
+    //results from database
+    querySnapshot.forEach((doc)=>{
+        allFunds.push(doc.data().Name);
+    });
+  
+    return allFunds;
+  }
+
+
 
 
 /*  FUNCTION: Retrieves and displays all information about a bursary
@@ -188,5 +203,6 @@ export {
     verifyFundingName,
     getOrderedFungingOpportunity,
     getfundingByName,
-    getAllFundingApplications
+    getAllFundingApplications,
+    getRoleOrderedFungingOpportunity
 }

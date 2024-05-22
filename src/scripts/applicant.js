@@ -6,8 +6,8 @@ import { modal } from "./notifications.js";
 
 
 const OPList = document.getElementById('opportunities-list');
-const email = window.localStorage.getItem('email');
-//const email ='sempapadaniel123@gmail.com';
+//const email = window.localStorage.getItem('email');
+const email ='2508872@students.wits.ac.za';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
@@ -39,43 +39,76 @@ async function loadFundingApplications(){
 function displayAllApplications(fullList, array, type){
     fullList.innerHTML = '';
     const list = document.createElement('ul');
+
+    const nameDiv = document.createElement('div');
+    const statusDiv = document.createElement('div');
+
+    if(type === 'applicationList'){
+        fullList.className = 'application-list';
+        nameDiv.className = 'name-div';
+        statusDiv.className = 'status-div';
+
+        const nameHeader = document.createElement('p');
+        nameHeader.className = 'format-header';
+        nameHeader.textContent = 'Funding Opportunity';
+        const statusHeader = document.createElement('p');
+        statusHeader.className = 'format-header';
+        statusHeader.textContent = 'Status';
+
+        nameDiv.appendChild(nameHeader);
+        statusDiv.appendChild(statusHeader);
+    }else{
+        list.className = 'funding-list';
+    }
+
     array.forEach((doc, index) => {
-        var displayName;
-        const listDate = document.createElement('p');
         if(type === 'applicationList'){
-            displayName = doc.FundingOpportunity;
-            listDate.textContent = doc.Status;
+
+            const statusList = document.createElement('p');
+            statusList.className = 'status-list';
+            statusList.textContent = doc.Status;
+
+            const nameList = document.createElement('p');
+            nameList.className = 'name-list';
+            nameList.textContent = doc.FundingOpportunity;
+
             if(doc.Status == 'Approved'){
-                listDate.style.color = '#138808';
+                statusList.style.color = '#138808';
             }else if(doc.Status == 'Rejected'){
-                listDate.style.color = '#FF0000';
+                statusList.style.color = '#FF0000';
             }
-            
-            
+
+            nameDiv.appendChild(nameList);
+            statusDiv.appendChild(statusList);
+
+
         }else{
-            displayName = doc.Name;
-            listDate.textContent = 'Closing Date: '+doc.ClosingDate;
+            const fund = document.createElement('li');
+            fund.className = 'fund-opportunity';
+
+            const listDate = document.createElement('p');
+            listDate.className = 'closing-date';
+            listDate.textContent = `Closing Date: ${doc.ClosingDate}`;
+            const displayName = document.createElement('p');
+            displayName.className = 'fund-name';
+            displayName.textContent = `${doc.Name}`
+            
+            fund.appendChild(displayName);
+            fund.appendChild(listDate);
+
+            list.appendChild(fund);
+
         }
-        //console.log(doc);
-        const app = document.createElement('li');
-        app.classList.add('funding-opportunities');
-        const listName = document.createElement('p');
-
-        listName.textContent = 'Name: ';
-        listName.style.fontWeight = "bold"
-        listName.textContent += displayName ;
-
-        
-
-        app.appendChild(listName);
-        app.appendChild(listDate);
-        app.style.justifyContent = "space-between";
-        app.style.display = "flex";
-        app.style.flexDirection = "row";
-        list.appendChild(app);    
+           
     });
 
-    fullList.appendChild(list);
+    if(type === 'applicationList'){
+        fullList.appendChild(nameDiv);
+        fullList.appendChild(statusDiv);
+    }else{
+        fullList.appendChild(list);
+    }
+    
 }
 
 

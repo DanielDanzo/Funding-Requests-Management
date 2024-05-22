@@ -15,7 +15,7 @@ async function getUserApplications(email){
         const appSnapshot = await getDocs(userRef);
   
         // Reference to the subcollection
-        console.log(appSnapshot);
+        //console.log(appSnapshot);
         const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), orderBy('Status', 'asc'));
         const querySnapshot = await getDocs(applicationsRef);
 
@@ -69,7 +69,7 @@ async function addUserApplication(email, closingDate, FOName){
 async function allowUserApplication(email, FOName){
     const userRef = query(collection(db, 'users'), where('Email', '==',email));
     const namesQuerySnapshot = await getDocs(userRef);
-    console.log(namesQuerySnapshot);
+    //console.log(namesQuerySnapshot);
 
     const result = namesQuerySnapshot.docs[0];
 
@@ -78,7 +78,7 @@ async function allowUserApplication(email, FOName){
     const q = query(applicationsRef, where('FundingOpportunity', '==',FOName));
     const querySnapshot = await getDocs(q);
 
-    console.log(querySnapshot);
+    //console.log(querySnapshot);
     if(querySnapshot.empty || querySnapshot.docs[0].data().Status === 'Rejected'){
       return true;
     }
@@ -98,7 +98,7 @@ async function onUserRejectApplication(FOName, email){
       const userRef = query(collection(db, 'users'), where('Email', '==', email));
       const namesQuerySnapshot = await getDocs(userRef);
 
-      console.log(namesQuerySnapshot);
+      //console.log(namesQuerySnapshot);
       const result = namesQuerySnapshot.docs[0];
 
       const ID = result.ref.path.split('/')[1];
@@ -133,14 +133,14 @@ async function onUserAcceptApplication(name, email){
       const userRef = query(collection(db, 'users'), where('Email', '==', email));
       const namesQuerySnapshot = await getDocs(userRef);
 
-      console.log(namesQuerySnapshot);
+      //console.log(namesQuerySnapshot);
       const result = namesQuerySnapshot.docs[0];
 
       const appsQuery = query(collection(result.ref, 'Applications'), where('FundingOpportunity', '==', name));
       const appsRef = await getDocs(appsQuery);
-      console.log(name);
-      console.log(appsRef.docs[0].ref);
-      console.log('Here');
+      //console.log(name);
+      //console.log(appsRef.docs[0].ref);
+      //console.log('Here');
       await updateDoc(appsRef.docs[0].ref, {
         Status: 'Approved', 
       })
@@ -168,7 +168,7 @@ async function updateUserURL(email, FOName, index, downloadURL){
     const appSnapshot = await getDocs(userRef);
 
     // Reference to the subcollection
-    console.log(appSnapshot);
+    //console.log(appSnapshot);
     var applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), where('FundingOpportunity', '==', FOName));
     var appsRef = await getDocs(applicationsRef);
 
@@ -203,12 +203,12 @@ async function getUserURLs(name, email){
     const appSnapshot = await getDocs(userRef);
 
     // Reference to the subcollection
-    console.log(appSnapshot);
-    console.log(name);
-    console.log(email);
+    //console.log(appSnapshot);
+    //console.log(name);
+    //console.log(email);
     const applicationsRef = query(collection(appSnapshot.docs[0].ref, 'Applications'), where('FundingOpportunity', '==', name));
     const querySnapshot = await getDocs(applicationsRef);
-    console.log(querySnapshot)
+    //console.log(querySnapshot)
 
     return querySnapshot.docs[0].data().URL;
   } catch (error) {

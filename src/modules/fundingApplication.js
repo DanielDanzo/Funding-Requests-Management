@@ -69,15 +69,15 @@ async function onFundingAcceptApplication(name, email){
       const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
       const namesQuerySnapshot = await getDocs(userRef);
 
-      console.log(name, email);
+      //console.log(name, email);
       const ID = await getUserID(email);
-      console.log(ID);
-      console.log(namesQuerySnapshot);
+      //console.log(ID);
+      //console.log(namesQuerySnapshot);
       var allocateFunds;
       var Transaction;
       var estimatedFunds;
       namesQuerySnapshot.forEach((doc)=>{
-        console.log(doc.data());
+        //console.log(doc.data());
         allocateFunds = doc.data().ApplicantFund;
         Transaction = doc.data().TransactionSummary;
         estimatedFunds = doc.data().EstimatedFunds;
@@ -91,13 +91,13 @@ async function onFundingAcceptApplication(name, email){
       }).then(async ()=>{
         console.log("Updated Transaction");
         const result = namesQuerySnapshot.docs[0];
-        console.log('Here');
-        console.log(result.ref);
+        //console.log('Here');
+        //console.log(result.ref);
 
         const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
         const appsRef =await getDocs(appsQuery);
-        console.log('there');
-        console.log(appsRef);
+        //console.log('there');
+        //console.log(appsRef);
     
         await updateDoc(appsRef.docs[0].ref, {
           Status: 'Approved', 
@@ -134,8 +134,8 @@ async function onFundingAcceptApplication(name, email){
       const namesQuerySnapshot = await getDocs(userRef);
 
       const result = namesQuerySnapshot.docs[0];
-      console.log('Here');
-      console.log(result.ref);
+      //console.log('Here');
+      //console.log(result.ref);
 
       const appsQuery = query(collection(result.ref, 'Applications'), where('Email','==',email));
       const appsRef =await getDocs(appsQuery);
