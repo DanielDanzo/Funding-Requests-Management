@@ -1,5 +1,5 @@
 import {db, auth, provider} from './init.js';
-import { collection, addDoc, getDocs, doc, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, query, where, orderBy, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
 
@@ -198,11 +198,49 @@ async function getAllFundingApplications(name){
 }
 
 
+async function getAllFundingOpportunities(){
+  const q =  query(collection(db, "Funding Opportunity"));
+  const querySnapshot = await getDocs(q);
+  //const data = querySnapshot.docs.data;
+  //console.log(querySnapshot);
+  var info = [];
+  //console.log(data);
+  querySnapshot.forEach((doc) => {
+      //console.log(doc);
+      info.push(doc.data());
+  });
+
+  return info;
+}
+
+
+async function deleteFundingOpportunity(name){
+    try {
+      const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
+      const namesQuerySnapshot = await getDocs(userRef);
+      //console.log(namesQuerySnapshot)
+      //console.log(name)
+      const result = namesQuerySnapshot.docs[0];
+      deleteDoc(result.ref)
+      .then(() => {
+        console.log('Document successfully deleted!');
+      })
+      .catch((error) => {
+        console.error('Error removing document: ', error);
+      });
+    } catch (error) {
+      console.error('Error Removing: ',error);
+    } 
+  
+}
+
 export {
     createFundingOportunity,
     verifyFundingName,
     getOrderedFungingOpportunity,
     getfundingByName,
     getAllFundingApplications,
-    getRoleOrderedFungingOpportunity
+    getRoleOrderedFungingOpportunity,
+    getAllFundingOpportunities, 
+    deleteFundingOpportunity
 }

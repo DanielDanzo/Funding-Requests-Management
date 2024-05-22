@@ -85,6 +85,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    margin: 4px;
 }
 
 button:hover {
@@ -103,7 +104,7 @@ button:hover {
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 15px;
-    min-width: 800px;
+    width: 100%;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -127,7 +128,6 @@ button:hover {
 
 
 
-
 .user-actions{
     background: transparent;
     padding: 20px;
@@ -136,4 +136,26 @@ button:hover {
     width: 100%;
     justify-content: center;
     align-items: center;
+}
+
+
+.user-table tbody .btn{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#btns {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px;
+    transition: background-color 0.2s ease-in-out;
+    flex-grow: 1;
+}
+
+#btns:hover {
+    background-color: #0056b3;
 }

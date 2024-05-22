@@ -15,33 +15,35 @@
     <main id="main">
         <section id="user-management">
             <div class="search-box">
-                <label for="search-applicant">Search User:</label>
-                <input list="applicants" id="search-applicant" name="search-applicant" placeholder="Type to search...">
-                <datalist id="applicants">
-                    <option value="Applicant 1">
-                    <option value="Applicant 2">
-                    <option value="Applicant 3">
+                <label for="search-user">Search User:</label>
+                <input list="users" id="search-user" name="search-user" placeholder="Type to search...">
+                <datalist id="users">
+                    <option value="User 1">
+                    <option value="User 2">
+                    <option value="User 3">
                     
                 </datalist>
             </div>
 
             <div class="search-box">
-                <label for="search-fund-manager">Search Funding Opportunity:</label>
-                <input list="fund-managers" id="search-fund-manager" name="search-fund-manager" placeholder="Type to search...">
-                <datalist id="fund-managers">
-                    <option value="Manager 1">
-                    <option value="Manager 2">
-                    <option value="Manager 3">
+                <label for="search-opportunity">Search Funding Opportunity:</label>
+                <input list="Opportunities" id="search-opportunity" name="search-opportunity" placeholder="Type to search...">
+                <datalist id="Opportunities">
+                    <option value="Fund 1">
+                    <option value="Fund 2">
+                    <option value="Fun 3">
                     
                 </datalist>
             </div>
 
-            <button type="button" id="Applicant-Search">Search User</button>
-            <button type="button" id="FundManager-Search" >Search Funding Opportunity</button>
+            <button type="button" id="user-Search">Search User</button>
+            <button type="button" id="opportunity-Search" >Search Funding Opportunity</button>
+            <button type="button" id="user-all-Search">Show All User</button>
+            <button type="button" id="opportunity-all-Search" >Show All Funding Opportunities</button>
         </section>
 
         <section class="user-actions" id="user-section">
-            
+
         </section>
         
     </main>

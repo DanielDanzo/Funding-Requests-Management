@@ -242,7 +242,21 @@ async function getUser(email){
 }
 
 
-
+async function getAllUsers(){
+    try {
+        const q = query(collection(db, 'users'));
+        const querySnapshot = await getDocs(q);
+        //console.log(email);
+        //console.log(querySnapshot);
+        var resultUser = [];
+        querySnapshot.forEach(doc => {
+            resultUser.push(doc.data());
+        });
+        return resultUser;
+    } catch (error) {
+       console.error('Error Retrieving Object: ',error); 
+    }
+}
 
 
 
@@ -258,5 +272,6 @@ export {
      registerUser, 
      getUser, 
      getUserID,
-     getEmail
+     getEmail,
+     getAllUsers
 };
