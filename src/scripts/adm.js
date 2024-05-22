@@ -5,7 +5,7 @@ const searchBox = document.getElementById('search-applicant');
 const applicantBtn = document.getElementById('Applicant-Search');
 const findManager = document.getElementById('search-fund-manager');
 const fundBtn = document.getElementById('FundManager-Search');
-const main = document.getElementById('main');
+const sec = document.getElementById('user-section');
 
 //const userdetails = document.getElementById('user-details');
 //const fullDiv = document.getElementById('user-details');
@@ -87,8 +87,7 @@ async function changePermissions(){
 
 
 function displayUser(){
-    const sec = document.createElement('section');
-    sec.className = 'user-actions';
+    sec.innerHTML = ``;
     const userInfo = document.createElement('table');
     userInfo.className='user-table';
 
@@ -115,6 +114,5 @@ function displayUser(){
         </tbody>
     `;
     sec.appendChild(userInfo);
-
-    main.appendChild(sec);
+    sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 }

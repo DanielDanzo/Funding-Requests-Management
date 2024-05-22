@@ -258,6 +258,5 @@ export {
      registerUser, 
      getUser, 
      getUserID,
-     getUserByRole ,
      getEmail
 };
