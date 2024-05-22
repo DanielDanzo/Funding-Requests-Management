@@ -129,7 +129,7 @@ async function applyForFundingOpportunity(FOName){
     const isValidApplication = await allowUserApplication(email, FOName);
     //If a user has already applied for the Funding Opportunity then they cant apply again
     if(!isValidApplication){
-      console.log('Already Applied for this Funding Opportunity');
+      modal('You have already Applied for this funding.');
       return;
     }
   
