@@ -3,9 +3,13 @@ import { getAndVerifyEmail } from "../modules/security.js";
 const btn1 = document.getElementById('btn1');
 const btn2 = document.getElementById('btn2');
 const btn3 = document.getElementById('btn3');
+const SignOutBtn = document.getElementById('fixedButton');
 
 window.onload = await getAndVerifyEmail('Fund Manager');
 
+SignOutBtn.addEventListener('click', () =>{
+    window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+});
 
 btn1.addEventListener('click', ()=>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/infoFunding.html';
