@@ -15,7 +15,7 @@ async function isAuthorised(email, role){
     }
 
     if(!email){
-        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+        //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
         console.error('422 error');
         return;
     }
@@ -27,9 +27,11 @@ async function isAuthorised(email, role){
     userToken = getUser(email).accessToken;
     const realToken = window.localStorage.getItem('token');
     if(userToken != realToken){
-        signOutUser();
-        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
-        //console.log('Please register');
+        console.log(userToken);
+        console.log(realToken);
+        //signOutUser();
+        //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+        console.log('Please register');
         return;
     }
 }
@@ -47,17 +49,6 @@ async function getAndVerifyEmail(role){
             isAuthorised(email, role)
         }
     });
-
-    /*
-    const user = getAuth().currentUser;
-    if(!user){
-        console.log(user);
-        
-        return;
-    }
-    const email = user.email;
-    console.log(email);
-    //isAuthorised(email, role);*/
     
 }
 
