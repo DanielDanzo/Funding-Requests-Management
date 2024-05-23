@@ -22,7 +22,7 @@ function addFunds(addition) {
         });
 }
 
-submit.addEventListener('click', event => {
+submit.addEventListener('click', async (event)=>{
     event.preventDefault();
     const name = document.getElementById("fund-name").value;
     const type = document.getElementById("Type").value; 
@@ -32,7 +32,8 @@ submit.addEventListener('click', event => {
     const deadline = document.getElementById("app-deadline").value;
     const summary = document.getElementById("more-info").value;
     addFunds({ name, type, estimatedFund, applicantFund, suitable, deadline, summary });
-    createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary, email);
+    await createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary, email);
+    window.location.reload();
 });
 
 
