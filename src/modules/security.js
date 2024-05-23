@@ -50,8 +50,8 @@ async function getAndVerifyEmail(role){
             return;
         }else{
             const email = user.email;
-            console.log(user);
-            //isAuthorised(email, role)
+            //console.log(user);
+            isAuthorised(email, role)
         }
     });
     
