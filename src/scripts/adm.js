@@ -1,393 +1,361 @@
-import { getUser, getAllUsers, blockUser } from "../modules/users.js";
-import { getAllFundingOpportunities } from "../modules/funding.js";
-import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
-import { getAndVerifyEmail } from "../modules/security.js";
-import { modal } from "./notifications.js"
+import { db, auth, provider } from './init.js';
+import { modal } from '../scripts/notifications.js';
+import { signInWithPopup , GoogleAuthProvider, signOut} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import { collection, getDocs, query, where, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-const searchUser = document.getElementById('search-user');
-const userBtn = document.getElementById('user-Search');
-const searchOpportunity = document.getElementById('search-opportunity');
-const opportunitydBtn = document.getElementById('opportunity-Search');
-const allUserBtn = document.getElementById('user-all-Search');
-const allFundBtn = document.getElementById('opportunity-all-Search'); 
-const sec = document.getElementById('user-section');
 
-//const userdetails = document.getElementById('user-details');
-//const fullDiv = document.getElementById('user-details');
-//const userInfo = document.getElementById('user-info');
-var currentUser;
-var allUsers;
-var allFunds;
-var fundingOpportunity;
-var userEmail;
-var fundName;
 
-/*
-*
-*
-*/
-async function SearchForUser(){
-    userEmail = searchUser.value;
-    if(!userEmail){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.textContent = 'Enter user Details';
-        response.style.color ='red';
-        response.style.fontWeight = 'bold';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return;
+
+/*   FUNCTION: Used to help us find the userID  of a specific user which will be used through out our query searches
+*   PARAMS: email- will be used to find the row that contains the email, essentially locating the user
+*   TODO: Hash the email so it can correspond with the hashed email in our database
+*   This funtion returns the userID of a user
+*/  
+async function getUserID(email){
+    try {
+      const q = query(collection(db, 'users'), where('Email', '==', email));
+      const querySnapshot = await getDocs(q);
+      //console.log(querySnapshot.docs[0].id);
+      return querySnapshot.docs[0].id;
+  
+    } catch (error) {
+      console.error(error);
     }
-    currentUser = await getUser(userEmail);
-    if(!currentUser){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.textContent = 'User not found';
-        response.style.color ='red';
-        response.style.fontWeight = 'bold';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return
-    }
-    displayUser();
-    //console.log('User found');
-}
-
-userBtn.addEventListener('click',()=>{
-    SearchForUser();
-});
-
-
-/*
-*
-*
-*/
-async function searchFundOpportunity(){
-    fundName = searchOpportunity.value;
-    if(!fundName){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.style.fontWeight = 'bold';
-        response.style.color ='red';
-        response.textContent = 'Please enter a Funding Opportunity';
-        sec.style.textAlign = 'center';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return;
-    }
-    fundingOpportunity = await getfundingByName(fundName);
-    if(!fundingOpportunity){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.style.fontWeight = 'bold';
-        response.style.color ='red';
-        response.textContent = 'Funding Opportunity not found';
-        sec.style.textAlign = 'center';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return;
-    }
-    //console.log(fundingOpportunity);
-    displayOpportunity();
-    //console.log('Funding Opportunity found');
-}
-
-opportunitydBtn.addEventListener('click', ()=>{
-    searchFundOpportunity();
-});
-
-
-sec.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('approve-btn')) {
-        //console.log('clicked accept btn');
-        approveUser();
-    }
-    if (event.target.classList.contains('single-block-btn')) {
-        //console.log('clicked accept btn');
-        if(await blockUser(currentUser.Email)){
-            sec.innerHTML = ``;
-            const response = document.createElement('p');
-            response.style.fontWeight = 'bold';
-            response.style.color ='red';
-            response.textContent = 'User Blocked';
-            sec.style.textAlign = 'center';
-            sec.appendChild(response);
-            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            return;
-        }else{
-            sec.innerHTML = ``;
-            const response = document.createElement('p');
-            response.style.fontWeight = 'bold';
-            response.style.color ='red';
-            response.textContent = 'Unable to block user';
-            sec.style.textAlign = 'center';
-            sec.appendChild(response);
-            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            return;
-        }
-    }
-
     
-  
-    else if (event.target.classList.contains('block-btn')) {
-        const index = event.target.dataset.index;
-        //console.log('clicked block btn');
-        if(await blockUser(allUsers[index].Email)){
-            sec.innerHTML = ``;
-            const response = document.createElement('p');
-            response.style.fontWeight = 'bold';
-            response.style.color ='red';
-            response.textContent = 'User Blocked';
-            sec.style.textAlign = 'center';
-            sec.appendChild(response);
-            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            return;
-        }else{
-            sec.innerHTML = ``;
-            const response = document.createElement('p');
-            response.style.fontWeight = 'bold';
-            response.style.color ='red';
-            response.textContent = 'Unable to block user';
-            sec.style.textAlign = 'center';
-            sec.appendChild(response);
-            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+}
+
+
+//Function to check if user is registered
+async function verifyRole(email, role){
+    try {
+        console.log('Verifying role.....');
+        const q = query(collection(db, 'users'), where('Email', '==', email), where('Role', '==',role));
+        const querySnapshot = await getDocs(q);
+        if(querySnapshot.empty){
+            return false;
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+
+//Function to check if user is registered
+async function verifyUser(email){
+    try {
+        console.log('Verifying Email');
+        const q = query(collection(db, 'users'), where('Email', '==', email));
+        const querySnapshot = await getDocs(q);
+        if(querySnapshot.empty){
+            return false;
+        }
+        if(querySnapshot.docs[0].data().Blocked === false){
+            modal('You have been blocked');
+            return false;
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+//Function to set the email
+function setEmail(email){
+    window.localStorage.setItem('email', email);
+}
+
+//Function to set the email
+function getEmail(){
+    return window.localStorage.getItem('email');
+}
+
+//Function to set the email
+function setToken(email){
+    window.localStorage.setItem('token', email);
+}
+
+
+
+
+/*
+*
+*
+*/
+async function AssignRole( email){
+    const user =await getUser(email);
+    return user.Role;
+
+}
+
+
+
+//FUNCTION: Registers user using their google email
+async function signInUser(pTag){
+    //sign-in using small window prompt
+    signInWithPopup(auth, provider)
+    .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        //console.log(credential);
+        // The signed-in user info.
+        //return result.user;
+        const user = result.user;
+        const email = user.email;
+        setEmail(email);
+        setToken(user.accessToken);
+
+        const verified = await verifyUser(email);
+        // The signed-in user info.
+        if(!verified){
+            pTag.innerHTML = 'Please register';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
             return;
         }
-    }
-  
-  
-    else if(event.target.classList.contains('permissions-btn')){
-        //console.log('clicked permissions btn');
-        changePermissions();
+
+
+        const role = await AssignRole(email);
+
+        //Then take the user to their desired home page
+        if(role === 'Admin'){
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
+        }else if(role === 'Fund Manager'){
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
+        }else{
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
+        }
+            
+        }).catch((error) => {
+            // Handle Errors here.
+            signOutUser();
+            console.log(error);
+            console.log('Error code: ', error.code);
+        });
+    
+}
+
+
+/*  FUNCTION: checks whether or not a user is in the database
+*   PARAMETERS: email- each user has a unique email which will help us identify users
+*   This function should return true or false based on whether or not a user is registered or not
+*/
+async function isRegistered(email){
+    const userRef = query(collection(db, 'users'), where('Email', '==', email));
+
+    const querySnapshot = await getDocs(userRef);
+    //console.log(querySnapshot);
+    //console.log('Is snapShot empty: ',querySnapshot.value === undefined);
+    //console.log(querySnapshot.doc);
+    if(querySnapshot.empty){
+        //console.log('Here');
+        
+        console.log(querySnapshot.empty);
+        return false;
     }
 
-    else if(event.target.classList.contains('remove-btn')){
-        const index = event.target.dataset.index;
-        var fundName;
-        if(index){
-            //console.log('clicked remove btn at: ', index);
-            fundName = allFunds[index].Name;
-            await deleteFundingOpportunity(fundName);
-            await SearchAllFunds();
+    return true;
+}
+
+
+/*  FUNCTION: Adds user to the database
+*   PARAMETERS: email- User email that we need to has
+*               role- specifies the role of the user
+*               isSignIn- specifies whether or not user is SignedIn
+*               token- this is the token received from google signIn
+*   TODO: Hash email address for security issues
+*/
+async function addUser(email, role, isSignIn, userToken, name){
+    //console.log('Email: ',email);
+    //console.log('Role : ',role);
+    ////console.log('Status: ',isSignIn);
+    //console.log('Token: ',userToken);
+    try {
+
+        const registeredUser = await isRegistered(email);
+        //console.log(registeredUser);
+        if(registeredUser){
+            return false;
+        }
+        const userRef = collection(db, 'users');
+
+        const docRef = await addDoc(userRef, {
+          Email: email,
+          Name: name,
+          Blocked: false,
+          Role: role,
+          isSignIn: isSignIn,
+          Token: userToken
+        });
+        console.log("Sucessfully Added");
+        return true;
+      } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
+
+function sendMail(EMail){
+    (function(){
+        emailjs.init("u7aPmoilsd1g-HeLQ");
+    })();
+
+    var params = {
+        sendername:"LoyalFunding",
+        to: EMail,
+        subject: "Registration",
+        replyto: "noreply@gmail.com",
+        message:"You are now registered",
+    };
+    var serviceID = "service_4jnlv73";
+    var templateID = "template_e2xx532"; 
+
+    emailjs.send(serviceID,templateID,params)
+    .then( res => {
+        //alert("Mail sent");
+    })
+    .catch();
+}
+
+
+async function registerUser(admin, fundManager, applicant, email, name, pTag){
+    //sign-in using small window prompt
+    signInWithPopup(auth, provider)
+    .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if( result.user.email !== email){
+            console.log('Result: ',result);
+            console.log(result.user.emai);
+            console.log(email);
+            pTag.innerHTML = 'Please provide a valid email';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
+            return;
+        }
+        //console.log(credential);
+        // The signed-in user info.
+        //console.log('here');
+        const user = result.user;
+       // console.log(user.email);
+        //console.log(admin, fundManager, applicant);
+        //console.log('Now Here');
+        //console.log(user);
+        const userToken = await user.accessToken;
+        setToken(user.accessToken);
+        if(admin && (await addUser(user.email, "Admin", true, userToken,name)) ){
+            sendMail(email);
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
+        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken, name)) ){
+            sendMail(email);
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
+        }else if(applicant && (await addUser(user.email, "Applicant", true, userToken, name)) ){
+            sendMail(email);
+            window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }else{
-            fundName = fundingOpportunity;
-            //console.log(fundName);
-            await deleteFundingOpportunity(fundName.Name);
-            sec.innerHTML = ``;
-            sec.style.boxShadow ='none';
+            pTag.innerHTML = 'Invalid register details';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
         }
         
-        //console.log('clicked remove btn');
+    }).catch((error) => {
+        // Handle Errors here.
+        console.log(error);
+        console.log('Error code: ', error.code);
+    });       
+}
 
-    }
-});
-
-
-
-/*
+/*  FUNCTION: To get a specific user
 *
 *
 */
-async function approveUser(){
-    console.log('User Approved');
-    modal('User Approved')
-}
-
-
-
-
-/*
-*
-*
-*/
-async function changePermissions(){
-    console.log('Permissions changed');
-    modal('Permissions Approved')
-}
-
-
-
-function displayUser(){
-    sec.innerHTML = ``;
-    const userInfo = document.createElement('table');
-    userInfo.className='user-table';
-
-    userInfo.innerHTML = `
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${currentUser.Name}</td>
-                <td>${currentUser.Email}</td>
-                <td>${currentUser.Role}</td>
-                <td class='btn'>
-                    <input id='btns' class="single-approve-btn" type="button" value='Approve'>
-                    <input id='btns' class="single-block-btn" type="button" value='block'>
-                    <input id='btns' class="single-permissions-btn" type="button" value='Permissions'>
-                </td>
-            </tr>
-        </tbody>
-    `;
-    sec.appendChild(userInfo);
-    sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-}
-
-
-
-function displayOpportunity(){
-    sec.innerHTML = ``;
-    const userInfo = document.createElement('table');
-    userInfo.className='user-table';
-
-    userInfo.innerHTML = `
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Deadline</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${fundingOpportunity.Name}</td>
-                <td>${fundingOpportunity.ClosingDate}</td>
-                <td>${fundingOpportunity.Description}</td>
-                <td class='btn'>
-                    <input id='btns' class="remove-btn"  type="button" value='Remove'>
-                </td>
-            </tr>
-        </tbody>
-    `;
-    sec.appendChild(userInfo);
-    sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-}
-
-
-
-
-
-allUserBtn.addEventListener('click', ()=>{
-    SearchAllUsers()
-});
-
-async function SearchAllUsers(){
-    allUsers = await getAllUsers();
-    if(allUsers.empty){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.style.fontWeight = 'bold';
-        response.style.color ='red';
-        response.textContent = 'There are currently no funding Opportunities';
-        sec.style.textAlign = 'center';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return;
+async function getUser(email){
+    try {
+        const q = query(collection(db, 'users'), where('Email', '==', email));
+        const querySnapshot = await getDocs(q);
+        //console.log(email);
+        //console.log(querySnapshot);
+        var resultUser = undefined;
+        if(querySnapshot.empty){
+            return resultUser;
+        }
+        querySnapshot.forEach(doc => {
+            resultUser = doc.data()
+            return ;
+        });
+        return resultUser;
+    } catch (error) {
+       console.error('Error Retrieving Object: ',error); 
     }
-
-    displayAllUsers();
-    //console.log('Successfully displayed all users');
-}
-
-function displayAllUsers(){
-    sec.innerHTML = ``;
-    const userTable = document.createElement('table');
-    userTable.className='user-table';
-
-    const header = document.createElement('thead');
-    header.innerHTML = `
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    `;
-    userTable.appendChild(header);
-
-    allUsers.forEach((user, index) => {
-        const userInfo = document.createElement('tbody');
-        userInfo.innerHTML = `
-            <tr>
-                <td>${user.Name}</td>
-                <td>${user.Email}</td>
-                <td>${user.Role}</td>
-                <td class='btn'>
-                    <input id='btns' class="approve-btn" data-index="${index}" type="button" value='Approve'>
-                    <input id='btns' class="block-btn" data-index="${index}" type="button" value='block'>
-                    <input id='btns' class="permissions-btn" data-index="${index}" type="button" value='Permissions'>
-                </td>
-            </tr>
-        `;
-        userTable.appendChild(userInfo);
-    });
-
-    sec.appendChild(userTable);
-    sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 }
 
 
-
-allFundBtn.addEventListener('click', ()=>{
-    SearchAllFunds()
-});
-
-async function SearchAllFunds(){
-    allFunds = await getAllFundingOpportunities();
-    if(allFunds.empty){
-        sec.innerHTML = ``;
-        const response = document.createElement('p');
-        response.textContent = 'There are currently no funding Opportunities';
-        sec.appendChild(response);
-        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        return;
+async function getAllUsers(){
+    try {
+        const q = query(collection(db, 'users'));
+        const querySnapshot = await getDocs(q);
+        //console.log(email);
+        //console.log(querySnapshot);
+        var resultUser = [];
+        querySnapshot.forEach(doc => {
+            resultUser.push(doc.data());
+        });
+        return resultUser;
+    } catch (error) {
+       console.error('Error Retrieving Object: ',error); 
     }
-
-    displayAllFunds();
-    //console.log('Successfully displayed all users');
-}
-
-function displayAllFunds(){
-    //console.log(allFunds)
-    sec.innerHTML = ``;
-    const fundTable = document.createElement('table');
-    fundTable.className='user-table';
-
-    const header = document.createElement('thead');
-    header.innerHTML = `
-        <tr>
-            <th>Name</th>
-            <th>Deadline</th>
-            <th>Description</th>
-            <th>Actions</th>
-        </tr>
-    `;
-    fundTable.appendChild(header);
-
-    allFunds.forEach((fund, index) => {
-        const fundInfo = document.createElement('tbody');
-        fundInfo.innerHTML = `
-            <tr>
-                <td>${fund.Name}</td>
-                <td>${fund.ClosingDate}</td>
-                <td>${fund.Description}</td>
-                <td class='btn'>
-                    <input id='btns' class="remove-btn" data-index="${index}" type="button" value='Remove'>
-                </td>
-            </tr>
-        `;
-        fundTable.appendChild(fundInfo);
-    });
-
-    sec.appendChild(fundTable);
-    sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 }
 
 
-window.onload = await getAndVerifyEmail('Admin');
+async function signOutUser(){
+    signOut(auth).then(()=>{
+        //console.log('signed out successfully');
+    }).catch(error=>{
+        console.log(error);
+    })
+}
+
+
+async function blockUser(email){     
+    try {
+      const userRef = query(collection(db, 'users'), where('Email', '==', email));
+      const namesQuerySnapshot = await getDocs(userRef);
+
+      await updateDoc(namesQuerySnapshot.docs[0].ref, {
+        Blocked: true, 
+      })
+      .then(async ()=>{
+        //console.log('Rejected succefully!');
+        return true;
+      })
+      .catch((error)=>{
+        //console.error("Error updating document: ", error)
+        return false;
+      });
+      
+    } catch (e) {
+      //console.error("Error updating document: ", e);
+      return false;
+    }
+}
+
+
+
+export {   
+    verifyRole,
+     verifyUser, 
+     setEmail, 
+     signInUser, 
+     isRegistered, 
+     addUser, 
+     registerUser, 
+     getUser, 
+     getUserID,
+     getEmail,
+     getAllUsers,
+     signOutUser,
+     blockUser
+};
