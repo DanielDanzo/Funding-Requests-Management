@@ -215,3 +215,21 @@ footer a:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+#fixedButton {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    opacity: 0.3;
+    transition: opacity 0.3s ease-in-out;
+    width: 100px;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+#fixedButton:hover {
+    opacity: 1;
+}
