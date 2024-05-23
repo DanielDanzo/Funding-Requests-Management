@@ -9,15 +9,19 @@ async function isAuthorised(email, role){
     const verified = await verifyRole(email, role);
     if(!verified){
         const role = await getUser(email).Role;
-        console.log(role);
-        console.error('404 error');
-        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html'; 
+        if( role === 'Admin'){
+            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
+        }else if( role === 'Fund Manager'){
+            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
+        }else{
+            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html'; 
+        }
         return;
     }
 
     if(!email){
-        //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
-        console.error('422 error');
+        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+        //console.error('422 error');
         return;
     }
 
@@ -28,8 +32,8 @@ async function isAuthorised(email, role){
     userToken = getUser(email).accessToken;
     const realToken = window.localStorage.getItem('token');
     if(userToken != realToken){
-        console.log(userToken);
-        console.log(realToken);
+        console.log('Token ',userToken);
+        console.log('RealToken: ',realToken);
         //signOutUser();
         //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
         console.log('Please register');
@@ -38,16 +42,16 @@ async function isAuthorised(email, role){
 }
 
 async function getAndVerifyEmail(role){
-    console.log('Verifying...');
+    //console.log('Verifying...');
     onAuthStateChanged(auth, async (user)=>{
-        console.log(user);
+        //console.log(user);
         if(!user){
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
             return;
         }else{
             const email = user.email;
             console.log(user);
-            isAuthorised(email, role)
+            //isAuthorised(email, role)
         }
     });
     
