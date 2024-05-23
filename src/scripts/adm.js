@@ -102,10 +102,37 @@ sec.addEventListener('click', async (event) => {
         //console.log('clicked accept btn');
         approveUser();
     }
+    if (event.target.classList.contains('single-block-btn')) {
+        //console.log('clicked accept btn');
+        if(await blockUser(currentUser.Email)){
+            sec.innerHTML = ``;
+            const response = document.createElement('p');
+            response.style.fontWeight = 'bold';
+            response.style.color ='red';
+            response.textContent = 'User Blocked';
+            sec.style.textAlign = 'center';
+            sec.appendChild(response);
+            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            return;
+        }else{
+            sec.innerHTML = ``;
+            const response = document.createElement('p');
+            response.style.fontWeight = 'bold';
+            response.style.color ='red';
+            response.textContent = 'Unable to block user';
+            sec.style.textAlign = 'center';
+            sec.appendChild(response);
+            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            return;
+        }
+    }
+
+    
   
     else if (event.target.classList.contains('block-btn')) {
+        const index = event.target.dataset.index;
         //console.log('clicked block btn');
-        if(await blockUser(Email)){
+        if(await blockUser(allUsers[index].Email)){
             sec.innerHTML = ``;
             const response = document.createElement('p');
             response.style.fontWeight = 'bold';
@@ -198,9 +225,9 @@ function displayUser(){
                 <td>${currentUser.Email}</td>
                 <td>${currentUser.Role}</td>
                 <td class='btn'>
-                    <input id='btns' class="approve-btn" type="button" value='Approve'>
-                    <input id='btns' class="block-btn" type="button" value='block'>
-                    <input id='btns' class="permissions-btn" type="button" value='Permissions'>
+                    <input id='btns' class="single-approve-btn" type="button" value='Approve'>
+                    <input id='btns' class="single-block-btn" type="button" value='block'>
+                    <input id='btns' class="single-permissions-btn" type="button" value='Permissions'>
                 </td>
             </tr>
         </tbody>
