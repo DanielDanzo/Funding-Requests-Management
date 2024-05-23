@@ -47,7 +47,18 @@ async function getAndVerifyEmail(role){
     onAuthStateChanged(auth, async (user)=>{
         console.log(user);
         if(!user){
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+            window.localStorage.setItem("Blocked", "True");
+            const role = await getUser(user.email).Role;
+            if(role === "Applicant"){
+                window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';    
+            }else if(role == "Fund Manager"){
+                window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
+            }else if(role == "Admin"){
+                window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/admin.html';
+            }else{
+                window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+            }
+            
             return;
         }else{
             const email = user.email;
