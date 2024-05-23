@@ -1,5 +1,5 @@
 import { getUser, verifyRole, signOutUser } from './users.js';
-import { getAuth } from './init.js';
+import { getAuth, auth } from './init.js';
 import { onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 
 
