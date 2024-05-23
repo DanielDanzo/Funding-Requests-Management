@@ -62,8 +62,6 @@ async function getAndVerifyEmail(role){
     });
     
 }
-}
-
 
 export {
     isAuthorised,
