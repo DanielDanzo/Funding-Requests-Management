@@ -40,7 +40,7 @@ btn_submit_signup.addEventListener('click', async ()=>{
     }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
-        await registerUser(admin, fundManager, applicant, userEmail.value, document.getElementById('response'));
+        await registerUser(admin, fundManager, applicant, userEmail.value, userName.value, document.getElementById('response'));
         
     }else{
         document.getElementById('response').innerHTML = 'Please enter required fields';

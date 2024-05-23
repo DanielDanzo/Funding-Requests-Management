@@ -32,6 +32,8 @@ async function SearchForUser(){
         sec.innerHTML = ``;
         const response = document.createElement('p');
         response.textContent = 'Enter user Details';
+        response.style.color ='red';
+        response.style.fontWeight = 'bold';
         sec.appendChild(response);
         sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
@@ -41,6 +43,8 @@ async function SearchForUser(){
         sec.innerHTML = ``;
         const response = document.createElement('p');
         response.textContent = 'User not found';
+        response.style.color ='red';
+        response.style.fontWeight = 'bold';
         sec.appendChild(response);
         sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return
@@ -181,7 +185,7 @@ function displayUser(){
         </thead>
         <tbody>
             <tr>
-                <td>Daniel</td>
+                <td>${currentUser.Name}</td>
                 <td>${currentUser.Email}</td>
                 <td>${currentUser.Role}</td>
                 <td class='btn'>
@@ -273,7 +277,7 @@ function displayAllUsers(){
         const userInfo = document.createElement('tbody');
         userInfo.innerHTML = `
             <tr>
-                <td>Daniel</td>
+                <td>${user.Name}</td>
                 <td>${user.Email}</td>
                 <td>${user.Role}</td>
                 <td class='btn'>

@@ -1,4 +1,5 @@
 import { db, auth, provider } from './init.js';
+import { modal } from '../scripts/notifications.js';
 import { signInWithPopup , GoogleAuthProvider, signOut} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 import { collection, getDocs, query, where, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
@@ -47,6 +48,10 @@ async function verifyUser(email){
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         if(querySnapshot.empty){
+            return false;
+        }
+        if(querySnapshot.docs[0].data().Blocked === false){
+            modal('You have been blocked');
             return false;
         }
         return true;
@@ -161,7 +166,7 @@ async function isRegistered(email){
 *               token- this is the token received from google signIn
 *   TODO: Hash email address for security issues
 */
-async function addUser(email, role, isSignIn, userToken){
+async function addUser(email, role, isSignIn, userToken, name){
     //console.log('Email: ',email);
     //console.log('Role : ',role);
     ////console.log('Status: ',isSignIn);
@@ -177,6 +182,8 @@ async function addUser(email, role, isSignIn, userToken){
 
         const docRef = await addDoc(userRef, {
           Email: email,
+          Name: name,
+          Blocked: false,
           Role: role,
           isSignIn: isSignIn,
           Token: userToken
@@ -212,7 +219,7 @@ function sendMail(EMail){
 }
 
 
-async function registerUser(admin, fundManager, applicant, email, pTag){
+async function registerUser(admin, fundManager, applicant, email, name, pTag){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
@@ -238,13 +245,13 @@ async function registerUser(admin, fundManager, applicant, email, pTag){
         //console.log(user);
         const userToken = await user.accessToken;
         setToken(user.accessToken);
-        if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
+        if(admin && (await addUser(user.email, "Admin", true, userToken,name)) ){
             sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
-        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
+        }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken, name)) ){
             sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
-        }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
+        }else if(applicant && (await addUser(user.email, "Applicant", true, userToken, name)) ){
             sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }else{

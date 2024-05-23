@@ -28,6 +28,7 @@ async function isAuthorised(email, role){
 
 
     //Check if user in cache in the same user currently logged in
+    /*
     var userToken;
     userToken = getUser(email).accessToken;
     const realToken = window.localStorage.getItem('token');
@@ -38,7 +39,7 @@ async function isAuthorised(email, role){
         window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
         //console.log('Please register');
         return;
-    }
+    }*/
 }
 
 async function getAndVerifyEmail(role){
