@@ -319,6 +319,30 @@ async function signOutUser(){
 }
 
 
+async function blockUser(email){     
+    try {
+      const userRef = query(collection(db, 'users'), where('Email', '==', email));
+      const namesQuerySnapshot = await getDocs(userRef);
+
+      await updateDoc(appsRef.docs[0].ref, {
+        Blocked: true, 
+      })
+      .then(async ()=>{
+        //console.log('Rejected succefully!');
+        return true;
+      })
+      .catch((error)=>{
+        //console.error("Error updating document: ", error)
+        return false;
+      });
+      
+    } catch (e) {
+      //console.error("Error updating document: ", e);
+      return false;
+    }
+}
+
+
 
 export {   
     verifyRole,
@@ -332,5 +356,6 @@ export {
      getUserID,
      getEmail,
      getAllUsers,
-     signOutUser
+     signOutUser,
+     blockUser
 };
