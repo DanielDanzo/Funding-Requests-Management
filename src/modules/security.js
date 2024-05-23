@@ -11,7 +11,8 @@ async function isAuthorised(email, role){
         const role = await getUser(email).Role;
         console.log(role);
         console.error('404 error');
-        return ;
+        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html'; 
+        return;
     }
 
     if(!email){
