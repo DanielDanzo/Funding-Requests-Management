@@ -7,6 +7,12 @@ const SignOutBtn = document.getElementById('fixedButton');
 
 window.onload = await getAndVerifyEmail('Fund Manager');
 
+if(window.localStorage.getItem('Blocked') !== null){
+    let role = window.localStorage.getItem('Blocked');
+    console.log(role);
+    modal(`Access not granted as you are not of that role`);
+}
+
 SignOutBtn.addEventListener('click', () =>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
 });
