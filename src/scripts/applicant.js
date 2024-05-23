@@ -5,8 +5,6 @@ import { uploadDoc } from "../modules/storage.js";
 import { modal } from "./notifications.js";
 import { getAndVerifyEmail } from '../modules/security.js'
 
-
-
 const OPList = document.getElementById('opportunities-list');
 const email = window.localStorage.getItem('email');
 //const email ='2508872@students.wits.ac.za';
@@ -25,6 +23,11 @@ window.onload = await getAndVerifyEmail('Applicant');
 window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
+
+if(window.localStorage.getItem('Blocked') !== null){
+    let role = window.localStorage.getItem('Blocked');
+    modal(`Access not granted as you are not ${role}`);
+}
 
 SignOutBtn.addEventListener('click', () =>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
