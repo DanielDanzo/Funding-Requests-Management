@@ -36,6 +36,10 @@ main {
     align-items: center; 
 }
 
+main div{
+    max-width: 560px;
+}
+
 
 select{
     width: calc(100% - 26px);
