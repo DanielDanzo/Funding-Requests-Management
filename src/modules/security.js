@@ -1,5 +1,5 @@
 import { getUser, verifyRole, signOutUser } from './users.js';
-import { auth } from './init.js';
+import { getAuth } from './init.js';
 import { onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 
 
@@ -39,14 +39,14 @@ async function getAndVerifyEmail(role){
     onAuthStateChanged(auth, async (user)=>{
         console.log(user);
         if(!user){
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
             return;
         }else{
             console.log(user);
         }
     });
-/*
-    const user = auth.user;
+
+    const user = getAuth().currentUser;
     if(!user){
         console.log(user);
         
@@ -54,8 +54,8 @@ async function getAndVerifyEmail(role){
     }
     const email = user.email;
     console.log(email);
-    isAuthorised(email, role);
-    */
+    //isAuthorised(email, role);
+    
 }
 
 

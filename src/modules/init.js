@@ -30,4 +30,4 @@ const storage = getStorage();
 
 // Initialize Realtime Database and get a reference to the service
 
-export { db, auth, provider, firebaseConfig , storage };
+export { db, auth, provider, firebaseConfig , storage , getAuth};
