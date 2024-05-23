@@ -39,13 +39,16 @@ async function getAndVerifyEmail(role){
     onAuthStateChanged(auth, async (user)=>{
         console.log(user);
         if(!user){
-            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
             return;
         }else{
+            const email = user.email;
             console.log(user);
+            isAuthorised(email, role)
         }
     });
 
+    /*
     const user = getAuth().currentUser;
     if(!user){
         console.log(user);
@@ -54,7 +57,7 @@ async function getAndVerifyEmail(role){
     }
     const email = user.email;
     console.log(email);
-    //isAuthorised(email, role);
+    //isAuthorised(email, role);*/
     
 }
 
