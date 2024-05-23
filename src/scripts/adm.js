@@ -2,7 +2,7 @@ import { getUser, getAllUsers, blockUser } from "../modules/users.js";
 import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
 import { getAndVerifyEmail } from "../modules/security.js";
-
+import { modal } from "./notifications.js"
 
 const searchUser = document.getElementById('search-user');
 const userBtn = document.getElementById('user-Search');
@@ -190,6 +190,7 @@ sec.addEventListener('click', async (event) => {
 */
 async function approveUser(){
     console.log('User Approved');
+    modal('User Approved')
 }
 
 
@@ -201,6 +202,7 @@ async function approveUser(){
 */
 async function changePermissions(){
     console.log('Permissions changed');
+    modal('Permissions Approved')
 }
 
 
