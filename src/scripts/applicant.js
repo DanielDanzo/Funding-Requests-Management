@@ -181,7 +181,8 @@ async function applyForFundingOpportunity(FOName){
     documents.forEach(async (file, index)=>{
         await uploadDoc(file, file.name, email, FOName, index);
     });
-    
+
+    window.location.reload();
 }
 
 submitBtn.addEventListener('click', async()=>{
