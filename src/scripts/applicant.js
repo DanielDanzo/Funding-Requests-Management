@@ -26,7 +26,8 @@ window.onload = await loadApplications(email);
 
 if(window.localStorage.getItem('Blocked') !== null){
     let role = window.localStorage.getItem('Blocked');
-    modal(`Access not granted as you are not ${role}`);
+    console.log(role);
+    modal(`Access not granted as you are not of that role`);
 }
 
 SignOutBtn.addEventListener('click', () =>{
