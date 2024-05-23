@@ -6,6 +6,7 @@ import { modal } from "./notifications.js";
 import { getAndVerifyEmail } from '../modules/security.js'
 
 
+
 const OPList = document.getElementById('opportunities-list');
 const email = window.localStorage.getItem('email');
 //const email ='2508872@students.wits.ac.za';
@@ -13,6 +14,8 @@ const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
 const files = document.getElementById('supportingDocuments');
+const SignOutBtn = document.getElementById('fixedButton');
+
 var documents ;
 var closingDate;
 var applicationList;
@@ -22,6 +25,10 @@ window.onload = await getAndVerifyEmail('Applicant');
 window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
+
+SignOutBtn.addEventListener('click', () =>{
+    window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+});
 
 /*  FUNCTION: This is a function that gets and displays all the Applications Associated with a Funding Opportunity
 *   PARAMS: name-thia is the name of the funding opportunity you want to be displayed
