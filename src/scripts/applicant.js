@@ -3,11 +3,12 @@ import { addFundingApplication, getAllFundingApplications } from "../modules/fun
 import { getUserApplications, addUserApplication, allowUserApplication } from "../modules/userApplications.js";
 import { uploadDoc } from "../modules/storage.js";
 import { modal } from "./notifications.js";
+import { getAndVerifyEmail } from '../modules/security.js'
 
 
 const OPList = document.getElementById('opportunities-list');
-//const email = window.localStorage.getItem('email');
-const email ='2508872@students.wits.ac.za';
+const email = window.localStorage.getItem('email');
+//const email ='2508872@students.wits.ac.za';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
@@ -17,6 +18,7 @@ var closingDate;
 var applicationList;
 var applications;
 
+window.onload = await getAndVerifyEmail('Applicant');
 window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
@@ -208,3 +210,6 @@ files.addEventListener('change', (event)=>{
     }
     //documents = event.target.files; 
 });
+
+
+

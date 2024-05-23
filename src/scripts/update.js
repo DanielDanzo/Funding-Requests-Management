@@ -3,6 +3,7 @@ import { onUserRejectApplication, onUserAcceptApplication } from "../modules/use
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
 import { getDocuments } from "../modules/storage.js";
 import { getEmail } from "../modules/users.js";
+import { getAndVerifyEmail } from "../modules/security.js";
 
 
 
@@ -19,6 +20,7 @@ let applications = [];
 let name;
 
 //When page is loaded do this
+window.onload = await getAndVerifyEmail('Fund Manager');
 window.onload = await fundingDropDown(document.getElementById("funds"));
 
 

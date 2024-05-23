@@ -1,4 +1,5 @@
 import { createFundingOportunity, verifyFundingName } from "../modules/funding.js";
+import { getAndVerifyEmail } from "../modules/security.js";
 
 
 const email =  window.localStorage.getItem('email');
@@ -34,4 +35,6 @@ submit.addEventListener('click', event => {
     createFundingOportunity(name, type, estimatedFund, applicantFund,suitable, deadline,summary, email);
 });
 
+
+window.onload = await getAndVerifyEmail('Fund Manager');
 

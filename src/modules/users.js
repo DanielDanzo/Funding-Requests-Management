@@ -65,6 +65,13 @@ function getEmail(){
     return window.localStorage.getItem('email');
 }
 
+//Function to set the email
+function setToken(email){
+    window.localStorage.setItem('token', email);
+}
+
+
+
 
 /*
 *
@@ -91,6 +98,7 @@ async function signInUser(pTag){
         const user = result.user;
         const email = user.email;
         setEmail(email);
+        setToken(user.accessToken);
 
         const verified = await verifyUser(email);
         // The signed-in user info.
@@ -206,6 +214,7 @@ async function registerUser(admin, fundManager, applicant, email, pTag){
         //console.log('Now Here');
         //console.log(user);
         const userToken = await user.accessToken;
+        setToken(user.accessToken);
         if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
         }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){

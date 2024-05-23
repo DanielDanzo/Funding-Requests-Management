@@ -1,6 +1,7 @@
 import { getUser, getAllUsers } from "../modules/users.js";
 import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
+import { getAndVerifyEmail } from "../modules/security.js";
 
 
 const searchUser = document.getElementById('search-user');
@@ -345,3 +346,6 @@ function displayAllFunds(){
     sec.appendChild(fundTable);
     sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 }
+
+
+window.onload = await getAndVerifyEmail('Admin');

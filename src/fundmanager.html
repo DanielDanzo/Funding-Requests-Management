@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fund Manager Dashboard</title>
     <link rel= "stylesheet" href="./styles/style2.css">
+    <script src="./scripts/fundmanager.js" defer type="module"></script>
 </head>
 <body>
     
@@ -19,7 +20,7 @@
     
     <section id="manage-funding">
         <h2>Manage Funding Opportunities</h2>
-        <button onclick="showForm()">Add New Funding Opportunity</button>
+        <button id="btn1">Add New Funding Opportunity</button>
         <div id="funding-opportunities">
             
         </div>
@@ -28,7 +29,7 @@
     
     <section id="review-applications">
         <h2>Review Applications</h2>
-        <button onclick="change()">Review Applications</button>
+        <button id="btn2">Review Applications</button>
         <div id="applications-list">
             
         </div>
@@ -40,26 +41,12 @@
         <div id="budget-overview">
             
         </div>
-        <button onclick="managefunds()">Manage Funds</button>
+        <button id="btn3">Manage Funds</button>
     </section>
 
     
     <footer>
         <p>Contact us at <a href="mailto:support@fundingplatform.com">support@fundingplatform.com</a>.</p>
     </footer>
-
-    
-    <script>
-        function showForm() {
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/infoFunding.html';
-        }
-
-        function managefunds() {
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/App-Manage-Page.html';
-        }
-        function change(){
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/updateFunds.html';
-        }
-    </script>
 </body>
 </html>

@@ -3,7 +3,8 @@ import { collection, getDocs, query, where, orderBy  } from "https://www.gstatic
 import { getOrderedFungingOpportunity, getAllFundingApplications } from "../modules/funding.js";
 import { onUserRejectApplication, onUserAcceptApplication } from "../modules/userApplications.js";
 import { onFundingAcceptApplication, onFundignRejectApplication } from "../modules/fundingApplication.js";
-import { modal } from "./notifications.js"
+import { modal } from "./notifications.js";
+import { getAndVerifyEmail } from '../modules/security.js';
 
 let selectedValue;
 let fundWithApplicants = -1;
@@ -16,6 +17,7 @@ let applications = [];
 let name;
 
 //When page is loaded do this
+window.onload = await getAndVerifyEmail('Fund Manager');
 window.onload = await fundingDropDown(document.getElementById("funds"));
 
 // Function to generate a PDF, where length determines the number of "sections" in this document
