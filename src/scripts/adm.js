@@ -2,6 +2,7 @@ import { getUser, getAllUsers, blockUser } from "../modules/users.js";
 import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
 import { getAndVerifyEmail } from "../modules/security.js";
+import { modal } from "./notifications.js";
 
 window.onload = await getAndVerifyEmail('Admin');
 
@@ -28,6 +29,7 @@ SignOutBtn.addEventListener('click', () =>{
 if(window.localStorage.getItem('Blocked') !== null){
     let role = window.localStorage.getItem('Blocked');
     modal(`Access not granted as you are not of that role`);
+    window.localStorage.removeItem('Blocked');
 }
 
 /*
