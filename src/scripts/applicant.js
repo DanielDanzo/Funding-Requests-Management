@@ -25,6 +25,7 @@ window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
 
 if(window.localStorage.getItem('Blocked') !== null){
+    console.log(window.localStorage.getItem('Blocked'));
     let role = window.localStorage.getItem('Blocked');
     modal(`Access not granted as you are not of that role`);
     window.localStorage.removeItem('Blocked');
