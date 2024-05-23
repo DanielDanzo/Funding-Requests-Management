@@ -81,6 +81,7 @@ footer {
 .user-table{
     border-collapse: collapse;
     width: 100%;
+    max-width: 560px;
     margin: 25px 0;
     font-size: 15px;
     border-radius: 5px 5px 0 0;
