@@ -190,15 +190,38 @@ async function addUser(email, role, isSignIn, userToken){
 }
 
 
+function sendMail(EMail){
+    (function(){
+        emailjs.init("u7aPmoilsd1g-HeLQ");
+    })();
+
+    var params = {
+        sendername:"LoyalFunding",
+        to: EMail,
+        subject: "Registration",
+        replyto: "noreply@gmail.com",
+        message:"You are now registered",
+    };
+    var serviceID = "service_4jnlv73";
+    var templateID = "template_e2xx532"; 
+
+    emailjs.send(serviceID,templateID,params)
+    .then( res => {
+        //alert("Mail sent");
+    })
+    .catch();
+}
+
+
 async function registerUser(admin, fundManager, applicant, email, pTag){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        if( result.user.email != email){
-            //console.log(result.user.emai);
-            //console.log(email);
+        if( result.user.email !== email){
+            console.log(result.user.emai);
+            console.log(email);
             pTag.innerHTML = 'Please provide a valid email';
             pTag.style.color = 'red';
             pTag.style.textAlign = 'center';
@@ -216,10 +239,13 @@ async function registerUser(admin, fundManager, applicant, email, pTag){
         const userToken = await user.accessToken;
         setToken(user.accessToken);
         if(admin && (await addUser(user.email, "Admin", true, userToken)) ){
+            sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
         }else if(fundManager && (await addUser(user.email, "Fund Manager", true, userToken)) ){
+            sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
+            sendMail(email);
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }else{
             pTag.innerHTML = 'Invalid register details';

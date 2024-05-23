@@ -9,38 +9,20 @@ var admin = false;
 var fundManager = false;
 var applicant = false;
 
+const userName = document.getElementById('fullname');
+const userEmail = document.getElementById('email');
+const userIDNum = document.getElementById('ID');
+const userReason = document.getElementById('Reason');
+const userRole = document.getElementById('Type');
 
-function sendMail(EMail){
-    (function(){
-        emailjs.init("u7aPmoilsd1g-HeLQ");
-    })();
 
-    var params = {
-        sendername:"LoyalFunding",
-        to: EMail,
-        subject: "Registration",
-        replyto: "noreply@gmail.com",
-        message:"You are now registered",
-    };
-    var serviceID = "service_4jnlv73";
-    var templateID = "template_e2xx532"; 
 
-    emailjs.send(serviceID,templateID,params)
-    .then( res => {
-        alert("Mail sent");
-    })
-    .catch();
-}
 
 
 const btn_submit_signup = document.getElementById('btn-submit-signup');
 
 btn_submit_signup.addEventListener('click', async ()=>{
-    const userName = document.getElementById('fullname');
-    const userEmail = document.getElementById('email');
-    const userIDNum = document.getElementById('ID');
-    const userReason = document.getElementById('Reason');
-    const userRole = document.getElementById('Type');
+    
 
     const role = userRole.value;
     if( role === "Admin"){
@@ -58,8 +40,7 @@ btn_submit_signup.addEventListener('click', async ()=>{
     }
 
     if(userName.value && userEmail.value && userIDNum.value && userReason.value && userRole.value){
-        sendMail(userEmail.value);
-        registerUser(admin, fundManager, applicant, userEmail.value, document.getElementById('response'));
+        await registerUser(admin, fundManager, applicant, userEmail.value, document.getElementById('response'));
         
     }else{
         document.getElementById('response').innerHTML = 'Please enter required fields';
