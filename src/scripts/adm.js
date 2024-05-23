@@ -3,7 +3,6 @@ import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
 import { getAndVerifyEmail } from "../modules/security.js";
 
-
 const searchUser = document.getElementById('search-user');
 const userBtn = document.getElementById('user-Search');
 const searchOpportunity = document.getElementById('search-opportunity');
@@ -11,16 +10,18 @@ const opportunitydBtn = document.getElementById('opportunity-Search');
 const allUserBtn = document.getElementById('user-all-Search');
 const allFundBtn = document.getElementById('opportunity-all-Search'); 
 const sec = document.getElementById('user-section');
+const SignOutBtn = document.getElementById('fixedButton');
 
-//const userdetails = document.getElementById('user-details');
-//const fullDiv = document.getElementById('user-details');
-//const userInfo = document.getElementById('user-info');
 var currentUser;
 var allUsers;
 var allFunds;
 var fundingOpportunity;
 var userEmail;
 var fundName;
+
+SignOutBtn.addEventListener('click', () =>{
+    window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+});
 
 /*
 *
