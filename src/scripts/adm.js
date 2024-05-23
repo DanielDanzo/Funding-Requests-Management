@@ -1,4 +1,4 @@
-import { getUser, getAllUsers } from "../modules/users.js";
+import { getUser, getAllUsers, blockUser } from "../modules/users.js";
 import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
 import { getAndVerifyEmail } from "../modules/security.js";
@@ -105,7 +105,27 @@ sec.addEventListener('click', async (event) => {
   
     else if (event.target.classList.contains('block-btn')) {
         //console.log('clicked block btn');
-        blockUser();
+        if(await blockUser(Email)){
+            sec.innerHTML = ``;
+            const response = document.createElement('p');
+            response.style.fontWeight = 'bold';
+            response.style.color ='red';
+            response.textContent = 'User Blocked';
+            sec.style.textAlign = 'center';
+            sec.appendChild(response);
+            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            return;
+        }else{
+            sec.innerHTML = ``;
+            const response = document.createElement('p');
+            response.style.fontWeight = 'bold';
+            response.style.color ='red';
+            response.textContent = 'Unable to block user';
+            sec.style.textAlign = 'center';
+            sec.appendChild(response);
+            sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            return;
+        }
     }
   
   
@@ -143,17 +163,6 @@ sec.addEventListener('click', async (event) => {
 */
 async function approveUser(){
     console.log('User Approved');
-}
-
-
-
-
-/*
-*
-*
-*/
-async function blockUser(){
-    console.log('User Blocked');
 }
 
 
