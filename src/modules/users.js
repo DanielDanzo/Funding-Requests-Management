@@ -171,7 +171,6 @@ async function addUser(email, role, isSignIn, userToken){
         const registeredUser = await isRegistered(email);
         //console.log(registeredUser);
         if(registeredUser){
-            console.log('User already registered');
             return false;
         }
         const userRef = collection(db, 'users');
@@ -220,6 +219,7 @@ async function registerUser(admin, fundManager, applicant, email, pTag){
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if( result.user.email !== email){
+            console.log('Result: ',result);
             console.log(result.user.emai);
             console.log(email);
             pTag.innerHTML = 'Please provide a valid email';
