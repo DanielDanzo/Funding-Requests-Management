@@ -45,7 +45,7 @@ async function isAuthorised(email, role){
 async function getAndVerifyEmail(role){
     //console.log('Verifying...');
     onAuthStateChanged(auth, async (user)=>{
-        //console.log(user);
+        console.log(user);
         if(!user){
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
             return;
