@@ -324,7 +324,7 @@ async function blockUser(email){
       const userRef = query(collection(db, 'users'), where('Email', '==', email));
       const namesQuerySnapshot = await getDocs(userRef);
 
-      await updateDoc(appsRef.docs[0].ref, {
+      await updateDoc(namesQuerySnapshot.docs[0].ref, {
         Blocked: true, 
       })
       .then(async ()=>{
