@@ -3,6 +3,8 @@ import { getAllFundingOpportunities } from "../modules/funding.js";
 import { getfundingByName, deleteFundingOpportunity } from "../modules/funding.js";
 import { getAndVerifyEmail } from "../modules/security.js";
 
+window.onload = await getAndVerifyEmail('Admin');
+
 const searchUser = document.getElementById('search-user');
 const userBtn = document.getElementById('user-Search');
 const searchOpportunity = document.getElementById('search-opportunity');
@@ -22,6 +24,11 @@ var fundName;
 SignOutBtn.addEventListener('click', () =>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
 });
+
+if(window.localStorage.getItem('Blocked') !== null){
+    let role = window.localStorage.getItem('Blocked');
+    modal(`Access not granted as you are not of that role`);
+}
 
 /*
 *
