@@ -27,5 +27,5 @@ btn_login.addEventListener('click',()=>{
 
 //FUNCTION: Registers user using their google email
 function signIn(){
-    signInUser();
+    signInUser(document.getElementById('response'));
 }

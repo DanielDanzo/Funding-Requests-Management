@@ -1,6 +1,5 @@
 import { db, auth, provider } from './init.js';
-import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
-import {  GoogleAuthProvider  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
+import { signInWithPopup , GoogleAuthProvider, signOut} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 import { collection, getDocs, query, where, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
@@ -80,7 +79,7 @@ async function AssignRole( email){
 
 
 //FUNCTION: Registers user using their google email
-async function signInUser(){
+async function signInUser(pTag){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
@@ -96,17 +95,20 @@ async function signInUser(){
         const verified = await verifyUser(email);
         // The signed-in user info.
         if(!verified){
-            console.log('Please register');
+            pTag.innerHTML = 'Please register';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
             return;
         }
 
 
-        const role = await AssignRole( email);
+        const role = await AssignRole(email);
 
         //Then take the user to their desired home page
         if(role === 'Admin'){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html';
-        }else if(role === 'fundManager'){
+        }else if(role === 'Fund Manager'){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html';
         }else{
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
@@ -114,6 +116,7 @@ async function signInUser(){
             
         }).catch((error) => {
             // Handle Errors here.
+            signOutUser();
             console.log(error);
             console.log('Error code: ', error.code);
         });
@@ -179,7 +182,7 @@ async function addUser(email, role, isSignIn, userToken){
 }
 
 
-async function registerUser(admin, fundManager, applicant, email){
+async function registerUser(admin, fundManager, applicant, email, pTag){
     //sign-in using small window prompt
     signInWithPopup(auth, provider)
     .then(async (result) => {
@@ -188,7 +191,10 @@ async function registerUser(admin, fundManager, applicant, email){
         if( result.user.email != email){
             //console.log(result.user.emai);
             //console.log(email);
-            console.log('Please Provide a valid email');
+            pTag.innerHTML = 'Please provide a valid email';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
             return;
         }
         //console.log(credential);
@@ -207,7 +213,10 @@ async function registerUser(admin, fundManager, applicant, email){
         }else if(applicant && (await addUser(user.email, "Applicant", true, userToken)) ){
             window.location.href ='https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
         }else{
-            console.log("Invalid login details");
+            pTag.innerHTML = 'Invalid register details';
+            pTag.style.color = 'red';
+            pTag.style.textAlign = 'center';
+            signOutUser();
         }
         
     }).catch((error) => {
@@ -259,6 +268,13 @@ async function getAllUsers(){
 }
 
 
+async function signOutUser(){
+    signOut(auth).then(()=>{
+        console.log('signed out successfully');
+    }).catch(error=>{
+        console.log(error);
+    })
+}
 
 
 
@@ -273,5 +289,6 @@ export {
      getUser, 
      getUserID,
      getEmail,
-     getAllUsers
+     getAllUsers,
+     signOutUser
 };

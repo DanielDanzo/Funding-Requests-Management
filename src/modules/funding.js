@@ -1,5 +1,6 @@
 import {db, auth, provider} from './init.js';
 import { collection, addDoc, getDocs, doc, query, where, orderBy, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { deleteUserApplication } from '../modules/userApplications.js'
 
 
 
@@ -218,9 +219,16 @@ async function deleteFundingOpportunity(name){
     try {
       const userRef = query(collection(db, 'Funding Opportunity'), where('Name', '==', name));
       const namesQuerySnapshot = await getDocs(userRef);
-      //console.log(namesQuerySnapshot)
-      //console.log(name)
+      
       const result = namesQuerySnapshot.docs[0];
+      console.log(namesQuerySnapshot);
+
+      const appsQuery = query(collection(result.ref, 'Applications'));
+      const appsRef =await getDocs(appsQuery);
+      console.log(appsQuery);
+      appsRef.forEach(async (doc)=>{
+        await deleteUserApplication(name, doc.data().Email)
+      });
       deleteDoc(result.ref)
       .then(() => {
         console.log('Document successfully deleted!');

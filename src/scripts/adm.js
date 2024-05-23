@@ -28,12 +28,20 @@ var fundName;
 async function SearchForUser(){
     userEmail = searchUser.value;
     if(!userEmail){
-        console.log('Enter user Details');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.textContent = 'Enter user Details';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
     currentUser = await getUser(userEmail);
     if(!currentUser){
-        console.log('User not found');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.textContent = 'User not found';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return
     }
     displayUser();
@@ -52,12 +60,26 @@ userBtn.addEventListener('click',()=>{
 async function searchFundOpportunity(){
     fundName = searchOpportunity.value;
     if(!fundName){
-        console.log('Please enter a Funding Opportunity');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.style.fontWeight = 'bold';
+        response.style.color ='red';
+        response.textContent = 'Please enter a Funding Opportunity';
+        sec.style.textAlign = 'center';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
     fundingOpportunity = await getfundingByName(fundName);
     if(!fundingOpportunity){
-        console.log('Funding Opportunity not found');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.style.fontWeight = 'bold';
+        response.style.color ='red';
+        response.textContent = 'Funding Opportunity not found';
+        sec.style.textAlign = 'center';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
     console.log(fundingOpportunity);
@@ -91,13 +113,14 @@ sec.addEventListener('click', async (event) => {
         const index = event.target.dataset.index;
         var fundName;
         if(index){
-            console.log('clicked remove btn at: ', index);
+            //console.log('clicked remove btn at: ', index);
             fundName = allFunds[index].Name;
             await deleteFundingOpportunity(fundName);
             await SearchAllFunds();
         }else{
             fundName = fundingOpportunity;
-            await deleteFundingOpportunity(fundName);
+            //console.log(fundName);
+            await deleteFundingOpportunity(fundName.Name);
             sec.innerHTML = ``;
             sec.style.boxShadow ='none';
         }
@@ -214,7 +237,14 @@ allUserBtn.addEventListener('click', ()=>{
 async function SearchAllUsers(){
     allUsers = await getAllUsers();
     if(allUsers.empty){
-        console.log('There are currently no funding Opportunities');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.style.fontWeight = 'bold';
+        response.style.color ='red';
+        response.textContent = 'There are currently no funding Opportunities';
+        sec.style.textAlign = 'center';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
 
@@ -268,7 +298,11 @@ allFundBtn.addEventListener('click', ()=>{
 async function SearchAllFunds(){
     allFunds = await getAllFundingOpportunities();
     if(allFunds.empty){
-        console.log('There are currently no funding Opportunities');
+        sec.innerHTML = ``;
+        const response = document.createElement('p');
+        response.textContent = 'There are currently no funding Opportunities';
+        sec.appendChild(response);
+        sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
 

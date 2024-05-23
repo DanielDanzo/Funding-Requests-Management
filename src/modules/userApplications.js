@@ -1,5 +1,5 @@
 import {db, auth, provider} from './init.js';
-import { collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, query, where, orderBy, updateDoc, deleteDoc  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
 
@@ -217,6 +217,33 @@ async function getUserURLs(name, email){
 }
 
 
+async function deleteUserApplication(FOName, email){
+  try {
+    const userRef = query(collection(db, 'users'), where('Email', '==', email));
+    const namesQuerySnapshot = await getDocs(userRef);
+
+    //console.log(namesQuerySnapshot);
+    const result = namesQuerySnapshot.docs[0];
+
+    const appsQuery = query(collection(result.ref, 'Applications'), where('FundingOpportunity', '==', FOName));
+    const appsRef = await getDocs(appsQuery);
+    //console.log(name);
+    //console.log(appsRef.docs[0].ref);
+    //console.log('Here');
+    await deleteDoc(appsRef.docs[0].ref)
+    .then(()=>{
+      console.log("Deleted Sucessfully");
+    })
+    .catch((error)=>{
+      console.error("Error deleting Approved: ", error)
+    });
+    
+  } catch (e) {
+    console.error("Error deleting document: ", e);
+  }
+}
+
+
 export {
     getUserApplications,
     addUserApplication,
@@ -224,5 +251,6 @@ export {
     onUserRejectApplication,
     onUserAcceptApplication,
     updateUserURL,
-    getUserURLs
+    getUserURLs,
+    deleteUserApplication
 }
