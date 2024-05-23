@@ -1,4 +1,4 @@
-import { db, auth, provider } from './init.js';
+import { db, auth, provider } from '../modules/init.js';
 import { modal } from '../scripts/notifications.js';
 import { signInWithPopup , GoogleAuthProvider, signOut} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 import { collection, getDocs, query, where, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
