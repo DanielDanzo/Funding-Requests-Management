@@ -37,6 +37,7 @@ async function getAndVerifyEmail(role){
     console.log('Verifying...');
     const user = auth.currentUser;
     if(!user){
+        console.log(user);
         window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
         return;
     }
