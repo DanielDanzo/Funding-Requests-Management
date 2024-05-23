@@ -32,11 +32,11 @@ async function isAuthorised(email, role){
     userToken = getUser(email).accessToken;
     const realToken = window.localStorage.getItem('token');
     if(userToken != realToken){
-        console.log('Token ',userToken);
-        console.log('RealToken: ',realToken);
+        //console.log('Token ',userToken);
+        //console.log('RealToken: ',realToken);
         //signOutUser();
-        //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
-        console.log('Please register');
+        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+        //console.log('Please register');
         return;
     }
 }

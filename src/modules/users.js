@@ -305,7 +305,7 @@ async function getAllUsers(){
 
 async function signOutUser(){
     signOut(auth).then(()=>{
-        console.log('signed out successfully');
+        //console.log('signed out successfully');
     }).catch(error=>{
         console.log(error);
     })
