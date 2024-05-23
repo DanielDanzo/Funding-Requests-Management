@@ -45,7 +45,7 @@ async function SearchForUser(){
         return
     }
     displayUser();
-    console.log('User found');
+    //console.log('User found');
 }
 
 userBtn.addEventListener('click',()=>{
@@ -82,9 +82,9 @@ async function searchFundOpportunity(){
         sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
         return;
     }
-    console.log(fundingOpportunity);
+    //console.log(fundingOpportunity);
     displayOpportunity();
-    console.log('Funding Opportunity found');
+    //console.log('Funding Opportunity found');
 }
 
 opportunitydBtn.addEventListener('click', ()=>{
@@ -249,7 +249,7 @@ async function SearchAllUsers(){
     }
 
     displayAllUsers();
-    console.log('Successfully displayed all users');
+    //console.log('Successfully displayed all users');
 }
 
 function displayAllUsers(){
@@ -307,11 +307,11 @@ async function SearchAllFunds(){
     }
 
     displayAllFunds();
-    console.log('Successfully displayed all users');
+    //console.log('Successfully displayed all users');
 }
 
 function displayAllFunds(){
-    console.log(allFunds)
+    //console.log(allFunds)
     sec.innerHTML = ``;
     const fundTable = document.createElement('table');
     fundTable.className='user-table';
