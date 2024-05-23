@@ -34,6 +34,11 @@ if(window.localStorage.getItem('Blocked') !== null){
 
 SignOutBtn.addEventListener('click', () =>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        let value = localStorage.removeItem(key);
+        console.log(`${key}: ${value}`);
+    }
 });
 
 /*  FUNCTION: This is a function that gets and displays all the Applications Associated with a Funding Opportunity
