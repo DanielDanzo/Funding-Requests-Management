@@ -13,9 +13,13 @@ if(window.localStorage.getItem('Blocked') !== null){
     window.localStorage.removeItem('Blocked');
 }
 
-
 SignOutBtn.addEventListener('click', () =>{
     window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        let value = localStorage.removeItem(key);
+        console.log(`${key}: ${value}`);
+    }
 });
 
 btn1.addEventListener('click', ()=>{
