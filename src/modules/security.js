@@ -8,7 +8,8 @@ import { onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/10.11.0/
 async function isAuthorised(email, role){
     const verified = await verifyRole(email, role);
     if(!verified){
-        const tempRole = await getUser(email).Role;
+        const retrievedUser = await getUser(email);
+        const tempRole = retrievedUser.Role;
         console.log(await getUser(email));
         if( tempRole == "Admin"){
             window.localStorage.setItem("Blocked", role);
