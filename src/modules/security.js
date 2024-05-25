@@ -19,6 +19,7 @@ async function isAuthorised(email, role){
             window.localStorage.setItem("Blocked", role);
             //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
             console.log(tempRole);
+            console.log(email);
         }
         return;
     }
@@ -57,7 +58,7 @@ async function getAndVerifyEmail(role){
             return;
         }else{
             const email = user.email;
-            //console.log(user);
+            console.log(user);
             isAuthorised(email, role)
         }
     });
