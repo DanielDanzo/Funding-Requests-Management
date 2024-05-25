@@ -50,7 +50,7 @@ async function verifyUser(email){
         if(querySnapshot.empty){
             return false;
         }
-        if(querySnapshot.docs[0].data().Blocked === false){
+        if(querySnapshot.docs[0].data().Blocked === true){
             modal('You have been blocked');
             return false;
         }
