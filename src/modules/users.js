@@ -225,6 +225,7 @@ async function registerUser(admin, fundManager, applicant, email, name, pTag){
     .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        /*
         if( result.user.email != email){
             console.log('Result: ',result);
             console.log(result.user.emai);
@@ -234,7 +235,7 @@ async function registerUser(admin, fundManager, applicant, email, name, pTag){
             pTag.style.textAlign = 'center';
             signOutUser();
             return;
-        }
+        }*/
         //console.log(credential);
         // The signed-in user info.
         //console.log('here');
@@ -242,7 +243,7 @@ async function registerUser(admin, fundManager, applicant, email, name, pTag){
        // console.log(user.email);
         //console.log(admin, fundManager, applicant);
         //console.log('Now Here');
-        //console.log(user);
+        console.log(user);
         const userToken = await user.accessToken;
         setToken(user.accessToken);
         if(admin && (await addUser(user.email, "Admin", true, userToken,name)) ){
