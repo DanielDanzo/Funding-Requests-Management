@@ -11,12 +11,12 @@ async function isAuthorised(email, role){
         const role = await getUser(email).Role;
         if( role === 'Admin'){
             window.localStorage.setItem("Blocked", role);
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
+            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
         }else if( role === 'Fund Manager'){
             window.localStorage.setItem("Blocked", role);
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
+            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
         }else{
-            window.localStorage.setItem("Blocked", role);
+            //window.localStorage.setItem("Blocked", role);
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html'; 
         }
         return;
@@ -24,7 +24,7 @@ async function isAuthorised(email, role){
 
     if(!email){
         window.localStorage.setItem("Blocked", "Unregistered");
-        window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
+        //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';
         //console.error('422 error');
         return;
     }
@@ -52,7 +52,7 @@ async function getAndVerifyEmail(role){
         console.log(user);
         if(!user){
             window.localStorage.setItem("Blocked", "Unregistered");
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';     
+            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';     
             return;
         }else{
             const email = user.email;
