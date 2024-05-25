@@ -9,6 +9,7 @@ async function isAuthorised(email, role){
     const verified = await verifyRole(email, role);
     if(!verified){
         const tempRole = await getUser(email).Role;
+        console.log(await getUser(email));
         if( tempRole == 'Admin'){
             window.localStorage.setItem("Blocked", role);
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
