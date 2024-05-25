@@ -9,10 +9,10 @@ window.onload = await getAndVerifyEmail('Fund Manager');
 
 if(window.localStorage.getItem('Blocked') !== null){
     let role = window.localStorage.getItem('Blocked');
-    modal(`Access not granted as you are not of that role`);
+    modal(`Access not granted as you did not register as ${role}.`);
+    
     window.localStorage.removeItem('Blocked');
 }
-
 
 SignOutBtn.addEventListener('click', () =>{
     for (let i = 0; i < localStorage.length; i++) {
