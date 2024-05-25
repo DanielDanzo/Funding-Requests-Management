@@ -280,7 +280,7 @@ async function getUser(email){
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         //console.log(email);
-        console.log(querySnapshot);
+        //console.log(querySnapshot);
         var resultUser ;
         if(querySnapshot.empty){
             resultUser= undefined;
