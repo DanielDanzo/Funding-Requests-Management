@@ -14,6 +14,8 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: npm install
+      - name: Install Firebase
+        run: npm install firebase 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
