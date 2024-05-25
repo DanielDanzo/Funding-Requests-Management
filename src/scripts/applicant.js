@@ -7,7 +7,6 @@ import { getAndVerifyEmail } from '../modules/security.js'
 
 const OPList = document.getElementById('opportunities-list');
 const email = window.localStorage.getItem('email');
-//const email ='2508872@students.wits.ac.za';
 const dropdown = document.getElementById('fundingId');
 const statusList = document.getElementById('status-list');
 const submitBtn = document.getElementById('submit-btn');
@@ -24,13 +23,13 @@ window.onload = await loadFundingApplications();
 window.onload = await fundingDropDown(dropdown);
 window.onload = await loadApplications(email);
 
+
 if(window.localStorage.getItem('Blocked') !== null){
-    console.log(window.localStorage.getItem('Blocked'));
     let role = window.localStorage.getItem('Blocked');
-    modal(`Access not granted as you are not of that role`);
+    modal(`Access not granted as you did not register as ${role}.`);
+    
     window.localStorage.removeItem('Blocked');
 }
-
 
 SignOutBtn.addEventListener('click', () =>{
     for (let i = 0; i < localStorage.length; i++) {
