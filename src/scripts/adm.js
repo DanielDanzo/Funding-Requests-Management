@@ -34,11 +34,7 @@ SignOutBtn.addEventListener('click', () =>{
 });
 if(window.localStorage.getItem('Blocked') !== null){
     let role = window.localStorage.getItem('Blocked');
-    if(role === "Admin" or role === "Applicant"){
-        modal(`Access not granted as you are not an ${role.toLowerCase()}.`);
-    }else{
-        modal(`Access not granted as you are not a ${role.toLowerCase()}.`);  
-    }
+    modal(`Access not granted as you did not register as ${role}.`);
     
     window.localStorage.removeItem('Blocked');
 }
