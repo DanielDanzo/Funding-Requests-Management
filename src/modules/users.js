@@ -108,9 +108,11 @@ async function signInUser(pTag){
         const verified = await verifyUser(email);
         // The signed-in user info.
         if(!verified){
+            /*
             pTag.innerHTML = 'Please register';
             pTag.style.color = 'red';
             pTag.style.textAlign = 'center';
+            */
             signOutUser();
             return;
         }
