@@ -10,7 +10,7 @@ async function isAuthorised(email, role){
     if(!verified){
         const retrievedUser = await getUser(email);
         const tempRole = retrievedUser.Role;
-        console.log(await getUser(email));
+        //console.log(await getUser(email));
         if( tempRole == "Admin"){
             window.localStorage.setItem("Blocked", role);
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
@@ -19,9 +19,9 @@ async function isAuthorised(email, role){
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
         }else{
             window.localStorage.setItem("Blocked", role);
-            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
-            console.log(tempRole);
-            console.log(email);
+            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
+            //console.log(tempRole);
+            //console.log(email);
         }
         return;
     }
@@ -53,14 +53,14 @@ async function isAuthorised(email, role){
 async function getAndVerifyEmail(role){
     //console.log('Verifying...');
     onAuthStateChanged(auth, async (user)=>{
-        console.log(user);
+        //console.log(user);
         if(!user){
             window.localStorage.setItem("Blocked", "Unregistered");
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html';     
             return;
         }else{
             const email = user.email;
-            console.log(user);
+            //console.log(user);
             isAuthorised(email, role)
         }
     });
