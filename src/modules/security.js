@@ -9,10 +9,10 @@ async function isAuthorised(email, role){
     const verified = await verifyRole(email, role);
     if(!verified){
         const tempRole = await getUser(email).Role;
-        if( tempRole === 'Admin'){
+        if( tempRole == 'Admin'){
             window.localStorage.setItem("Blocked", role);
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/AdminUpdate.html'; 
-        }else if( tempRole === 'Fund Manager'){
+        }else if( tempRole == 'Fund Manager'){
             window.localStorage.setItem("Blocked", role);
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
         }else{
