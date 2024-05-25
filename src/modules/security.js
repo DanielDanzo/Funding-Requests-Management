@@ -17,7 +17,8 @@ async function isAuthorised(email, role){
             window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/fundmanager.html'; 
         }else{
             window.localStorage.setItem("Blocked", role);
-            window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html'; 
+            //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/applicant.html';
+            console.log(tempRole);
         }
         return;
     }
