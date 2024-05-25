@@ -280,7 +280,7 @@ async function getUser(email){
         const q = query(collection(db, 'users'), where('Email', '==', email));
         const querySnapshot = await getDocs(q);
         //console.log(email);
-        //console.log(querySnapshot);
+        console.log(querySnapshot);
         var resultUser ;
         if(querySnapshot.empty){
             resultUser= undefined;
@@ -290,7 +290,7 @@ async function getUser(email){
             resultUser = doc.data()
             return ;
         });
-        return resultUser;
+        return querySnapshot.docs[0].data();
     } catch (error) {
        console.error('Error Retrieving Object: ',error); 
     }
