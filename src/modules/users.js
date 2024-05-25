@@ -281,8 +281,9 @@ async function getUser(email){
         const querySnapshot = await getDocs(q);
         //console.log(email);
         //console.log(querySnapshot);
-        var resultUser = undefined;
+        var resultUser ;
         if(querySnapshot.empty){
+            resultUser= undefined;
             return resultUser;
         }
         querySnapshot.forEach(doc => {
