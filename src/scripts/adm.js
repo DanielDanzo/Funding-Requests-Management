@@ -227,7 +227,7 @@ function displayUser(){
     userInfo.className='user-table';
 
     userInfo.innerHTML = `
-        <thead>
+        <thead id="table">
             <tr>
                 <th>Name</th>
                 <th>Email</th>
