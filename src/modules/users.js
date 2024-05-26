@@ -89,7 +89,7 @@ async function AssignRole( email){
 
 async function isBlocked(email){
     const user = await getUser(email);
-    if(!user.Blocked){
+    if(user.Blocked){
         return true;
     }
     return false;
