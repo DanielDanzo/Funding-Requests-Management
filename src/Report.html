@@ -128,7 +128,6 @@
                     <rect x="300" y="100" width="50" height="150" fill="#dc3545" />
                 </svg>
             </div>
-            <button onclick="exportData('funds')">Export as CSV</button>
             <button onclick="exportData('funds', 'pdf')">Export as PDF</button>
         </section>
 
@@ -137,13 +136,11 @@
             <p>Download your required report</p>
             <select id="funds" name="funds"></select>
             <br>
-            <button onclick="exportData('applications')">Export as CSV</button>
             <button id="generate">Export as PDF</button>
         </section>
 
         <section id="custom-report">
             <h2>Custom Report View</h2>
-            <button onclick="exportData('custom')">Export as CSV</button>
             <button id="customButton">Export as PDF</button>
         </section>
     </main>
