@@ -62,6 +62,7 @@ async function getAndVerifyEmail(role){
             const email = user.email;
             console.log(user);
             if(isBlocked(email)){
+                console.log("You are blocked");
                  window.localStorage.setItem("Restricted", "yes");
                  //window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html'; 
             }
