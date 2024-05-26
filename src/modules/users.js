@@ -85,10 +85,16 @@ function setToken(email){
 async function AssignRole( email){
     const user =await getUser(email);
     return user.Role;
-
 }
 
-
+async function isBlocked(email){
+    const user = await getUser(email);
+    if(!user.Blocked){
+        return true;
+    }
+    return false;
+    
+}
 
 //FUNCTION: Registers user using their google email
 async function signInUser(pTag){
@@ -381,5 +387,6 @@ export {
      getEmail,
      getAllUsers,
      signOutUser,
-     blockUser
+     blockUser,
+    isBlocked
 };
