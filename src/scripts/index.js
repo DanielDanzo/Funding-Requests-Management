@@ -10,7 +10,7 @@ for (let i = 0; i < localStorage.length; i++) {
     }
 
 if(window.localStorage.getItem('Restricted') !== null){
-    if(window.localStorage.getItem('Blocked') === "yes"){
+    if(window.localStorage.getItem('Restricted') === "yes"){
     modal(`Sorry... You have been blocked.`);
     }
     window.localStorage.removeItem('Restricted');
