@@ -322,29 +322,49 @@ async function signOutUser(){
     })
 }
 
-
-async function blockUser(email){     
+async function blockUser(email) {
     try {
-      const userRef = query(collection(db, 'users'), where('Email', '==', email));
-      const namesQuerySnapshot = await getDocs(userRef);
-
-      await updateDoc(namesQuerySnapshot.docs[0].ref, {
-        Blocked: true, 
-      })
-      .then(async ()=>{
-        //console.log('Rejected succefully!');
+        const userRef = query(collection(db, 'users'), where('Email', '==', email));
+        const userQuerySnapshot = await getDocs(userRef);
+        
+        if (userQuerySnapshot.empty) {
+            console.log('User not found');
+            return false; // User not found
+        }
+        
+        const userDoc = userQuerySnapshot.docs[0];
+        await updateDoc(userDoc.ref, { Blocked: true });
+        console.log('User blocked successfully');
         return true;
-      })
-      .catch((error)=>{
-        //console.error("Error updating document: ", error)
-        return false;
-      });
-      
-    } catch (e) {
-      //console.error("Error updating document: ", e);
-      return false;
+    } catch (error) {
+        console.error('Error blocking user:', error);
+        return false; // Error occurred while blocking user
     }
 }
+
+
+//async function blockUser(email){     
+//    try {
+//      const userRef = query(collection(db, 'users'), where('Email', '==', email));
+//      const namesQuerySnapshot = await getDocs(userRef);
+//
+//      await updateDoc(namesQuerySnapshot.docs[0].ref, {
+//        Blocked: true, 
+//      })
+//      .then(async ()=>{
+        //console.log('Rejected succefully!');
+//        return true;
+//      })
+//      .catch((error)=>{
+        //console.error("Error updating document: ", error)
+//        return false;
+//      });
+      
+//    } catch (e) {
+      //console.error("Error updating document: ", e);
+//      return false;
+//    }
+//}
 
 
 
