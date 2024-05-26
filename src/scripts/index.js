@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { signInUser } from "../modules/users.js";
 import { auth } from "../modules/init.js";
+import { modal } from "./notifications.js";
 
 for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
