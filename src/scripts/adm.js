@@ -403,6 +403,3 @@ function displayAllFunds(){
     sec.appendChild(fundTable);
     sec.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 }
-
-
-window.onload = await getAndVerifyEmail('Admin');
