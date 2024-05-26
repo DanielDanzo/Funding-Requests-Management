@@ -8,6 +8,13 @@ for (let i = 0; i < localStorage.length; i++) {
         console.log(`${key}: ${value}`);
     }
 
+if(window.localStorage.getItem('Restricted') !== null){
+    if(window.localStorage.getItem('Blocked') === "yes"){
+    modal(`Sorry... You have been blocked.`);
+    }
+    window.localStorage.removeItem('Restricted');
+}
+
 //Below we we initialise any variable we might need for our website
 var btn_register = document.getElementById('register-link');
 const btn_login = document.getElementById('btn-login');
