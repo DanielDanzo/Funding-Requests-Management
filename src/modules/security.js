@@ -1,4 +1,4 @@
-import { getUser, verifyRole, signOutUser } from './users.js';
+import { getUser, verifyRole, signOutUser, isBlocked } from './users.js';
 import { getAuth, auth } from './init.js';
 import { onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"
 
@@ -61,7 +61,12 @@ async function getAndVerifyEmail(role){
         }else{
             const email = user.email;
             //console.log(user);
-            isAuthorised(email, role)
+            if(isBlocked(email)){
+                 window.localStorage.setItem("Restricted", "yes");
+                 window.location.href = 'https://ambitious-glacier-0cd46151e.5.azurestaticapps.net/index.html'; 
+            }
+            isAuthorised(email, role);
+            
         }
     });
     
